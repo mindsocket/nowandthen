@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}{% block metatitle %}Twitter{% endblock %}{% endblock %}
+
+{% block content %}
+<ul>
+{% for tweet in tweets %} 
+<li><span class="pos">+++</span> {{ tweet.result }} <span class="neg">---</span>: {{ tweet.user.name }} - {{ tweet.text }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
