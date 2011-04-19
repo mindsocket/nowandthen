@@ -107,6 +107,7 @@ class Fusion(models.Model):
     now = models.ForeignKey(Image, related_name='now')
     user = models.ForeignKey(User, related_name='+')
     points = models.CommaSeparatedIntegerField(max_length=512)
+    cropthen = models.CommaSeparatedIntegerField(max_length=20)
     publish = models.BooleanField()
     description =  models.CharField(max_length=150)
 #    votecount = models.PositiveIntegerField(default=0, editable=False)
