@@ -1,23 +1,26 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
+from nowandthen.fusion.models import Fusion, FusionVote
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
+class TestFusion(TestCase):
+    """Basic tests for the fusion class"""
+    
+    def test_point_list(self):
+        """Tests that point_list returns a valid list of lists"""
+        f = Fusion()
+        f.points = "1,2,3,4,5,6,7,8"
+        self.failUnlessEqual(f.point_list(), [[1,2,3,4],[5,6,7,8]])
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
-
+class TestFusionVotes(TestCase):
+    def test_new_fusion_vote(self):
+        f = Fusion.objects.get(id=1)
+        v = FusionVote(fusion=f)
+        votesbefore = f.votecount
+        self.failUnlessEqual(votesbefore, f.fusionvotes.count())
+        v.save()
+        f2 = Fusion.objects.get(id=1)
+        votesafter = f2.votecount
+        self.failUnlessEqual(votesbefore, f2.fusionvotes.count())
+        self.failUnlessEqual(votesbefore + 1, votesafter)
+        
+        
+        

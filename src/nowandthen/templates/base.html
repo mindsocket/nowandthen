@@ -26,6 +26,17 @@
 
   <div id="container">
     <header>
+    <h1 id="title">Now and Then</h1>
+    <a href="/">home</a>
+    <a href="/about/">about</a>
+    <a href="/images">image list</a>
+    <a href="/image/view/1">image view</a>
+    <a href="/image/add">image add</a>
+    <a href="/fusions">fusion list</a>
+    <a href="/fusion/view/1">fusion view</a>
+    <a href="/fusion/edit/1">fusion edit</a>
+    <a href="/auth/">auth</a>
+    <a href="/admin/">admin</a>
 
     </header>
     
@@ -54,7 +65,7 @@
     <script> DD_belatedPNG.fix('img, .png_bg'); </script>
   <![endif]-->
 
-{% if not debug %}
+{% if debug %}
   <!-- yui profiler and profileviewer - remove for production -->
   <script src="/media/js/profiling/yahoo-profiling.min.js"></script>
   <script src="/media/js/profiling/config.js"></script>
@@ -75,6 +86,12 @@
    })(document, 'script');
   </script>
 {% endif %}
+
+  <script>
+  $(function() {
+{% block onready %}{% endblock %}
+  });
+  </script>
   
 </body>
 </html>
