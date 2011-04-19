@@ -5,6 +5,7 @@ django-extensions==0.6
 django-memcache-status==1.0.1
 django-socialauth==0.1.2c
 django-socialregistration==0.4.3
+django-tagging==0.3.1
 facebook-python-sdk==0.1
 httplib2==0.6.0
 ipython==0.10.2
