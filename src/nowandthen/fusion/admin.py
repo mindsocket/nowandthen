@@ -13,9 +13,13 @@ class ImageAdmin(admin.ModelAdmin):
     search_fields = ['fusionname']
 
     def thumbimg(self,image):
-      img=MediaFile(image.thumburl)
-      thumb=img.thumbnail("64x64gt")
-      return thumb.tag
+        img=MediaFile(image.thumburl)
+        #      thumb=img.thumbnail("64x64gt")
+        try:
+            tag = img.tag
+        except IOError:
+            tag = "<font color=\"red\">Bad link!</font>"
+        return tag
     thumbimg.allow_tags = True
 
 admin.site.register(Fusion)
