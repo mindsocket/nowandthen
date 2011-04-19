@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{%comment%}{% load convert_tags %}{% endcomment %}
+
+{% block topcurrent %}current_{% endblock %}
+
+{% block title %}{% block metatitle %}Image{% endblock %}{% endblock %}
+{% block content %}
+
+<div id="tabs">Wipe, crossfade, side by side</div>
+<div id="wipetab">
+<img class="then" src="{{ fusion.then.url }}" />
+<img class="now" src="{{ fusion.now.url }}" />
+</div>
+<div id="fadetab">
+<img class="then" src="{{ fusion.then.url }}" />
+<img class="now" src="{{ fusion.now.url }}" />
+</div>
+<div id="sidebysidetab">
+<img class="then" src="{{ fusion.then.url }}" />
+<img class="now" src="{{ fusion.now.url }}" />
+</div>
+
+{% endblock %}

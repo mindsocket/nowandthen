@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{%comment%}{% load convert_tags %}{% endcomment %}
+
+{% block topcurrent %}current_{% endblock %}
+
+{% block title %}{% block metatitle %}Image List{% endblock %}{% endblock %}
+{% block content %}
+todo type selector, keyword search box
+{% for image in object_list %}
+    <p><a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">foo</a>
+    <a href="{{ image.itemurl }}" target="_blank">{%comment%}{% thumbnail image.itemimg "430x460gt" as img %}{%endcomment%}<img src="{{ img.url}}" alt="{{ image.itemname }}" border="0" width="{{img.width}}" height="{{img.height}}">
+    <img style="align:right" src="http://www.redbubble.com/bubblewrap/logos/rb_buy.gif" alt="Buy art" />
+</a><br/>
+    <a href="{{ image.itemurl }}" target="_blank">#{{ page_obj.start_index|add:forloop.counter0 }}: {{ image.itemname }}</a>
+{% if user.is_authenticated %}
+  ({{ image.wincount }}/{{ image.challengecount }})
+  <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
+  <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>
+{% endif %}
+    </p>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        <a href="?page=1">first</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+        <a href="?page=last">last</a>
+    </span>
+</div>
+</div>
+{% endblock %}

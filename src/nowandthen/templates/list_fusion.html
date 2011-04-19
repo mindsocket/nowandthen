@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{%comment%}{% load convert_tags %}{% endcomment %}
+
+{% block topcurrent %}current_{% endblock %}
+
+{% block title %}{% block metatitle %}Fusion List{% endblock %}{% endblock %}
+{% block content %}
+todo type selector, keyword search box
+{% for fusion in fusions.object_list %}
+    <p>
+    <a href="{{ fusion.itemurl }}" target="_blank">{%comment%}{% thumbnail fusion.itemimg "430x460gt" as img %}{%endcomment%}<img src="{{ img.url}}" alt="{{ fusion.itemname }}" border="0" width="{{img.width}}" height="{{img.height}}">
+    <img style="align:right" src="http://www.redbubble.com/bubblewrap/logos/rb_buy.gif" alt="Buy art" />
+</a><br/>
+    <a href="{{ fusion.itemurl }}" target="_blank">#{{ fusions.start_index|add:forloop.counter0 }}: {{ fusion.itemname }}</a>
+{% if user.is_authenticated %}
+  ({{ fusion.wincount }}/{{ fusion.challengecount }})
+  <a href="/admin/fusion/image/{{ fusion.id }}/" target="_blank">admin</a> 
+  <a href="/admin/fusion/image/{{ fusion.id }}/delete/" target="_blank">delete</a>
+{% endif %}
+    </p>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        <a href="?page=1">first</a>
+        {% if fusions.has_previous %}
+            <a href="?page={{ fusions.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ fusions.number }} of {{ fusions.paginator.num_pages }}
+        </span>
+
+        {% if fusions.has_next %}
+            <a href="?page={{ fusions.next_page_number }}">next</a>
+        {% endif %}
+        <a href="?page={{ fusions.paginator.num_pages }}">last</a>
+    </span>
+</div>
+</div>
+{% endblock %}

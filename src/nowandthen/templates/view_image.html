@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{%comment%}{% load convert_tags %}{% endcomment %}
+
+{% block topcurrent %}current_{% endblock %}
+
+{% block title %}{% block metatitle %}Image{% endblock %}{% endblock %}
+{% block content %}
+todo info box, image, create fusion, list of existing fusions, vote for image
+
+<div id="imageinfo">
+	<span class="infolabel">Type:</span> {{ image.type }}<br/>
+	<span class="infolabel">Description:</span><a href="{{ image.infourl}}">{{ image.description }}</a><br/>
+	<span class="infolabel">Creator:</span> {{ image.creator }}<br/>
+	<span class="infolabel">Date:</span> {{ image.dateofwork }}<br/>
+	<span class="infolabel">Keywords:</span> {{ image.keywords }}<br/>
+</div>
+<div class="viewimage">
+	<img src="{{ image.url }}" />
+</div>
+<div id="voteblock">
+	Voted for {{ image.votecount }} time/s <button id="votebutton">+1</button>
+</div>
+
+{% endblock %}
