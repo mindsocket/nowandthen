@@ -1,0 +1,14 @@
+Django==1.3
+PIL==1.1.7
+aino-convert==0.1.0.14
+django-extensions==0.6
+django-memcache-status==1.0.1
+django-socialauth==0.1.2c
+django-socialregistration==0.4.3
+facebook-python-sdk==0.1
+httplib2==0.6.0
+ipython==0.10.2
+oauth2==1.5.169
+python-memcached==1.47
+python-openid==2.2.5
+wsgiref==0.1.2
