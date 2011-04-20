@@ -65,16 +65,18 @@ MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'TODO'
-
-FACEBOOK_API_KEY = 'TODO'
-FACEBOOK_SECRET_KEY = 'TODO'
-
-TWITTER_CONSUMER_KEY = 'TODO'
-TWITTER_CONSUMER_SECRET_KEY = 'TODO'
+#SECRET_KEY = 'TODO'
+#
+#FACEBOOK_API_KEY = 'TODO'
+#FACEBOOK_SECRET_KEY = 'TODO'
+#
+#TWITTER_CONSUMER_KEY = 'TODO'
+#TWITTER_CONSUMER_SECRET_KEY = 'TODO'
 TWITTER_REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
 TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 TWITTER_AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
+
+FORCE_LOWERCASE_TAGS = True
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -116,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'socialregistration',
     'convert',
+    'tagging',
     'memcache_status',
     'nowandthen.fusion',
 )
@@ -124,3 +127,5 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'socialregistration.auth.FacebookAuth',
 )
+
+from settings_local import *

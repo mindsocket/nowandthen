@@ -1,19 +1,17 @@
 {% extends "base.html" %}
-{%comment%}{% load convert_tags %}{% endcomment %}
+{% load convert_tags %}
 
 {% block topcurrent %}current_{% endblock %}
 
 {% block title %}{% block metatitle %}Image List{% endblock %}{% endblock %}
+
 {% block content %}
 todo type selector, keyword search box
-{% for image in object_list %}
-    <p><a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">foo</a>
-    <a href="{{ image.itemurl }}" target="_blank">{%comment%}{% thumbnail image.itemimg "430x460gt" as img %}{%endcomment%}<img src="{{ img.url}}" alt="{{ image.itemname }}" border="0" width="{{img.width}}" height="{{img.height}}">
-    <img style="align:right" src="http://www.redbubble.com/bubblewrap/logos/rb_buy.gif" alt="Buy art" />
-</a><br/>
-    <a href="{{ image.itemurl }}" target="_blank">#{{ page_obj.start_index|add:forloop.counter0 }}: {{ image.itemname }}</a>
+{% for image in image_list %}
+    <p>
+    <a class="lightbox" href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{{ image.description }}</a><br/>
+    <a class="lightbox" href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
 {% if user.is_authenticated %}
-  ({{ image.wincount }}/{{ image.challengecount }})
   <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>
 {% endif %}

@@ -18,13 +18,14 @@
   <link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
 
   <link rel="stylesheet" href="/media/css/style.css?v=2">
+  <link rel="stylesheet" href="/media/css/colorbox.css">
   <script src="/media/js/libs/modernizr-1.6.min.js"></script>
 
 </head>
 
 <body>
-
   <div id="container">
+{% block header %}
     <header>
     <h1 id="title">Now and Then</h1>
     <a href="/">home</a>
@@ -39,9 +40,14 @@
     <a href="/admin/">admin</a>
 
     </header>
+{% endblock %}
     
     <div id="main">
 {% block content %}{% endblock %}
+        <div id="social_buttons">
+            <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="{{ request.build_absolute_uri }}" layout="box_count" show_faces="false" width="450" font=""></fb:like>
+            <a href="http://twitter.com/share" class="twitter-share-button" data-count="vertical" data-via="mindsocket">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        </div>
     </div>
     
     <footer>
@@ -52,7 +58,7 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/media/js/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
-  
+  <script src="/media/js/mylibs/colorbox/jquery.colorbox-min.js"></script>  
   
   <!-- scripts concatenated and minified via ant build script-->
   <script src="/media/js/plugins.js"></script>
@@ -88,9 +94,11 @@
 {% endif %}
 
   <script>
-  $(function() {
-{% block onready %}{% endblock %}
-  });
+{% block script %}{% endblock %}
+    $(function() {
+        $('a.lightbox').colorbox({width: 1024, height: 768});
+    });
+
   </script>
   
 </body>

@@ -11,3 +11,4 @@ ipython
 oauth2
 python-memcached
 python-openid
+flickrapi

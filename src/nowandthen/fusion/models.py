@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 import subprocess
+import tagging
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -12,7 +13,6 @@ class ImageType(models.Model):
     longdescription = models.CharField(max_length=1024)
     sourcesystemid = models.CharField(max_length=32, editable=False)
     canbethen = models.BooleanField()
-    keywords = models.CharField(max_length=150)
     hide = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -48,7 +48,6 @@ class Image(models.Model):
     sourcesystemid = models.CharField(max_length=32, editable=False)
     creator = models.CharField(max_length=32)
     dateofwork = models.CharField(max_length=32)
-    keywords = models.CharField(max_length=150)
     hide = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -98,6 +97,8 @@ c n0 N1 x521.996685004461 y232.674665680004 X423.958837772397 Y221.400726392252 
     return "filename"
 
 def split_pointstring(points, howmany=4):
+    if len(points) < howmany:
+        return []
     pointlist = [int(point) for point in points.split(',')]
     return [pointlist[start:start + howmany] for start in range(0, len(points.split(',')), howmany)]
 
@@ -141,3 +142,7 @@ class Fusion(models.Model):
 ##        #fusion.save()
 ##        self.fusion.votecount++;
 ##        super(FusionVote, self).save(**kwargs)
+
+tagging.register(ImageType)
+tagging.register(Image)
+tagging.register(Fusion)

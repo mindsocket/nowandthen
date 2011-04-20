@@ -5,7 +5,8 @@
 
 {% block title %}{% block metatitle %}Image{% endblock %}{% endblock %}
 
-{% block onready%}
+{% block script %}
+$(function(){
     function add_point() {
         $('#control_points').attr('selectedIndex', -1);                  
         $('#control_points').append('<option value="x,x,x,x" selected>?,? -- ?,?</option>');
@@ -41,6 +42,7 @@
         current_point.attr('value', current_values.join(','));
         current_point.html(current_values[0] + ', ' + current_values[1] + ' -- ' + current_values[2] + ', ' + current_values[3]);
     });
+});
 {% endblock %}
 
 {% block content %}
@@ -55,10 +57,10 @@ todo control point editor, submit button
 <button id="delete_points">Delete</button>
 <button id="add_point">Add</button>
 <div class="wrapper then">
-<img class="control_pointable then" src="{{ fusion.then.url }}" />
+<img class="control_pointable then" src="{{ fusion.then.imageurl }}" />
 </div>
 <div class="wrapper now">
-<img class="control_pointable now" src="{{ fusion.now.url }}" />
+<img class="control_pointable now" src="{{ fusion.now.imageurl }}" />
 </div>
 
 <button>Align images</button>

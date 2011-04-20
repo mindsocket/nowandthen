@@ -9,7 +9,7 @@ from convert.base import MediaFile
 #    list_filter = ('timestamp',)
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('type', 'thumbimg', 'imageurl', 'infourl', 'description', 'creator', 'dateofwork', 'keywords', 'hide')
+    list_display = ('type', 'thumbimg', 'imageurl', 'infourl', 'description', 'creator', 'dateofwork', 'hide')
     search_fields = ['fusionname']
 
     def thumbimg(self,image):

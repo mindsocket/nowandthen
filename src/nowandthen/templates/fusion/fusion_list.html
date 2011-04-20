@@ -1,19 +1,15 @@
 {% extends "base.html" %}
-{%comment%}{% load convert_tags %}{% endcomment %}
+{% load convert_tags %}
 
 {% block topcurrent %}current_{% endblock %}
 
 {% block title %}{% block metatitle %}Fusion List{% endblock %}{% endblock %}
 {% block content %}
 todo type selector, keyword search box
-{% for fusion in object_list %}
-    <p>
-    <a href="{{ fusion.itemurl }}" target="_blank">{%comment%}{% thumbnail fusion.itemimg "430x460gt" as img %}{%endcomment%}<img src="{{ img.url}}" alt="{{ fusion.itemname }}" border="0" width="{{img.width}}" height="{{img.height}}">
-    <img style="align:right" src="http://www.redbubble.com/bubblewrap/logos/rb_buy.gif" alt="Buy art" />
-</a><br/>
-    <a href="{{ fusion.itemurl }}" target="_blank">#{{ page_obj.start_index|add:forloop.counter0 }}: {{ fusion.itemname }}</a>
+{% for fusion in fusion_list %}
+    <p><a class="lightbox" href="/fusion/view/{{ fusion.id }}/{{ fusion.description|slugify }}">{{ fusion.description }}</a><br/>
+    {% thumbnail fusion.then.thumburl "200x200" %} {% thumbnail fusion.now.thumburl "200x200" %}<br/>
 {% if user.is_authenticated %}
-  ({{ fusion.wincount }}/{{ fusion.challengecount }})
   <a href="/admin/fusion/image/{{ fusion.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ fusion.id }}/delete/" target="_blank">delete</a>
 {% endif %}
