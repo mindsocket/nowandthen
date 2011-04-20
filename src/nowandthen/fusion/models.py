@@ -103,7 +103,7 @@ def split_pointstring(points, howmany=4):
 
 class Fusion(models.Model):
 #    objects = FusionManager()
-    then = models.ForeignKey(Image, related_name='then', limit_choices_to={'type__canbethen__eq': True})
+    then = models.ForeignKey(Image, related_name='then', limit_choices_to={'type__canbethen': True})
     now = models.ForeignKey(Image, related_name='now')
     user = models.ForeignKey(User, related_name='+')
     points = models.CommaSeparatedIntegerField(max_length=512)
