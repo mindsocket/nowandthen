@@ -1,4 +1,5 @@
 # Django settings for nowandthen project.
+<<<<<<< HEAD
 from django.conf.global_settings import AUTHENTICATION_BACKENDS,\
     TEMPLATE_CONTEXT_PROCESSORS
 import os.path
@@ -6,6 +7,15 @@ PROJECT_DIR = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+=======
+from django.conf.global_settings import AUTHENTICATION_BACKENDS, TEMPLATE_CONTEXT_PROCESSORS
+import os.path
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+CONVERT_DEBUG = DEBUG
+>>>>>>> restored settings
 
 ADMINS = (
     ('Roger Barnes', 'roger@mindsocket.com.au'),
@@ -52,25 +62,26 @@ USE_L10N = False
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(os.path.split(os.path.split(PROJECT_DIR)[0])[0], 'media')
+DATA_ROOT = os.path.join(os.path.split(os.path.split(PROJECT_DIR)[0])[0], 'data')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '(en#7#4n(x-y+sa65z(as%bf3=)f7ion+o%jk()^f6qcm_+&zc'
+SECRET_KEY = 'TODO'
 
-FACEBOOK_API_KEY = '72c4bf0a191d6810f9ef04fcd20e46e4'
-FACEBOOK_SECRET_KEY = 'c5d8fb53ffd38e90e2329a8ce5b99e53'
+FACEBOOK_API_KEY = 'TODO'
+FACEBOOK_SECRET_KEY = 'TODO'
 
-TWITTER_CONSUMER_KEY = 'RC3WFW9raWlYG6VspGg3ng'
-TWITTER_CONSUMER_SECRET_KEY = 'G5CNonuYhkQGaebZlQWaXiAgLfUJk2uIO5MZq9KUTKM'
+TWITTER_CONSUMER_KEY = 'TODO'
+TWITTER_CONSUMER_SECRET_KEY = 'TODO'
 TWITTER_REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
 TWITTER_ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 TWITTER_AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
@@ -109,23 +120,17 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-#    'django_extensions',
+    'django_extensions',
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'socialregistration',
-#    'memcache_status',
+    'convert',
+    'memcache_status',
     'nowandthen.fusion',
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'socialregistration.auth.FacebookAuth',
-)
-
-import logging
-logging.basicConfig(
-    level = logging.INFO,
-    format = '%(asctime)s %(levelname)s %(message)s',
-    filename = os.path.join(PROJECT_DIR, 'nowandthen.log'),
 )
