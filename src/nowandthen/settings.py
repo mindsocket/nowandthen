@@ -1,13 +1,4 @@
 # Django settings for nowandthen project.
-<<<<<<< HEAD
-from django.conf.global_settings import AUTHENTICATION_BACKENDS,\
-    TEMPLATE_CONTEXT_PROCESSORS
-import os.path
-PROJECT_DIR = os.path.dirname(__file__)
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-=======
 from django.conf.global_settings import AUTHENTICATION_BACKENDS, TEMPLATE_CONTEXT_PROCESSORS
 import os.path
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -15,7 +6,6 @@ PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 CONVERT_DEBUG = DEBUG
->>>>>>> restored settings
 
 ADMINS = (
     ('Roger Barnes', 'roger@mindsocket.com.au'),
