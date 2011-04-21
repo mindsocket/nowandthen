@@ -6,6 +6,7 @@ django-memcache-status
 django-socialauth
 django-socialregistration
 django-tagging
+django-jenkins
 -e git://github.com/facebook/python-sdk.git#egg=facebook-python-sdk
 ipython
 oauth2
