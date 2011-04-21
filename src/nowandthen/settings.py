@@ -128,4 +128,8 @@ AUTHENTICATION_BACKENDS = (
     'socialregistration.auth.FacebookAuth',
 )
 
-from settings_local import *
+try:
+    from settings_local import *
+except ImportError:
+    pass
+
