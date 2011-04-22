@@ -120,7 +120,7 @@ INSTALLED_APPS = (
     'convert',
     'tagging',
     'memcache_status',
-    'djagno_jenkins',
+    'django_jenkins',
     'nowandthen.fusion',
 )
 
