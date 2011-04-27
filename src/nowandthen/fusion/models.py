@@ -4,6 +4,7 @@ from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 import subprocess
 import tagging
+from django.forms.models import ModelForm
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -130,6 +131,10 @@ class Fusion(models.Model):
     def point_list(self):
         return split_pointstring(self.points)
 
+class FusionForm(ModelForm):
+    class Meta:
+        model = Fusion
+        
 #class FusionVote(models.Model):
 #    fusion = models.ForeignKey(Fusion)
 #    timestamp = models.DateTimeField(default=datetime.now)
