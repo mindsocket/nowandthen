@@ -2,7 +2,7 @@ import os
 import sys
 import site
 
-site.addsitedir('/home/roger/.virtualenvs/nowandthen/lib/python2.5/site-packages')
+site.addsitedir('/home/roger/.virtualenvs/nowandthen/lib/python2.6/site-packages')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'nowandthen.settings'
 
