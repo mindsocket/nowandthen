@@ -4,4 +4,5 @@
 *.log
 /data
 /media/cache
-
+/playpen
+/src/nowandthen/reports/
