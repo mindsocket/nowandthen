@@ -63,5 +63,8 @@ todo control point editor, submit button
 <img class="control_pointable now" src="{{ fusion.now.imageurl }}" />
 </div>
 
-<button>Align images</button>
+<form action="" method="post">
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
 {% endblock %}

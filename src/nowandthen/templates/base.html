@@ -27,18 +27,21 @@
   <div id="container">
 {% block header %}
     <header>
-    <h1 id="title">Now and Then</h1>
-    <a href="/">home</a>
-    <a href="/about/">about</a>
-    <a href="/images">image list</a>
-    <a href="/image/view/1">image view</a>
-    <a href="/image/add">image add</a>
-    <a href="/fusions">fusion list</a>
-    <a href="/fusion/view/1">fusion view</a>
-    <a href="/fusion/edit/1">fusion edit</a>
-    <a href="/auth/">auth</a>
-    <a href="/admin/">admin</a>
-
+    	<div id="logo"><h1 id="title">Now and Then</h1></div>
+    	<nav>
+    		<ul>
+			    <li class="{% block homecurrent %}{% endblock %}"><a href="/">home</a></li>
+			    <li class="{% block aboutcurrent %}{% endblock %}"><a href="/about/">about</a></li>
+			    <li class="{% block imagescurrent %}{% endblock %}"><a href="/images">image list</a></li>
+			    <li class=""><a href="/image/view/1">image view</a></li>
+			    <li class=""><a href="/image/add">image add</a></li>
+			    <li class="{% block fusionscurrent %}{% endblock %}"><a href="/fusions">fusion list</a></li>
+			    <li class=""><a href="/fusion/view/1">fusion view</a></li>
+			    <li class=""><a href="/fusion/edit/1">fusion edit</a></li>
+			    <li class="{% block authcurrent %}{% endblock %}"><a href="/auth/">auth</a></li>
+			    <li class=""><a href="/admin/">admin</a></li></li>
+			</ul>
+		</nav>
     </header>
 {% endblock %}
     
@@ -48,10 +51,12 @@
             <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="{% block likehref %}{{ request.build_absolute_uri }}{% endblock %}" layout="box_count" show_faces="false" width="450" font=""></fb:like>
             <a href="http://twitter.com/share" class="twitter-share-button" data-url="{% block tweethref %}{{ request.build_absolute_uri }}{% endblock %}" data-count="vertical" data-via="mindsocket">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
         </div>
+        
     </div>
     
     <footer>
-
+        <div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=194559593901641&amp;xfbml=1"></script>
+        <fb:comments href="{% block commenthref %}{{ request.build_absolute_uri }}{% endblock %}" num_posts="2" width="500"></fb:comments>
     </footer>
   </div> <!-- end of #container -->
 
