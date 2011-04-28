@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{%comment%}{% load convert_tags %}{% endcomment %}
+
+{% block topcurrent %}current_{% endblock %}
+
+{% block title %}{% block metatitle %}Image{% endblock %}{% endblock %}
+
+{% block script %}
+$(function(){
+    function add_point() {
+        $('#control_points').attr('selectedIndex', -1);                  
+        $('#control_points').append('<option value="x,x,x,x" selected>?,? -- ?,?</option>');
+    }
+    $('#add_point').click(function() {
+        add_point();
+    });
+
+    $('#delete_points').click(function() {
+        $('#control_points option:selected').remove();
+    });
+    
+    $('.control_pointable').click(function(e) {
+        current_point = $('#control_points option:selected');
+        if (current_point.length == 0) {
+            add_point();
+            current_point = $('#control_points option:selected');
+        } else if (current_point.length > 1) {
+            alert("Multiple points selected, please choose 1 point and try again");
+            return;
+        }
+        var offset = $(this).offset();
+        clickx = e.clientX - offset.left;
+        clicky = e.clientY - offset.top;
+        current_values = current_point.attr('value').split(',');
+        if ($(this).hasClass('then')) {
+            current_values[0] = clickx;
+            current_values[1] = clicky;
+        } else {
+            current_values[2] = clickx;
+            current_values[3] = clicky;
+        }
+        current_point.attr('value', current_values.join(','));
+        current_point.html(current_values[0] + ', ' + current_values[1] + ' -- ' + current_values[2] + ', ' + current_values[3]);
+    });
+});
+{% endblock %}
+
+{% block content %}
+todo control point editor, submit button
+<div id="control_points_container">
+    <select id="control_points" multiple="multiple" size="8" name="points">
+        {% for x1, y1, x2, y2 in fusion.point_list %}
+          <option value="{{ x1 }},{{ y1 }},{{ x2 }},{{ y2 }}">{{ x1 }}, {{ y1 }} -- {{ x2 }}, {{ y2 }}</option>
+        {% endfor %}
+    </select>
+</div>
+<button id="delete_points">Delete</button>
+<button id="add_point">Add</button>
+<div class="wrapper then">
+<img class="control_pointable then" src="{{ fusion.then.imageurl }}" />
+</div>
+<div class="wrapper now">
+<img class="control_pointable now" src="{{ fusion.now.imageurl }}" />
+</div>
+
+<form action="" method="post">
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}
