@@ -5,3 +5,13 @@
 
 # Put project-specific requirements here.
 # See http://pip-installer.org/requirement-format.html for more information.
+
+PIL
+aino-convert
+django-extensions
+django-memcache-status
+django-jenkins
+ipython
+python-memcached
+flickrapi
+south

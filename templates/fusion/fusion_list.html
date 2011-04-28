@@ -1,10 +1,14 @@
-{% extends "base.html" %}
+{% extends "site_base.html" %}
+
 {% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
 
-{% block fusionscurrent %}navcurrent{% endblock %}
+{% block head_title %}{% trans "Fusion List" %}{% endblock %}
 
-{% block title %}{% block metatitle %}Fusion List{% endblock %}{% endblock %}
-{% block content %}
+{% block body_class %}fusions{% endblock %}
+
+{% block body %}
 todo type selector, keyword search box
 {% for fusion in fusion_list %}
     <p><a class="lightbox" href="/fusion/view/{{ fusion.id }}/{{ fusion.description|slugify }}">{{ fusion.description }}</a><br/>

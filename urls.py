@@ -1,8 +1,15 @@
 from django.conf import settings
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 
 from django.contrib import admin
+from fusion.models import Fusion, Image
+from fusion.views import add_image
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+from django.views.generic.edit import UpdateView
+from django.views.generic.base import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
@@ -25,8 +32,13 @@ urlpatterns = patterns("",
     url(r"^announcements/", include("announcements.urls")),
 )
 
+urlpatterns += patterns('',
+    (r'^fusions$', ListView.as_view(queryset=Fusion.objects.all(), paginate_by=20)),
+    (r'^images$',  ListView.as_view(queryset=Image.objects.all(),  paginate_by=20)),
+    (r'^image/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Image)),
+    (r'^image/add$', add_image),
+    (r'^fusion/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Fusion)),
+    (r'^fusion/edit/(?P<pk>\d+)/.*$', UpdateView.as_view(model=Fusion)),
+)
 
-if settings.SERVE_MEDIA:
-    urlpatterns += patterns("",
-        url(r"", include("staticfiles.urls")),
-    )
+urlpatterns += staticfiles_urlpatterns()

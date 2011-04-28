@@ -2,7 +2,7 @@ from django_extensions.management.jobs import BaseJob
 from django.conf import settings
 import csv, codecs
 import os
-from nowandthen.fusion.models import Image, ImageType, Fusion
+from fusion.models import Image, ImageType, Fusion
 from django.db import IntegrityError
 
 class UTF8Recoder:

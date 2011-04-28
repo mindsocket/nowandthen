@@ -1,11 +1,14 @@
-{% extends "base.html" %}
+{% extends "site_base.html" %}
+
 {% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
 
-{% block imagescurrent %}navcurrent{% endblock %}
+{% block head_title %}{% trans "Image List" %}{% endblock %}
 
-{% block title %}{% block metatitle %}Image List{% endblock %}{% endblock %}
+{% block body_class %}images{% endblock %}
 
-{% block content %}
+{% block body %}
 todo type selector, keyword search box
 {% for image in image_list %}
     <p>

@@ -148,6 +148,6 @@ class FusionForm(ModelForm):
 ##        self.fusion.votecount++;
 ##        super(FusionVote, self).save(**kwargs)
 
-tagging.register(ImageType)
-tagging.register(Image)
-tagging.register(Fusion)
+#tagging.register(ImageType)
+#tagging.register(Image)
+#tagging.register(Fusion)

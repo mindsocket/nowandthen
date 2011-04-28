@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 import flickrapi
-from nowandthen.fusion.models import FusionForm
+from fusion.models import FusionForm
 #from django.views.decorators.cache import cache_page
 
 #def require_flickr_auth(view):
