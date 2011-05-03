@@ -1,0 +1,35 @@
+/*
+Crossfade viewer
+*/
+	#thennow .section {
+		margin-top: 2em;
+		position: relative;
+	}
+	
+	#thennow .section p.source {
+		position: absolute;
+		right: 0;
+		top: 0.5em;
+		color: #999;
+		font-size: 7pt;
+	}
+	
+	.thennow { position: relative; overflow: hidden; }
+	
+	.then, .now { position: absolute; top: 0; left: 0; }
+	
+	.then { 
+		border-right: 5px solid #000;
+		-moz-box-shadow: 1px 0 20px #222;
+		-webkit-box-shadow: 1px 0 20px #222;
+		box-shadow: 1px 0 20px #222;
+		}
+
+/*
+ Fusion edit
+ */
+	.edit_wrapper {
+		width: 400px;
+		height: 400px;
+		overflow: scroll;
+	}
