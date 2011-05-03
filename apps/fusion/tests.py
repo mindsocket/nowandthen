@@ -1,5 +1,5 @@
 from django.test import TestCase
-from nowandthen.fusion.models import Fusion
+from apps.fusion.models import Fusion
 
 class TestFusion(TestCase):
     """Basic tests for the fusion class"""
