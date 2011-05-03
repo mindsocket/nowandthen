@@ -8,13 +8,13 @@
     {% block extra_head %}{% endblock %}
 {% endblock %}
 
-{% block logo_link_image %}<a href="{% url home %}"><img src="{{ STATIC_URL }}pinax/img/logo.png" alt="Pinax"/></a>{% endblock %}
+{% block logo_link_image %}<a href="{% url home %}"><!--img src="{{ STATIC_URL }}pinax/img/logo.png" alt="Pinax"/-->Now and Then</a><br/>Historical photo mashups{% endblock %}
 
 {% block login %}
     {% include "_account_bar.html" %}
 {% endblock %}
 
-{% block right_tabs %}
+{% block left_tabs %}
     {% if user.is_authenticated %}
         <ul class="tabs">{% spaceless %}
 		    <li id="tab_home"><a href="/">Home</a></li>
@@ -25,6 +25,12 @@
 		    <li id="tab_fusions"><a href="/fusions">Fusions</a></li>
 		    <li><a href="/fusion/view/1">fusion view</a></li>
 		    <li><a href="/fusion/edit/1">fusion edit</a></li>
+        {% endspaceless %}</ul>
+    {% endif %}
+{% endblock %}
+{% block right_tabs %}
+    {% if user.is_authenticated %}
+        <ul class="tabs">{% spaceless %}
             <li id="tab_profile"><a href="{% url profile_detail user.username %}">{% trans "Profile" %}</a></li>
             <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
         {% endspaceless %}</ul>
