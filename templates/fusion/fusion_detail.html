@@ -1,84 +1,15 @@
-{% extends "base.html" %}
+{% extends "site_base.html" %}
+
 {% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
 
-{% block topcurrent %}current_{% endblock %}
-{% block header %}{% endblock %}
+{% block head_title %}{% trans "View Fusion" %}{% endblock %}
 
-{% block title %}{% block metatitle %}Fusion {{ fusion.description }}{% endblock %}{% endblock %}
-{% block script %}
-	$(function(){
-	
-		// Loop through all the sets of then and now pics
-		$(".thennow").each(function(){
-		
-			// Set the container's size to the size of the image
-			$(this).width($(this).find("img[rel=then]").attr("width")).height($(this).find("img[rel=then]").attr("height"));
-		
-			// Convert the images into background images on layered divs
-			$(this).append("<div class='now'></div>").find(".now").css({"background": "url(" + $(this).find("img[rel=now]").attr("src") + ")", "width": $(this).find("img[rel=now]").attr("width") + "px", "height": $(this).find("img[rel=now]").attr("height") + "px"});
-			$(this).append("<div class='then'></div>").find(".then").css({"background": "url(" + $(this).find("img[rel=then]").attr("src") + ")", "width": $(this).find("img[rel=then]").attr("width") - 40 + "px", "height": $(this).find("img[rel=then]").attr("height") + "px"});
-			
-			// Add a helpful message
-			$(this).append("<div class='help'>Hover over the image to toggle then/now</div>");
-			
-			// Remove the original images
-			$(this).find("img").remove();
-			
-			// Event handler for the mouse moving over the image
-			$(this).mousemove(function(event){
-				
-				// Need to know the X position of the parent as people may have their browsers set to any width
-				var offset = $(this).offset().left;
-				
-				// Don't let the reveal go any further than 50 pixels less than the width of the image
-				// or 50 pixels on the left hand side
-				if ((event.clientX - offset) < ($(this).find(".now").width() -50) && (event.clientX - offset) > 50) {
-					// Adjust the width of the top image to match the cursor position
-					$(this).find(".then").width(event.clientX - offset);
-				}
-				
-			});
-			
-			// Fade out the help message now the first hover
-			$(this).hover(function(){
-			
-				$(this).find(".help").animate({"opacity": 0}, 400, function(){ $(this).find(".help").remove(); });
-				
-			});
-			
-		});
-		
-	});
+{% block extra_body %}
+		<script src="{{ STATIC_URL }}js/fusion.js"></script>  
 {% endblock %}
-{% block content %}
-		
-<style type="text/css" media="screen"> 
-	
-	#thennow .section {
-		margin-top: 2em;
-		position: relative;
-	}
-	
-	#thennow .section p.source {
-		position: absolute;
-		right: 0;
-		top: 0.5em;
-		color: #999;
-		font-size: 7pt;
-	}
-	
-	.thennow { position: relative; overflow: hidden; }
-	
-	.then, .now { position: absolute; top: 0; left: 0; }
-	
-	.then { 
-		border-right: 5px solid #000;
-		-moz-box-shadow: 1px 0 20px #222;
-		-webkit-box-shadow: 1px 0 20px #222;
-		box-shadow: 1px 0 20px #222;
-		}
-	
-</style> 
+{% block body %}
 		
 <div id="thennow">	
 	<div class="section">

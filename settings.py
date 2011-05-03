@@ -72,6 +72,8 @@ MEDIA_URL = "/media/"
 # Example: "/home/media/media.lawrence.com/apps/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "site_media", "static")
 
+SITE_NAME = "Now and Then"
+
 # URL that handles the static files like app media.
 # Example: "http://media.lawrence.com"
 STATIC_URL = "/site_media/static/"
@@ -168,7 +170,7 @@ INSTALLED_APPS = [
     
     # Pinax
     "pinax.apps.account",
-    "pinax.apps.signup_codes",
+#    "pinax.apps.signup_codes",
     "pinax.apps.analytics",
     
     # project
@@ -207,7 +209,7 @@ LOGIN_REDIRECT_URLNAME = "what_next"
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
-# URCHIN_ID = "ua-..."
+URCHIN_ID = "UA-91802-13"
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,

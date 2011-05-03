@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "site_base.html" %}
+
 {% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
 
-{% block topcurrent %}current_{% endblock %}
-{% block header %}{% endblock %}
+{% block head_title %}{% trans "View Image" %}{% endblock %}
 
-{% block title %}{% block metatitle %}Image{% endblock %}{% endblock %}
-{% block content %}
+{% block body %}
 todo info box, image, create fusion, list of existing fusions, vote for image
 
 <div id="imageinfo">
