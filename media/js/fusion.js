@@ -46,11 +46,12 @@ $(function(){
 $(function(){
     function add_point() {
         $('#control_points').attr('selectedIndex', -1);                  
-        $('#control_points').append('<option value="x,x,x,x" selected>?,? -- ?,?</option>');
+        $('#control_points').append('<option value="?,?,?,?" selected>?, ? -- ?, ?</option>');
     }
-    $('#add_point').click(function() {
-        add_point();
-    });
+	add_point();
+//    $('#add_point').click(function() {
+//        add_point();
+//    });
 
     $('#delete_points').click(function() {
         $('#control_points option:selected').remove();
@@ -78,5 +79,13 @@ $(function(){
         }
         current_point.attr('value', current_values.join(','));
         current_point.html(current_values[0] + ', ' + current_values[1] + ' -- ' + current_values[2] + ', ' + current_values[3]);
+		if (current_values[0] != '?' && current_values[2] != '?') {
+			$('#fusion_form input[name="points"]').attr('value', $('#control_points option').not('[value*=?]').map(function() {
+  				return $(this).attr('value');
+			}).get().join(','));
+			if ($('#control_points option:last[value*=?]').size() == 0) {
+				add_point();
+			}
+		}
     });
 });

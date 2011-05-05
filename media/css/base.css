@@ -40,14 +40,14 @@ h1 {
     clear: both;
     margin: 0 auto;
     padding: 10px;
-    width: 800px;
+    width: 960px;
 }
 #footer {
     color: #999; /* footer text colour */
     margin: 50px auto;
     padding: 10px;
     clear: both;
-    width: 800px;
+    width: 960px;
 }
 #footer a, #footer a:visited {
     color: #444; /* footer link colour */
@@ -96,6 +96,7 @@ h1 {
     height: 80px;
     padding-left: 5px;
     padding-top: 0;
+	color:#FED;
 }
 #tabhead .logo a {
 	text-decoration: none;
@@ -254,8 +255,53 @@ p.what_next {
     border: 1px solid #9BC;
 }
 
+/*
+Crossfade viewer
+*/
+	#thennow .section {
+		margin-top: 2em;
+		position: relative;
+	}
+	
+	#thennow .section p.source {
+		position: absolute;
+		right: 0;
+		top: 0.5em;
+		color: #999;
+		font-size: 7pt;
+	}
+	
+	.thennow { position: relative; overflow: hidden; }
+	
+	.then, .now { position: absolute; top: 0; left: 0; }
+	
+	.then { 
+		border-right: 5px solid #000;
+		-moz-box-shadow: 1px 0 20px #222;
+		-webkit-box-shadow: 1px 0 20px #222;
+		box-shadow: 1px 0 20px #222;
+		}
 
+/*
+ Fusion edit
+ */
+	.edit_wrapper {
+		width: 460px;
+		height: 460px;
+		overflow: scroll;
+		display: inline-block;
+	}
 
+	#control_points_container {
+		width: 160px;
+		float: left;
+	}
+
+	#control_points {
+		width: 160px;
+		height: 110px;
+	}
+	
 /* EXTRAS TO CLEAN UP */
 
 .warning {
@@ -275,3 +321,5 @@ div.right_panel {
     float: right;
     z-index: 999;
 }
+
+

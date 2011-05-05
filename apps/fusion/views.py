@@ -11,6 +11,12 @@ from django.http import HttpResponseRedirect
 import flickrapi
 from fusion.models import FusionForm
 #from django.views.decorators.cache import cache_page
+#from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
+#from django.views.generic.list import ListView
+from django.core import exceptions
+#from django.core.exceptions import ImproperlyConfigured
+#from django.http import Http404, HttpResponseRedirect
 
 #def require_flickr_auth(view):
 #    '''View decorator, redirects users to Flickr when no valid
@@ -62,7 +68,33 @@ from fusion.models import FusionForm
 #    request.session['token'] = token
 #
 #    return HttpResponseRedirect('/content')
+
+#class GuardedDetailView(DetailView):
+#    def get(self, request, **kwargs):
+#        self.object = self.get_object()
+#        self.check_permission(request.user, self.object)
+#        context = self.get_context_data(object=self.object)
+#        return self.render_to_response(context)
+
+class GuardedUpdateView(UpdateView):
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.check_permission(request.user, self.object)
+        return super(GuardedUpdateView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.check_permission(request.user, self.object)
+        return super(GuardedUpdateView, self).post(request, *args, **kwargs)
     
+class OwnedUpdateView(GuardedUpdateView):
+    
+    owner = None
+    
+    def check_permission(self, user, object):
+        if getattr(object, self.owner) != user:
+            raise exceptions.PermissionDenied()
+
 @login_required
 def add_image(request):
     f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, 
