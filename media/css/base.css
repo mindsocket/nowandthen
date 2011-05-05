@@ -111,10 +111,10 @@ h1 {
     position: absolute;
     top: 6px;
     right: 15px;
-    color: #DEF; /* login bar text colour */
+    color: #FED; /* login bar text colour */
 }
 #tabhead .login a, #tabhead .login a:visited {
-    color: #DEF; /* login bar link colour */
+    color: #FED; /* login bar link colour */
 }
 #tabhead .login a:hover {
     color: #FFF; /* login bar link hover colour */
@@ -127,7 +127,7 @@ h1 {
 #subnav {
     margin: 0;
     padding: 0;
-    background: #DEF; /* tab colour */
+    background: #FED; /* tab colour */
     border-bottom: 1px solid #9BC;
 }
 #subnav ul {
@@ -198,7 +198,7 @@ ul#messages .debug {
     border: 1px solid #BBB;
 }
 ul#messages .info {
-    background: #DEF;
+    background: #FED;
     border: 1px solid #9BC;
 }
 ul#messages .success {
@@ -239,7 +239,7 @@ p.what_next {
 }
 
 .form-toggle p span {
-    background: #DEF;
+    background: #FED;
     padding: 3px 6px;
     border-top: 1px solid #9BC;
     border-left: 1px solid #9BC;
@@ -250,7 +250,7 @@ p.what_next {
 .form-toggle form {
     padding: 3px 6px;
     margin: 0;
-    background: #DEF;
+    background: #FED;
     border: 1px solid #9BC;
 }
 

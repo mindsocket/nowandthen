@@ -10,17 +10,20 @@
 
 {% block body %}
 todo type selector, keyword search box
+<table>
 {% for image in image_list %}
-    <p>
-    <a class="lightbox" href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{{ image.description }}</a><br/>
-    <a class="lightbox" href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
+    {% cycle '<tr>' '' '' '' '' %}
+    <td>
+    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{{ image.description }}</a><br/>
+    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
 {% if user.is_authenticated %}
   <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>
 {% endif %}
-    </p>
+    </td>
+    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
 {% endfor %}
-
+</table>
 <div class="pagination">
     <span class="step-links">
         <a href="?page=1">first</a>

@@ -10,16 +10,19 @@
 
 {% block body %}
 todo type selector, keyword search box
+<table>
 {% for fusion in fusion_list %}
-    <p><a class="lightbox" href="/fusion/view/{{ fusion.id }}/{{ fusion.description|slugify }}">{{ fusion.description }}</a><br/>
+    {% cycle '<tr>' '' '' '' '' %}
+    <td><a href="/fusion/view/{{ fusion.id }}/{{ fusion.description|slugify }}">{{ fusion.description }}</a><br/>
     {% thumbnail fusion.then.thumburl "200x200" %} {% thumbnail fusion.now.thumburl "200x200" %}<br/>
 {% if user.is_authenticated %}
   <a href="/admin/fusion/image/{{ fusion.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ fusion.id }}/delete/" target="_blank">delete</a>
 {% endif %}
-    </p>
+    </td>
+    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
 {% endfor %}
-
+</table>
 <div class="pagination">
     <span class="step-links">
         <a href="?page=1">first</a>
