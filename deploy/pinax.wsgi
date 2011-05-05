@@ -5,13 +5,11 @@ import sys
 
 from os.path import abspath, dirname, join
 from site import addsitedir
-
+addsitedir('/home/roger/.virtualenvs/nowandthen/lib/python2.6/site-packages')
 sys.path.insert(0, abspath(join(dirname(__file__), "../../")))
+sys.path.insert(0, abspath(join(dirname(__file__), "../apps")))
 
-from django.conf import settings
 os.environ["DJANGO_SETTINGS_MODULE"] = "nowandthen.settings"
-
-sys.path.insert(0, join(settings.PROJECT_ROOT, "apps"))
 
 from django.core.handlers.wsgi import WSGIHandler
 application = WSGIHandler()
