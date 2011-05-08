@@ -1,0 +1,37 @@
+{% extends "site_base.html" %}
+
+{% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Edit Fusion" %}{% endblock %}
+{% block social_buttons %}{% endblock %}
+{% block extra_body %}
+		<script src="{{ STATIC_URL }}js/fusion.js"></script>  
+{% endblock %}
+{% block body %}
+<div id="control_points_container" class="clearfix">
+    <select id="control_points" multiple="multiple" size="8" name="points">
+        {% for x1, y1, x2, y2 in fusion.point_list %}
+          <option value="{{ x1 }},{{ y1 }},{{ x2 }},{{ y2 }}">{{ x1 }}, {{ y1 }} -- {{ x2 }}, {{ y2 }}</option>
+        {% endfor %}
+    </select>
+	<button id="delete_points">Delete</button>
+	<button id="add_point">Add</button>
+</div>
+<div id="fusion_form_container" class="clearfix">
+	<form action="" method="post" id="fusion_form">
+	{{ form.as_p }}
+	{% csrf_token %}
+	<input type="submit" value="Submit" />
+	</form>
+</div>
+<div id="control_point_panel" class="clearboth">
+	<div class="edit_wrapper then_edit">
+		<img class="control_pointable then_edit" src="{{ fusion.then.imageurl }}" />
+	</div>
+	<div class="edit_wrapper now_edit">
+		<img class="control_pointable now_edit" src="{{ fusion.now.imageurl }}" />
+	</div>
+</div>
+{% endblock %}

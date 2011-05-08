@@ -1,0 +1,45 @@
+{% extends "site_base.html" %}
+
+{% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Image List" %}{% endblock %}
+
+{% block body_class %}images{% endblock %}
+
+{% block body %}
+todo type selector, keyword search box
+<table>
+{% for image in image_list %}
+    {% cycle '<tr>' '' '' '' '' %}
+    <td>
+    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{{ image.description }}</a><br/>
+    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
+{% if user.is_authenticated %}
+  <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
+  <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>
+{% endif %}
+    </td>
+    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+{% endfor %}
+</table>
+<div class="pagination">
+    <span class="step-links">
+        <a href="?page=1">first</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+        <a href="?page=last">last</a>
+    </span>
+</div>
+</div>
+{% endblock %}

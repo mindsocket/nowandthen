@@ -1,0 +1,27 @@
+{% extends "site_base.html" %}
+
+{% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "View Fusion" %}{% endblock %}
+
+{% block extra_body %}
+		<script src="{{ STATIC_URL }}js/fusion.js"></script>  
+{% endblock %}
+{% block body %}
+		
+<div id="thennow">	
+	<div class="section">
+		<h2>{{ fusion.description }}</h2>
+		<p class="source">todo- source</p>
+		<div class="thennow">
+			{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
+			{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
+			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="600" /> 
+			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="600" /> 
+		</div> 
+	</div>
+</div>
+
+{% endblock %}

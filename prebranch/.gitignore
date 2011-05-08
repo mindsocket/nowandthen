@@ -4,7 +4,5 @@
 *.log
 /data
 /media/cache
-cache
 /playpen
 /src/nowandthen/reports/
-local_settings.py
