@@ -151,6 +151,18 @@ class FusionForm(ModelForm):
             'points': HiddenInput,
             'cropthen': HiddenInput,
         }
-tagging.register(ImageType)
-tagging.register(Image)
-tagging.register(Fusion)
+try:        
+    tagging.register(ImageType)
+except tagging.AlreadyRegistered:
+    pass
+
+try:
+    tagging.register(Image)
+except tagging.AlreadyRegistered:
+    pass
+
+try:
+    tagging.register(Fusion)
+except tagging.AlreadyRegistered:
+    pass
+
