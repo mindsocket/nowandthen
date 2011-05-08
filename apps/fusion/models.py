@@ -151,6 +151,19 @@ class FusionForm(ModelForm):
             'points': HiddenInput,
             'cropthen': HiddenInput,
         }
-tagging.register(ImageType)
-tagging.register(Image)
-tagging.register(Fusion)
+
+# http://code.google.com/p/django-tagging/issues/detail?id=128
+try:        
+    tagging.register(ImageType)
+except tagging.AlreadyRegistered:
+    pass
+
+try:
+    tagging.register(Image)
+except tagging.AlreadyRegistered:
+    pass
+
+try:
+    tagging.register(Fusion)
+except tagging.AlreadyRegistered:
+    pass
