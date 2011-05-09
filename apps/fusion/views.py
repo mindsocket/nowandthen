@@ -95,27 +95,20 @@ class OwnedUpdateView(GuardedUpdateView):
         if getattr(object, self.owner) != user:
             raise exceptions.PermissionDenied()
 
+
+class FusionUpdateView(OwnedUpdateView):
+    pass
+    
 @login_required
 def add_image(request):
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, 
-                            token=request.session['token'], store_token=False, cache=True)
+    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
     f.cache = cache
     results = f.walk(tag_mode='all', tags='nowandthen', license='1,2,4,5,7', media='photos')
+    photos=[]
+    for photo in results:
+        photos.add({'title':"foo"})
+        
     #group_id ?
             
-    return render_to_response('fusion/image_add.html', {'results': results},
+    return render_to_response('fusion/image_add.html', {'results': results, 'photos': photos},
         context_instance=RequestContext(request))
-    
-@login_required
-def edit_fusion(request):
-    if request.method == 'POST':
-        form = FusionForm(request.POST)
-        if form.is_valid():
-
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
-    else:
-        form = FusionForm() # An unbound form
-    
-    return render_to_response('contact.html', {
-        'form': form,
-    })

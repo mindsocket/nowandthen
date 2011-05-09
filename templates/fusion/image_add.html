@@ -1,9 +1,12 @@
-{% extends "base.html" %}
+{% extends "site_base.html" %}
 
-{% block topcurrent %}current_{% endblock %}
+{% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
 
-{% block title %}{% block metatitle %}Select Image{% endblock %}{% endblock %}
-{% block content %}
+{% block head_title %}{% trans "Select Flickr Image" %}{% endblock %}
+
+{% block body %}
 Keyword: <input name="keyword" />
 Tag: <input name="tag" />
 Flickr user: <input name="user" />
@@ -11,7 +14,9 @@ Flickr user: <input name="user" />
 <input type="checkbox" name="nowandthengroup"> <a href="todo">Now and Then group</a>
 
 <div id="results">
-TODO results
+{% for photo in photos %}
+	{{ photo.title }}
+{% endfor %}
 </div>
 
 {% endblock %}

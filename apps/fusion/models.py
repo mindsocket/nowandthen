@@ -140,7 +140,11 @@ class Fusion(models.Model):
     
     def get_absolute_url(self):
         return "/fusion/edit/%i/" % self.id
-
+    
+    def save(self, *args, **kwargs):
+#        do_something()
+        super(Fusion, self).save(*args, **kwargs) # Call the "real" save() method.
+        
 class FusionForm(ModelForm):
     
     class Meta:
