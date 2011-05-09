@@ -1,15 +1,16 @@
-from django.shortcuts import get_object_or_404, render_to_response
+#from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from models import Image, Fusion
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+#from models import Image, Fusion
+#from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.cache import cache
 #from django.http import Http404
-import logging
+#import logging
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+#from django.http import HttpResponseRedirect
 import flickrapi
-from fusion.models import FusionForm
+#from apps.fusion.models import FusionForm
 #from django.views.decorators.cache import cache_page
 #from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -76,21 +77,20 @@ from django.core import exceptions
 #        context = self.get_context_data(object=self.object)
 #        return self.render_to_response(context)
 
-class GuardedUpdateView(UpdateView):
+class OwnedUpdateView(UpdateView):
+    
+    owner = None
+    
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.check_permission(request.user, self.object)
-        return super(GuardedUpdateView, self).get(request, *args, **kwargs)
+        return super(UpdateView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.check_permission(request.user, self.object)
-        return super(GuardedUpdateView, self).post(request, *args, **kwargs)
-    
-class OwnedUpdateView(GuardedUpdateView):
-    
-    owner = None
-    
+        return super(UpdateView, self).post(request, *args, **kwargs)
+
     def check_permission(self, user, object):
         if getattr(object, self.owner) != user:
             raise exceptions.PermissionDenied()
@@ -104,11 +104,10 @@ def add_image(request):
     f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
     f.cache = cache
     results = f.walk(tag_mode='all', tags='nowandthen', license='1,2,4,5,7', media='photos')
+    #group_id ?
     photos=[]
     for photo in results:
-        photos.add({'title':"foo"})
-        
-    #group_id ?
+        photos.add({'title':"foo", 'photo':photo})
             
     return render_to_response('fusion/image_add.html', {'results': results, 'photos': photos},
         context_instance=RequestContext(request))
