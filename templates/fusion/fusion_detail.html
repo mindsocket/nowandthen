@@ -14,7 +14,8 @@
 		{% if fusion.user.username == user.username %}
 			<a href="{{ fusion.get_absolute_url }}">Edit this fusion</a> |
 		{% endif %}
-		<a href="/image/view/{{ fusion.then.id}}/">View source image details</a>
+		<a href="{% url image_detail fusion.then.id %}{{ fusion.then.description|slugify }}">View &quot;then&quot; image details</a> |
+		<a href="{{ fusion.now.infourl }}">View &quot;now&quot; image details</a>
 {% endblock %}
 
 {% block body %}

@@ -18,12 +18,8 @@
 <ul class="tabs">{% spaceless %}
 	<li id="tab_home"><a href="/">Home</a></li>
 	<li id="tab_about"><a href="/about/">About</a></li>
-	<li id="tab_images"><a href="/images">Images</a></li>
-	<li><a href="/image/view/1">Image view</a></li>
-	<li><a href="/image/add/">image add</a></li>
-	<li id="tab_fusions"><a href="/fusions">Fusions</a></li>
-	<li><a href="/fusion/view/1">fusion view</a></li>
-	<li><a href="/fusion/edit/1">fusion edit</a></li>
+	<li id="tab_fusions"><a href="/fusions">Fusion Gallery</a></li>
+	<li id="tab_images"><a href="/images">Historical Images</a></li>
 {% endspaceless %}</ul>
 {% endblock %}
 {% block right_tabs %}
@@ -43,11 +39,8 @@
 </div>
 {% endblock %}
 <div class="legal">
-    {% trans "&copy; 2011 Roger Barnes" %}
+    &copy; 2011 Roger Barnes
     - <a href="{% url about %}">{% trans "About" %}</a>
-    - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
-    - <a href="{% url privacy %}">{% trans "Privacy Policy" %}</a>
-    - <a href="{% url dmca %}">{% trans "DMCA Notice" %}</a>
 </div>
 {% endblock %}
 

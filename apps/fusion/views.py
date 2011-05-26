@@ -16,7 +16,8 @@ import flickrapi
 from django.views.generic.edit import UpdateView
 #from django.views.generic.list import ListView
 from django.core import exceptions
-from apps.fusion.models import ImageAligner
+from apps.fusion.models import ImageAligner, Fusion, Image
+from django.views.generic.list import ListView
 #from django.core.exceptions import ImproperlyConfigured
 #from django.http import Http404, HttpResponseRedirect
 
@@ -102,15 +103,63 @@ class FusionUpdateView(OwnedUpdateView):
         self.object.align()
         return super(OwnedUpdateView, self).post(request, *args, **kwargs)
     
+class FusionListView(ListView):
+    def get(self, request, *args, **kwargs):
+        myargs = {}
+        myargs['publish'] = True
+        myargs['hide'] = False
+
+        if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
+            myargs['description__icontains'] = request.GET['keyword']
+
+        self.queryset = Fusion.objects.filter(**myargs)
+            
+        return super(ListView, self).get(request, *args, **kwargs)
+    
+class ImageListView(ListView):
+    def get(self, request, *args, **kwargs):
+        myargs = {}
+        myargs['type__canbethen'] = True
+        myargs['hide'] = False
+
+        if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
+            myargs['description__icontains'] = request.GET['keyword']
+
+        self.queryset = Image.objects.filter(**myargs)
+            
+        return super(ListView, self).get(request, *args, **kwargs)
+    
 @login_required
-def add_image(request):
+def FusionNew(request, thenid):
     f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
     f.cache = cache
-    results = f.walk(tag_mode='all', tags='nowandthen', license='1,2,4,5,7', media='photos')
-    #group_id ?
+
+    myargs = {}
+    myargs['tag_mode'] = 'all'
+    myargs['license'] = '1,2,4,5,7'
+
+    if 'nowandthentag' in request.GET or 'init' in request.GET:
+        myargs['tags'] = 'nowandthen'
+
+    if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
+        if 'tags' in myargs:
+            myargs['tags'] += ',' + request.GET['tag']
+        else: 
+            myargs['tags'] = request.GET['tag']
+
+    if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
+        myargs['keyword???'] = request.GET['keyword']
+
+    if 'nowandthengroup' in request.GET:
+        myargs['group_id'] = 'TODO'
+    
+    if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
+        myargs['keyword???'] = request.GET['keyword']
+    
     photos=[]
-    for photo in results:
-        photos.add({'title':"foo", 'photo':photo})
+#    results = f.walk(**myargs)
+#    for photo in results:
+#        photos.add({'title':"foo", 'photo':photo})
             
-    return render_to_response('fusion/image_add.html', {'results': results, 'photos': photos},
+    return render_to_response('fusion/fusion_new.html', {'photos': photos, 'thenid': thenid},
         context_instance=RequestContext(request))

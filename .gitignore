@@ -2,6 +2,7 @@
 *.pyc
 *.swp
 *.log
+.tmp*
 /data
 /media/cache
 /media/fusions

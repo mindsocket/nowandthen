@@ -6,28 +6,37 @@
 
 {% block body %}
 
-	<div id="about"><h2>What's the Idea?</h2>
-	Now and Then is an application for viewing and contribute historical images overlaid with modern equivalents. Each combination of an old and new image is called a &quot;<a href="/fusions">fusion</a>&quot;.
-	<p>
-	The application was created as an entry for the <a href="http://libraryhack.org">2011 Libraryhack event</a>.  
-	<h2>How do I contribute?</h2>
-	Contributing a new fusion is easy...
-	1) Browse the <a href="/images">archive of historical images</a> to find a suitable image.  The collection currently covers pre-1855 images of Sydney, Australia.
-	2) Go to the location (with a reference copy of the historical image), and take a photo of the modern equivalent.  Try to get as close to the original position and composition as possible. 
-	3) Upload your image to Flickr and add it to the <a href="TODO">Now and Then group</a> and/or tag it with <a href="TODO">nowandthen</a>.  Make sure that a permissive license (such as Creative Commons is used.
-	4) Return to the <a href="">historical "then" image</a> and create a new fusion, choosing your matching "now" image from Flickr 
-	5) Optionally, indicate the common points between the images so that the overlaid images are well aligned.
-	6) Voila!  Your aligned fusion is ready for viewing.
+	<div id="youtubedemo">TODO youtube screencast</div>
+	<div id="intro">    
+		Now and Then is an application for combining historical images overlaid with modern equivalents. Each combination of an old and new image is called a &quot;fusion&quot;. You can see existing fusions in the <a href="{% url images %}">fusion gallery</a>.
+		<p>
+		The site was created as an entry for the <a href="http://libraryhack.org">2011 Libraryhack event</a>.  
+    </div>
+    
+	<div id="instructions">    
+    <h2>{% trans "How do I contribute?" %}</h2>
+	Creating a new fusion is easy...
+	<ul><li>Browse the <a href="{% url images %}">archive of historical images</a> to find a suitable image.  The collection currently covers pre-1855 images of Sydney, Australia.</li>
+	<li>Go to the location (with a reference copy of the historical image), and take a photo of the modern equivalent.  Try to get as close to the original position and composition as possible.</li>
+	<li>Upload your image to Flickr and add it to the <a href="TODO">Now and Then group</a> and/or tag it with <a href="TODO">nowandthen</a>.  Make sure that a permissive license (such as Creative Commons is used.</li>
+	<li>Return to the <a href="{% url images %}">historical &quot;then&quot; image</a> and create a new fusion, choosing your matching &quot;now&quot; image from Flickr.</li> 
+	<li>Optionally, indicate the common points between the images so that the overlaid images are well aligned.</li>
+	<li>Voila!  Your aligned fusion is ready for <a href="{% url fusions %}">viewing</a>.</li>
+	</ul>
 	<h2>What images can I contribute</h2>
 	Currently, while Now and Then is in a Beta release period, the image collection includes only "<a href="http://data.gov.au/2616">Photographs of Sydney before 1885</a>" from the State Library of NSW. Other collections will hopefully be added at a later date.        
-	</div>
-	<div id="beer">Like this app?  Buy Roger a beer!
+
+    </div>    
+	<div id="beer"><h2>Like this app?  Buy me a beer!</h2>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 	<input type="hidden" name="cmd" value="_s-xclick">
 	<input type="hidden" name="hosted_button_id" value="2XMPPY2XLEBQ4">
 	<input type="image" src="https://www.paypalobjects.com/WEBSCR-640-20110401-1/en_AU/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
 	<img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110401-1/en_AU/i/scr/pixel.gif" width="1" height="1">
 	</form>
+	</div>
+	<div id="github">
+	The source for Now and Then is available on <a href="http://github.com/mindsocket/nowandthen">github</a>
 	</div>
     {% blocktrans %}
         Pinax includes the <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icon set 1.3</a> by Mark James.

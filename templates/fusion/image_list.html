@@ -9,13 +9,16 @@
 {% block body_class %}images{% endblock %}
 
 {% block body %}
-todo type selector, keyword search box
-<table>
+<form>
+Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
+<input type="submit" />
+</form>
+<table id="imagelist">
 {% for image in image_list %}
     {% cycle '<tr>' '' '' '' '' %}
     <td>
-    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{{ image.description }}</a><br/>
-    <a href="/image/view/{{ image.id }}/{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
+    <a href="{% url image_detail image.id %}{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
+    {{ image.description }}
 {% if user.is_authenticated %}
   <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>

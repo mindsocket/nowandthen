@@ -1,0 +1,25 @@
+{% extends "site_base.html" %}
+
+{% load convert_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Select Flickr Image" %}{% endblock %}
+{% block social_buttons %}{% endblock %}
+
+{% block body %}
+<form>
+Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
+Tag: <input name="tag" value="{{ request.GET.tag }}" />
+Flickr user: <input name="user" value="{{ request.GET.user }}" />
+<input type="checkbox" name="nowandthentag" {% if request.GET.nowandthentag or request.GET.init %}checked="checked"{% endif %}> <a href="todo">nowandthen tag</a>
+<input type="checkbox" name="nowandthengroup"{% if request.GET.nowandthengroup %}checked="checked"{% endif %}> <a href="todo">Now and Then group</a>
+<input type="submit" />
+</form>
+<div id="results">
+{% for photo in photos %}
+	{{ photo.title }}
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -6,6 +6,11 @@
 
 {% block head_title %}{% trans "Edit Fusion" %}{% endblock %}
 {% block social_buttons %}{% endblock %}
+
+{% block subnav %}
+		<a href="{{ fusion.get_absolute_url }}">View this fusion</a> |
+{% endblock %}
+
 {% block extra_body %}
 		<script src="{{ STATIC_URL }}js/fusion.js"></script>  
 {% endblock %}
