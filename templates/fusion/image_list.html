@@ -13,7 +13,7 @@
 Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
 <input type="submit" />
 </form>
-<table id="imagelist">
+<table id="imagelist" class="listtable">
 {% for image in image_list %}
     {% cycle '<tr>' '' '' '' '' %}
     <td>

@@ -257,7 +257,7 @@ p.what_next {
 
 /* Image list */
 
-#imagelist th, #imagelist td {
+.listtable th, .listtable td {
 	padding:16px;
 }
 

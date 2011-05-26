@@ -17,9 +17,43 @@ Flickr user: <input name="user" value="{{ request.GET.user }}" />
 <input type="submit" />
 </form>
 <div id="results">
-{% for photo in photos %}
+{'farm': '5',
+ 'id': '5052964600',
+ 'isfamily': '0',
+ 'isfriend': '0',
+ 'ispublic': '1',
+ 'owner': '29056926@N02',
+ 'secret': 'cfe3b47bb9',
+ 'server': '4147',
+ 'title': 'Green Lake, 1913 and 2010'}
+http://www.flickr.com/photos/{user-id}/{photo-id}
+http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
+<table id="flickrlist" class="listtable">
+{% for photo in items.object_list %}
+    {% cycle '<tr>' '' '' '' '' %}
 	{{ photo.title }}
+    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
 {% endfor %}
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        <a href="?page=1">first</a>
+        {% if items.has_previous %}
+            <a href="?page={{ items.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ items.number }} of {{ items.paginator.num_pages }}
+        </span>
+
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}">next</a>
+        {% endif %}
+        <a href="?page={{ items.paginator.num_pages }}">last</a>
+    </span>
+</div>
+
 </div>
 
 {% endblock %}

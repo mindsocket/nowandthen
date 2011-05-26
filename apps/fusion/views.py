@@ -18,6 +18,7 @@ from django.views.generic.edit import UpdateView
 from django.core import exceptions
 from apps.fusion.models import ImageAligner, Fusion, Image
 from django.views.generic.list import ListView
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 #from django.core.exceptions import ImproperlyConfigured
 #from django.http import Http404, HttpResponseRedirect
 
@@ -154,12 +155,26 @@ def FusionNew(request, thenid):
         myargs['group_id'] = 'TODO'
     
     if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
-        myargs['keyword???'] = request.GET['keyword']
+        myargs['text'] = request.GET['keyword']
     
-    photos=[]
-#    results = f.walk(**myargs)
+#    photos=[]
+    results = f.walk(**myargs)
 #    for photo in results:
-#        photos.add({'title':"foo", 'photo':photo})
+#        '''<photo id="5761326279" owner="53355064@N02" secret="cd4cc383a1" server="3195" farm="4" title="20110524-Roger_750" ispublic="1" isfriend="0" isfamily="0"/>'''
+#        photos.append(photo.attrib)
+    paginator = Paginator(results, 50)
+    
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        items = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        items = paginator.page(paginator.num_pages)
             
-    return render_to_response('fusion/fusion_new.html', {'photos': photos, 'thenid': thenid},
+    return render_to_response('fusion/fusion_new.html', {'items': items, 'thenid': thenid},
         context_instance=RequestContext(request))
