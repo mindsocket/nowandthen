@@ -38,7 +38,7 @@ urlpatterns += patterns('',
     (r'^image/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Image)),
     (r'^image/add/', add_image),
     (r'^fusion/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Fusion)),
-    (r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user')),
+    (r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user', success_url="/fusion/view/%(id)d/")),
 )
 
 urlpatterns += staticfiles_urlpatterns()

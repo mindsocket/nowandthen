@@ -16,6 +16,7 @@ import flickrapi
 from django.views.generic.edit import UpdateView
 #from django.views.generic.list import ListView
 from django.core import exceptions
+from apps.fusion.models import ImageAligner
 #from django.core.exceptions import ImproperlyConfigured
 #from django.http import Http404, HttpResponseRedirect
 
@@ -95,9 +96,11 @@ class OwnedUpdateView(UpdateView):
         if getattr(object, self.owner) != user:
             raise exceptions.PermissionDenied()
 
-
 class FusionUpdateView(OwnedUpdateView):
-    pass
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.align()
+        return super(OwnedUpdateView, self).post(request, *args, **kwargs)
     
 @login_required
 def add_image(request):

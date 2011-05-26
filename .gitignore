@@ -4,6 +4,7 @@
 *.log
 /data
 /media/cache
+/media/fusions
 cache
 /playpen
 /src/nowandthen/reports/

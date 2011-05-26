@@ -41,6 +41,11 @@ class TestFusion(TestCase):
         aligner = ImageAligner(fusion)
         aligner.align("test")
 
+    def test_image_aligner_in_fusion(self):
+        """Tests that the image aligner does something useful - ie aligns images"""
+        fusion = mockfusion()
+        fusion.align()
+
     @unittest.skip("not needed now")
     def test_pto_generation(self):
         fusion = mockfusion()

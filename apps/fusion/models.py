@@ -105,6 +105,7 @@ class ImageAligner:
         subprocess.call(nona_command, shell=True)
         os.unlink(pto_file)
         os.unlink(pto_file2)
+        return thenfile, nowfile
 
 def split_pointstring(points, howmany=4):
     if len(points) < howmany:
@@ -121,16 +122,19 @@ class Fusion(models.Model):
     cropthen = models.CommaSeparatedIntegerField(max_length=20, blank=True)
     publish = models.BooleanField(default=True)
     description =  models.CharField(max_length=150, blank=True)
-#    votecount = models.PositiveIntegerField(default=0, editable=False)
     hide = models.BooleanField(default=False)
     flagged = models.BooleanField(default=False)
-
+    thenfile = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'fusions'), blank=True, null=True)
+    nowfile = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'fusions'), blank=True, null=True)
+    
     def __unicode__(self):
         return self.description
 
     def align(self):
         aligner = ImageAligner(self)
         thenfile, nowfile = aligner.align(self.aligned_filename())
+        self.thenfile = str(self.id) + '_then.jpg'
+        self.nowfile = str(self.id) + '_now.jpg'
     
     def point_list(self):
         return split_pointstring(self.points)
@@ -141,10 +145,6 @@ class Fusion(models.Model):
     def get_absolute_url(self):
         return "/fusion/edit/%i/" % self.id
     
-    def save(self, *args, **kwargs):
-#        do_something()
-        super(Fusion, self).save(*args, **kwargs) # Call the "real" save() method.
-        
 class FusionForm(ModelForm):
     
     class Meta:

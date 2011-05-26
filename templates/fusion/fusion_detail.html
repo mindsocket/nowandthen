@@ -9,15 +9,32 @@
 {% block extra_body %}
 		<script src="{{ STATIC_URL }}js/fusion.js"></script>  
 {% endblock %}
+
+{% block subnav %}
+		{% if fusion.user.username == user.username %}
+			<a href="{{ fusion.get_absolute_url }}">Edit this fusion</a> |
+		{% endif %}
+		<a href="/image/view/{{ fusion.then.id}}/">View source image details</a>
+{% endblock %}
+
 {% block body %}
 		
 <div id="thennow">	
 	<div class="section">
 		<h2>{{ fusion.description }}</h2>
-		<p class="source">todo- source</p>
+		<p class="source"> 
+		
+		
+		
+		todo- source</p>{{ fusion.thenfile }} {{ fusion.nowfile }}
 		<div class="thennow">
-			{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
-			{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
+			{% if fusion.thenfile and fusion.nowfile %}
+				{% thumbnail fusion.thenfile '900x600' as thenimg %}
+				{% thumbnail fusion.nowfile '900x600' as nowimg %}
+			{% else %}
+				{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
+				{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
+			{% endif %}
 			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="600" /> 
 			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="600" /> 
 		</div> 
