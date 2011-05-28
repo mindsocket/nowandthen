@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.base import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from voting.views import vote_on_object
 admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
@@ -41,6 +42,23 @@ urlpatterns += patterns('',
     url(r'^fusion/create/(?P<thenid>\d+)/(?P<flickrid>\d+)/.*$', FusionCreateView.as_view(model=Fusion, form_class=FusionForm, success_url="/fusion/view/%(id)d/"), name='fusion_create'),
     url(r'^fusion/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Fusion), name='fusion_detail'),
     url(r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user', success_url="/fusion/view/%(id)d/"), name='fusion_form'),
+)
+
+image_vote_dict = {
+    'model': Image,
+    'template_object_name': 'image',
+    'allow_xmlhttprequest': True,
+}
+
+fusion_vote_dict = {
+    'model': Fusion,
+    'template_object_name': 'fusion',
+    'allow_xmlhttprequest': True,
+}
+
+urlpatterns += patterns('',
+    (r'^image/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/?$', vote_on_object, image_vote_dict),
+    (r'^fusion/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/?$', vote_on_object, fusion_vote_dict),
 )
 
 urlpatterns += staticfiles_urlpatterns()

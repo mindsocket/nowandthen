@@ -164,6 +164,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'convert',
     'tagging',
+    'voting',
     'south',
     'memcache_status',
     'django_jenkins',

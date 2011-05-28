@@ -15,6 +15,8 @@
 {% block body %}
 list of existing fusions, vote for image
 
+{% include "vote_widget.html" with object=image type="image" %}
+
 {% include "fusion/image_info.html" with image=image %}
 <div class="viewimage">
 	{% thumbnail image.imageurl "900x600" %}
