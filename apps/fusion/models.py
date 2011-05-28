@@ -76,12 +76,8 @@ class ImageAligner:
     
     def get_pto_string(self):
         pointlist = self.fusion.point_list()
-#        import pdb; pdb.set_trace()
         then = MediaFile(self.fusion.then.imageurl)
         now = MediaFile(self.fusion.now.imageurl)
-        print(pointlist)
-        print(then.path)
-        print(now.path)
         
         then_image = PIL.Image.open(then.path)
         now_image = PIL.Image.open(now.path)

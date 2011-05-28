@@ -2,7 +2,7 @@ from django_extensions.management.jobs import BaseJob
 from django.conf import settings
 import csv, codecs
 import os
-from tokenizer import extract_words
+from apps.fusion.tokenizer import extract_words
 from apps.fusion.models import Image, ImageType, Fusion
 from django.db import IntegrityError
 
