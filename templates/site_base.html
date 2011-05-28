@@ -32,14 +32,8 @@
 {% endblock %}
 
 {% block footer %}
-{% block social_buttons %}
-<div id="social_buttons">
-    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="{% block likehref %}{{ request.build_absolute_uri }}{% endblock %}" layout="box_count" show_faces="false" width="450" font=""></fb:like>
-    <a href="http://twitter.com/share" class="twitter-share-button" data-url="{% block tweethref %}{{ request.build_absolute_uri }}{% endblock %}" data-count="vertical" data-via="mindsocket">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-</div>
-{% endblock %}
 <div class="legal">
-    &copy; 2011 Roger Barnes
+    Now and Then &copy; 2011 Roger Barnes
     - <a href="{% url about %}">{% trans "About" %}</a>
 </div>
 {% endblock %}

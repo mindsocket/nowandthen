@@ -37,16 +37,17 @@ h1 {
 
 
 #body {
-    clear: both;
+/*    clear: both;*/
     margin: 0 auto;
     padding: 10px;
 /*    width: 960px;*/
 }
 #footer {
     color: #999; /* footer text colour */
-    margin: 50px auto;
+/*    margin: 50px auto;*/
     padding: 10px;
     clear: both;
+	width:100%;
 /*    width: 960px;*/
 }
 #footer a, #footer a:visited {
@@ -132,7 +133,7 @@ h1 {
     border-bottom: 1px solid #9BC;
 }
 #subnav ul {
-    float: right;
+    /*float: right;*/
     margin: 0 20px;
     padding: 0;
 }
@@ -255,10 +256,32 @@ p.what_next {
     border: 1px solid #9BC;
 }
 
+/* Homepage */
+
+#fbpage {
+	float:right;
+}
 /* Image list */
 
 .listtable th, .listtable td {
 	padding:16px;
+	width: 20%;
+}
+
+/* New fusion */
+
+#then_selected {
+	float:left;
+	width:220px;
+}
+
+#flickr_results {
+	position:absolute;
+	left:220px;
+}
+
+#flickr_results td {
+	width: 20%;
 }
 
 /*
@@ -269,30 +292,31 @@ Crossfade viewer
 		position: relative;
 	}
 	
-	#thennow .section p.source {
-		position: absolute;
-		right: 0;
-		top: 0.5em;
-		color: #999;
-		font-size: 7pt;
-	}
-	
 	.thennow { position: relative; overflow: hidden; }
 	
-	.then, .now { position: absolute; top: 0; left: 0; }
+	.then, .now, .thenfade, .nowfade { position: absolute; top: 0; left: 0; }
 	
 	.then { 
-		border-right: 5px solid #000;
-		-moz-box-shadow: 1px 0 20px #222;
+		border-right: 2px solid #000;
+/*		-moz-box-shadow: 1px 0 20px #222;
 		-webkit-box-shadow: 1px 0 20px #222;
-		box-shadow: 1px 0 20px #222;
-		}
+		box-shadow: 1px 0 20px #222;*/
+	}
+
+	.help { 
+		position: absolute;
+		bottom: 20px;
+		right:  70px;
+		font: bold 20px/1em Helvetica, Arial, sans-serif;
+		color: #FFF;
+		opacity: 0.7;
+	}
 
 /*
  Fusion edit
  */
 	.edit_wrapper {
-		width: 460px;
+		width: 45%;
 		height: 460px;
 		overflow: scroll;
 		display: inline-block;
@@ -307,6 +331,10 @@ Crossfade viewer
 		width: 160px;
 		height: 110px;
 	}
+
+#social_buttons {
+	float:right;
+}
 	
 /* EXTRAS TO CLEAN UP */
 

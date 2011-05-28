@@ -5,7 +5,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib import admin
 from apps.fusion.models import Fusion, FusionForm, Image
 from apps.fusion.views import FusionNew, FusionUpdateView, FusionListView,\
-    ImageListView
+    ImageListView, FusionCreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView
@@ -38,8 +38,9 @@ urlpatterns += patterns('',
     url(r'^images$',  ImageListView.as_view(paginate_by=20), name='images'),
     url(r'^image/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Image), name='image_detail'),
     url(r'^fusion/new/(?P<thenid>\d+)/.*$', FusionNew, name='fusion_new'),
+    url(r'^fusion/create/(?P<thenid>\d+)/(?P<flickrid>\d+)/.*$', FusionCreateView.as_view(model=Fusion, form_class=FusionForm, success_url="/fusion/view/%(id)d/"), name='fusion_create'),
     url(r'^fusion/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Fusion), name='fusion_detail'),
-    (r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user', success_url="/fusion/view/%(id)d/")),
+    url(r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user', success_url="/fusion/view/%(id)d/"), name='fusion_form'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

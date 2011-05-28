@@ -11,31 +11,36 @@
 {% endblock %}
 
 {% block subnav %}
+	<ul>
 		{% if fusion.user.username == user.username %}
-			<a href="{{ fusion.get_absolute_url }}">Edit this fusion</a> |
+			<li><a href="{{ fusion.get_absolute_url }}">Edit this fusion</a></li>
 		{% endif %}
-		<a href="{% url image_detail fusion.then.id %}{{ fusion.then.description|slugify }}">View &quot;then&quot; image details</a> |
-		<a href="{{ fusion.now.infourl }}">View &quot;now&quot; image details</a>
+		<li><a href="{% url image_detail fusion.then.id %}{{ fusion.then.description|slugify }}">View &quot;then&quot; image details</a></li>
+		<li><a href="{{ fusion.now.infourl }}">View &quot;now&quot; image details</a></li>
+	</ul>
 {% endblock %}
 
 {% block body %}
 		
+		<h2>{{ fusion.description }}</h2>
+		<div class="source"> 
+		<div id="nowdesc">todo</div>
+		<div id="thendesc">todo</div>
+		</div>
 <div id="thennow">	
 	<div class="section">
-		<h2>{{ fusion.description }}</h2>
-		<p class="source"> 
-		
-		
-		
-		todo- source</p>{{ fusion.thenfile }} {{ fusion.nowfile }}
+		{% if fusion.thenfile and fusion.nowfile %}
+			{% thumbnail fusion.thenfile '900x600' as thenimg %}
+			{% thumbnail fusion.nowfile '900x600' as nowimg %}
+		{% else %}
+			{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
+			{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
+		{% endif %}
+		<!--div class="thennowfade ">
+			<img src="{{ thenimg.url }}" class="thenfade" alt="{{ fusion.then.description }}" width="900" height="600" /> 
+			<img src="{{ nowimg.url }}" class="nowfade" alt="{{ fusion.now.description }}" width="900" height="600" /> 
+		</div-->
 		<div class="thennow">
-			{% if fusion.thenfile and fusion.nowfile %}
-				{% thumbnail fusion.thenfile '900x600' as thenimg %}
-				{% thumbnail fusion.nowfile '900x600' as nowimg %}
-			{% else %}
-				{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
-				{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
-			{% endif %}
 			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="600" /> 
 			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="600" /> 
 		</div> 

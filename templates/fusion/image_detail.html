@@ -7,7 +7,9 @@
 {% block head_title %}{% trans "View Image" %}{% endblock %}
 
 {% block subnav %}
-		<a href="{% url fusion_new image.id %}?init=true">Create a new fusion using this image</a>
+	<ul>
+		<li><a href="{% url fusion_new image.id %}?init=true">Create a new fusion using this image</a></li>
+	</ul>
 {% endblock %}
 
 {% block body %}
@@ -26,8 +28,4 @@ todo info box, image, create fusion, list of existing fusions, vote for image
 <div id="voteblock">
 	Like/Tweet
 </div>
-<div id="newfusion">
-	New Fusion using this image
-</div>
-
 {% endblock %}

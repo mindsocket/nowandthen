@@ -8,6 +8,8 @@
 
 {% block body_class %}images{% endblock %}
 
+{% block subnav_base %}{% endblock %}
+
 {% block body %}
 <form>
 Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
@@ -19,7 +21,7 @@ Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
     <td>
     <a href="{% url image_detail image.id %}{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
     {{ image.description }}
-{% if user.is_authenticated %}
+{% if user.is_superuser %}
   <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 
   <a href="/admin/fusion/image/{{ image.id }}/delete/" target="_blank">delete</a>
 {% endif %}

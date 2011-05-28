@@ -6,54 +6,61 @@
 
 {% block head_title %}{% trans "Select Flickr Image" %}{% endblock %}
 {% block social_buttons %}{% endblock %}
+{% block subnav_base %}{% endblock %}
 
 {% block body %}
-<form>
-Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
-Tag: <input name="tag" value="{{ request.GET.tag }}" />
-Flickr user: <input name="user" value="{{ request.GET.user }}" />
-<input type="checkbox" name="nowandthentag" {% if request.GET.nowandthentag or request.GET.init %}checked="checked"{% endif %}> <a href="todo">nowandthen tag</a>
-<input type="checkbox" name="nowandthengroup"{% if request.GET.nowandthengroup %}checked="checked"{% endif %}> <a href="todo">Now and Then group</a>
-<input type="submit" />
-</form>
-<div id="results">
-{'farm': '5',
- 'id': '5052964600',
- 'isfamily': '0',
- 'isfriend': '0',
- 'ispublic': '1',
- 'owner': '29056926@N02',
- 'secret': 'cfe3b47bb9',
- 'server': '4147',
- 'title': 'Green Lake, 1913 and 2010'}
-http://www.flickr.com/photos/{user-id}/{photo-id}
-http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
-<table id="flickrlist" class="listtable">
-{% for photo in items.object_list %}
-    {% cycle '<tr>' '' '' '' '' %}
-	{{ photo.title }}
-    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
-{% endfor %}
-</table>
+<div id="instructions"><h2>Instructions</h2>
+Ok, so we're creating a fusion for the historical &quot;then&quot; image below. 
+If you haven't already uploaded your &quot;now&quot; image to flickr, <a href="http://www.flickr.com/photos/upload/" target="_blank">do so now</a>, ensuring that you tag it &quot;nowandthen&quot;.<br/>
+You can also <a href="http://www.flickr.com/groups/""" + settings.FLICKR_GROUP_ID + """/pool/add/" target="_blank">add your image to the Now and Then flickr group</a>.<br/>
+Then, search for the image below and click it to continue.<br/>
 
-<div class="pagination">
-    <span class="step-links">
-        <a href="?page=1">first</a>
-        {% if items.has_previous %}
-            <a href="?page={{ items.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ items.number }} of {{ items.paginator.num_pages }}
-        </span>
-
-        {% if items.has_next %}
-            <a href="?page={{ items.next_page_number }}">next</a>
-        {% endif %}
-        <a href="?page={{ items.paginator.num_pages }}">last</a>
-    </span>
 </div>
+<div id="then_selected">
+	<h2>Then</h2>
+	{% thumbnail thenimg.thumburl "200x200" %}
+</div>
+<div id="flickr_results">
+	<h2>Now</h2>
+	<form>
+	Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
+	Tag: <input name="tag" value="{{ request.GET.tag }}" />
+	Flickr user: <input name="user" value="{{ request.GET.user }}" />
+	<input type="checkbox" name="nowandthentag" {% if request.GET.nowandthentag or request.GET.init %}checked="checked"{% endif %}> <a href="http://www.flickr.com/photos/tags/nowandthen/">nowandthen tag</a>
+	<input type="checkbox" name="nowandthengroup"{% if request.GET.nowandthengroup %}checked="checked"{% endif %}> <a href="http://www.flickr.com/groups/{{ flickrgroup }}/">Now and Then group</a>
+	<input type="submit" />
+	</form>
+	<!-- http://www.flickr.com/photos/{user-id}/{photo-id}
+	http://farm{{ photo.attrib.farm }}.static.flickr.com/{{ photo.attrib.server }}/{{ photo.attrib.id }}_{{ photo.attrib.secret }}_[mstzb].jpg #}
+	-->
+	<table id="flickrlist" class="listtable">
+	{% for photo in photos %}
+	    {% cycle '<tr>' '' '' '' '' %}
+	    <td>
+	    	<a href="{% url fusion_create thenimg.id photo.attrib.id %}"><img src="http://farm{{ photo.attrib.farm }}.static.flickr.com/{{ photo.attrib.server }}/{{ photo.attrib.id }}_{{ photo.attrib.secret }}_t.jpg" alt="{{ photo.attrib.title }}" /></a><br />
+			{{ photo.attrib.title }}
+		</td>
+	    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+	{% endfor %}
+	</table>
 
+	<div class="pagination">
+	    <span class="step-links">
+	        <a href="?{{ searchparams }}&page=1">first</a>
+	        {% if page > 1 %}
+	            <a href="?{{ searchparams }}&page={{ page|add:"-1" }} ">previous</a>
+	        {% endif %}
+	
+	        <span class="current">
+	            Page {{ page }} of {{ num_pages }}
+	        </span>
+	
+	        {% if page < num_pages %}
+	            <a href="?{{ searchparams }}&page={{ page|add:"1" }}">next</a>
+	        {% endif %}
+	        <a href="?{{ searchparams }}&page={{ num_pages }}">last</a>
+	    </span>
+	</div>
 </div>
 
 {% endblock %}

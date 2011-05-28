@@ -108,7 +108,7 @@ MIDDLEWARE_CLASSES = [
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
 #    "pinax.middleware.security.HideSensistiveFieldsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+#    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "nowandthen.urls"
@@ -150,7 +150,7 @@ INSTALLED_APPS = [
     # external
     "notification", # must be first
 #    "staticfiles",
-    "debug_toolbar",
+#    "debug_toolbar",
     "mailer",
     "uni_form",
     "django_openid",
@@ -204,16 +204,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
-LOGIN_REDIRECT_URLNAME = "what_next"
+LOGIN_REDIRECT_URLNAME = "home"
 
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
-URCHIN_ID = "UA-91802-13"
-
-DEBUG_TOOLBAR_CONFIG = {
-    "INTERCEPT_REDIRECTS": False,
-}
+#DEBUG_TOOLBAR_CONFIG = {
+#    "INTERCEPT_REDIRECTS": False,
+#}
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

@@ -7,8 +7,8 @@ $(function(){
 		$(this).width($(this).find("img[rel=then]").attr("width")).height($(this).find("img[rel=then]").attr("height"));
 	
 		// Convert the images into background images on layered divs
-		$(this).append("<div class='now'></div>").find(".now").css({"background": "url(" + $(this).find("img[rel=now]").attr("src") + ")", "width": $(this).find("img[rel=now]").attr("width") + "px", "height": $(this).find("img[rel=now]").attr("height") + "px"});
-		$(this).append("<div class='then'></div>").find(".then").css({"background": "url(" + $(this).find("img[rel=then]").attr("src") + ")", "width": $(this).find("img[rel=then]").attr("width") - 40 + "px", "height": $(this).find("img[rel=then]").attr("height") + "px"});
+		$(this).append("<div class='now'></div>").find(".now").css({"background": "url(" + $(this).find("img[rel=now]").attr("src") + ")", "width": $(this).find("img[rel=now]").attr("width") + "px", "height": $(this).find("img[rel=now]").attr("height")-10 + "px"});
+		$(this).append("<div class='then'></div>").find(".then").css({"background": "url(" + $(this).find("img[rel=then]").attr("src") + ")", "width": $(this).find("img[rel=then]").attr("width") - 40 + "px", "height": $(this).find("img[rel=then]").attr("height")-10 + "px"});
 		
 		// Add a helpful message
 		$(this).append("<div class='help'>Hover over the image to toggle then/now</div>");
@@ -22,9 +22,9 @@ $(function(){
 			// Need to know the X position of the parent as people may have their browsers set to any width
 			var offset = $(this).offset().left;
 			
-			// Don't let the reveal go any further than 50 pixels less than the width of the image
-			// or 50 pixels on the left hand side
-			if ((event.clientX - offset) < ($(this).find(".now").width() -50) && (event.clientX - offset) > 50) {
+			// Don't let the reveal go any further than 20 pixels less than the width of the image
+			// or 20 pixels on the left hand side
+			if ((event.clientX - offset) < ($(this).find(".now").width() -20) && (event.clientX - offset) > 20) {
 				// Adjust the width of the top image to match the cursor position
 				$(this).find(".then").width(event.clientX - offset);
 			}
@@ -39,7 +39,17 @@ $(function(){
 		});
 		
 	});
-	
+
+	$(".thennowfade").each(function(){
+
+		$(this).mousemove(function(event){
+			// Need to know the X position of the parent as people may have their browsers set to any width
+			var offset = $(this).offset().left;
+			amount = (event.clientX - offset)/$(this).find(".nowfade").width();
+			$(this).find(".nowfade").css("opacity", amount);
+			
+		});
+	});	
 });
 
 	

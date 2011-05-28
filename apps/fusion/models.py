@@ -31,20 +31,27 @@ class ImageType(models.Model):
 #        logging.info('Recalculating top images')
 #        return self.filter(votecount__gte=1).limit(limit).order_by("-votecount") 
 #
-#class ImageManager(models.Manager):
-#    def get_query_set(self):
-#        return ImageQuerySet(self.model)
-#
-#    def topimages(self, limit=10):
-#        return self.get_query_set().topimages(limit)
-#
-#    def recalculateTotals(self):
-#        for image in self.all():
-#            image.votecount=image.vote.count()
-#            image.save()
+class ImageManager(models.Manager):
+    def imageFromFlickrPhoto(self, photonode):
+        image = Image()
+        image.type = ImageType.objects.get(typename='flickr')
+        urlbase = "http://farm%s.static.flickr.com/%s/%s_%s" % ( 
+            photonode.attrib['farm'],
+            photonode.attrib['server'],
+            photonode.attrib['id'],
+            photonode.attrib['secret'],
+            )
+        image.imageurl = urlbase + "_b.jpg"
+        image.thumburl = urlbase + "_t.jpg"
+        image.infourl = photonode.find('urls').find('url').text
+        image.description = photonode.find('title').text
+        image.sourcesystemid = photonode.attrib['id']
+        image.creator = photonode.find('owner').attrib['username']
+        image.dateofwork = photonode.find('dates').attrib['taken'] 
+        return image
     
 class Image(models.Model):
-#    objects = ImageManager() 
+    objects = ImageManager() 
     type = models.ForeignKey(ImageType)
     imageurl = models.URLField(max_length=256, verify_exists=False, unique=True)
     thumburl = models.URLField(max_length=256, verify_exists=False, blank=True)
@@ -133,8 +140,8 @@ class Fusion(models.Model):
     def align(self):
         aligner = ImageAligner(self)
         thenfile, nowfile = aligner.align(self.aligned_filename())
-        self.thenfile = str(self.id) + '_then.jpg'
-        self.nowfile = str(self.id) + '_now.jpg'
+        self.thenfile = 'fusions/' + str(self.id) + '_then.jpg'
+        self.nowfile = 'fusions/' + str(self.id) + '_now.jpg'
     
     def point_list(self):
         return split_pointstring(self.points)
@@ -155,6 +162,13 @@ class FusionForm(ModelForm):
             'points': HiddenInput,
             'cropthen': HiddenInput,
         }
+
+    def save(self, *args, **kwargs):
+        fusion = super(FusionForm, self).save(*args, **kwargs)
+        fusion.align()
+        fusion.save()
+        return fusion
+    
 try:        
     tagging.register(ImageType)
 except tagging.AlreadyRegistered:

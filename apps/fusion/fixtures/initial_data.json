@@ -1,6 +1,6 @@
 [
 {"pk": 1, "model": "fusion.imagetype", "fields": 
-{"infourl": "http://flickr.com/", "typename": "flickr", "description": "Images sourced from flickr via the API", "canbethen": true}}, 
+{"infourl": "http://flickr.com/", "typename": "flickr", "description": "Images sourced from flickr via the API", "canbethen": false}}, 
 {"pk": 2, "model": "fusion.imagetype", "fields": 
 {"infourl": "", "typename": "local", "description": "Images stored locally", "canbethen": true}}, 
 {"pk": 3, "model": "fusion.imagetype", "fields": 
