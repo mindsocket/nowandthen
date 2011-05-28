@@ -16,8 +16,8 @@ from tagging.models import Tag
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
-    infourl = models.URLField(max_length=256, verify_exists=False, blank=True)
-    dataurl = models.URLField(max_length=256, verify_exists=False, blank=True)
+    infourl = models.URLField(max_length=255, verify_exists=False, blank=True)
+    dataurl = models.URLField(max_length=255, verify_exists=False, blank=True)
     description = models.CharField(max_length=150)
     longdescription = models.CharField(max_length=1024)
     sourcesystemid = models.CharField(max_length=32, editable=False)
@@ -55,9 +55,9 @@ class ImageManager(models.Manager):
 class Image(models.Model):
     objects = ImageManager() 
     type = models.ForeignKey(ImageType)
-    imageurl = models.URLField(max_length=256, verify_exists=False, unique=True)
-    thumburl = models.URLField(max_length=256, verify_exists=False, blank=True)
-    infourl = models.URLField(max_length=256, verify_exists=False, blank=True)
+    imageurl = models.URLField(max_length=255, verify_exists=False, unique=True)
+    thumburl = models.URLField(max_length=255, verify_exists=False, blank=True)
+    infourl = models.URLField(max_length=255, verify_exists=False, blank=True)
     #uploadedimage = models.ImageField(upload_to='uploads')
     description = models.CharField(max_length=150)
 #    votecount = models.PositiveIntegerField(default=0, editable=False)

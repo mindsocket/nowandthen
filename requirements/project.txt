@@ -12,6 +12,7 @@ django-extensions
 django-memcache-status
 django-jenkins
 ipython
+MySQL-python
 python-memcached
 flickrapi
 south
