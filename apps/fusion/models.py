@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
+from tokenizer import extract_words
 from django.conf import settings
 import subprocess
 import tagging
@@ -11,6 +12,7 @@ import tempfile
 import os
 from convert.base import MediaFile
 import PIL
+from tagging.models import Tag
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -165,7 +167,10 @@ class FusionForm(ModelForm):
 
     def save(self, *args, **kwargs):
         fusion = super(FusionForm, self).save(*args, **kwargs)
-        fusion.align()
+        if len(fusion.points) > 4:
+            fusion.align()
+        
+        Tag.objects.update_tags(fusion, ','.join([tag.name for tag in fusion.then.tags] + extract_words(fusion.now.description))) 
         fusion.save()
         return fusion
     

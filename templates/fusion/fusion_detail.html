@@ -24,8 +24,8 @@
 		
 		<h2>{{ fusion.description }}</h2>
 		<div class="source"> 
-		<div id="nowdesc">todo</div>
-		<div id="thendesc">todo</div>
+		<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
+		<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
 		</div>
 <div id="thennow">	
 	<div class="section">

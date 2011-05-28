@@ -15,3 +15,8 @@ ipython
 python-memcached
 flickrapi
 south
+django-tagging
+django-voting
+PyYAML
+nltk
+

@@ -180,6 +180,9 @@ INSTALLED_APPS = [
 
 ]
 
+FORCE_LOWERCASE_TAGS = True
+
+
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),
 ]

@@ -335,6 +335,11 @@ Crossfade viewer
 #social_buttons {
 	float:right;
 }
+
+#image_cloud_container, #fusion_cloud_container, #thendesc, #nowdesc {
+	width:45%;
+	float:left;
+}
 	
 /* EXTRAS TO CLEAN UP */
 

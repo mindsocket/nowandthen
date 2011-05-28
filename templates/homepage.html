@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
+
 {% load ifsetting_tag %}
 
 {% block head_title %}{% trans "Welcome" %}{% endblock %}
@@ -15,37 +16,17 @@
     
     <h1>{% trans "Welcome to Now and Then" %}</h1>
 
-	<div id="fbpage">
-		<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like-box href="http://www.facebook.com/pages/Now-and-Then-Historical-Photo-Mashups/204133629621406" width="292" show_faces="false" stream="true" header="true"></fb:like-box>    
-	</div>
-	<div id="intro">    
-		Now and Then is an application for combining historical images overlaid with modern equivalents. Each combination of an old and new image is called a &quot;fusion&quot;. You can see existing fusions in the <a href="{% url images %}">fusion gallery</a>.
-		<p>
-		The site was created as an entry for the <a href="http://libraryhack.org">2011 Libraryhack event</a>.  
-    </div>
-    
-	<div id="instructions">    
-    <h2>{% trans "How do I contribute?" %}</h2>
-	Creating a new fusion is easy...
-	<ul><li>Browse the <a href="{% url images %}">archive of historical images</a> to find a suitable image.  The collection currently covers pre-1855 images of Sydney, Australia.</li>
-	<li>Go to the location (with a reference copy of the historical image), and take a photo of the modern equivalent.  Try to get as close to the original position and composition as possible.</li>
-	<li>Upload your image to Flickr and add it to the <a href="TODO">Now and Then group</a> and/or tag it with <a href="TODO">nowandthen</a>.  Make sure that a permissive license (such as Creative Commons is used.</li>
-	<li>Return to the <a href="{% url images %}">historical &quot;then&quot; image</a> and create a new fusion, choosing your matching &quot;now&quot; image from Flickr.</li> 
-	<li>Optionally, indicate the common points between the images so that the overlaid images are well aligned.</li>
-	<li>Voila!  Your aligned fusion is ready for <a href="{% url fusions %}">viewing</a>.</li>
-	</ul>
-	<h2>What images can I contribute</h2>
-	Currently, while Now and Then is in a Beta release period, the image collection includes only "<a href="http://data.gov.au/2616">Photographs of Sydney before 1885</a>" from the State Library of NSW. Other collections will hopefully be added at a later date.        
-
-    </div>    
+	{% include "intro.html" %}
 
     <hr />
 
-	<div id="tag_cloud">
-		
-		TODO: tag cloud	
+	<div id="cloud_container">
+		<div id="fusion_cloud_container">
+		{% include "fusion/fusion_tag_cloud.html" %}
+		</div>
+		<div id="image_cloud_container">
+		{% include "fusion/image_tag_cloud.html" %}
+		</div>
 	</div>
-	<div id="recent_comments">
-		TODO: recent comments	
-	</div>
+
 {% endblock %}

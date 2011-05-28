@@ -18,6 +18,7 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.core import exceptions
 from apps.fusion.models import Fusion, Image
 from django.views.generic.list import ListView
+from tagging.models import Tag, TaggedItem
 
 class OwnedUpdateView(UpdateView):
     
@@ -53,10 +54,16 @@ class FusionListView(ListView):
         if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
             myargs['description__icontains'] = request.GET['keyword']
 
+
         if 'justmine' in request.GET:
             myargs['user__id'] = request.user.id
 
-        self.queryset = Fusion.objects.filter(**myargs)
+        queryset = Fusion.objects.filter(**myargs) 
+        
+        if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
+            queryset = TaggedItem.objects.get_by_model(queryset, request.GET['tag'])
+
+        self.queryset = queryset
             
         return super(FusionListView, self).get(request, *args, **kwargs)
     
@@ -69,7 +76,12 @@ class ImageListView(ListView):
         if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
             myargs['description__icontains'] = request.GET['keyword']
 
-        self.queryset = Image.objects.filter(**myargs)
+        queryset = Image.objects.filter(**myargs) 
+        
+        if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
+            queryset = TaggedItem.objects.get_by_model(queryset, request.GET['tag'])
+
+        self.queryset = queryset
             
         return super(ImageListView, self).get(request, *args, **kwargs)
     
