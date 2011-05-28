@@ -55,7 +55,7 @@ class Job(BaseJob):
                 image, created = Image.objects.get_or_create(type=imagetype, 
                                         imageurl=row[10], thumburl=row[9], infourl=row[7],
                                         description=row[2], sourcesystemid=row[8],
-                                        creator=row[3], dateofwork=row[5])
+                                        creator=row[3][:32], dateofwork=row[5][:32])
             
                 image.tags = ",".join(extract_words(row[2]))
                 print image.tags
