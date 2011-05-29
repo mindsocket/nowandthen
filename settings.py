@@ -159,7 +159,7 @@ INSTALLED_APPS = [
     "emailconfirmation",
     "announcements",
     "pagination",
-    "idios",
+#    "idios",
 
     'django_extensions',
     'convert',
@@ -176,7 +176,7 @@ INSTALLED_APPS = [
     
     # project
     "about",
-    "profiles",
+#    "profiles",
     'fusion',
 
 ]
@@ -190,11 +190,11 @@ FIXTURE_DIRS = [
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
-ABSOLUTE_URL_OVERRIDES = {
-    "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
-}
-
-AUTH_PROFILE_MODULE = "profiles.Profile"
+#ABSOLUTE_URL_OVERRIDES = {
+#    "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
+#}
+#
+#AUTH_PROFILE_MODULE = "profiles.Profile"
 NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 ACCOUNT_OPEN_SIGNUP = True

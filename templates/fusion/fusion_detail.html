@@ -20,10 +20,13 @@
 	</ul>
 {% endblock %}
 
+{% block voteblock %}
+{% include "vote_widget.html" with object=fusion type="fusion" %}
+{% endblock %}
+
 {% block body %}
 		
-		<h2>{{ fusion.description }}</h2>
-{% include "vote_widget.html" with object=fusion type="fusion" %}
+		<h2>Fusion by {{ fusion.user }}</h2>
 		<div class="source"> 
 		<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
 		<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
