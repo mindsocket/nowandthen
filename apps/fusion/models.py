@@ -26,12 +26,6 @@ class ImageType(models.Model):
     def __unicode__(self):
         return self.description
 
-#class ImageQuerySet(QuerySet):
-#    def topimages(self, limit):
-#        import logging
-#        logging.info('Recalculating top images')
-#        return self.filter(votecount__gte=1).limit(limit).order_by("-votecount") 
-#
 class ImageManager(models.Manager):
     def imageFromFlickrPhoto(self, photonode):
         image = Image()
@@ -91,7 +85,7 @@ class ImageAligner:
 
     def align(self, fileprefix, outpath=settings.MEDIA_ROOT):
         import logging
-        logging.info("Aligning fusion " + self.fusion.id)
+        logging.info("Aligning fusion " + str(self.fusion.id))
         pto_string = self.get_pto_string()
         fd, pto_file = tempfile.mkstemp(suffix='.pto')
         
@@ -169,7 +163,7 @@ class FusionForm(ModelForm):
     def save(self, *args, **kwargs):
         fusion = super(FusionForm, self).save(*args, **kwargs)
         import logging
-        logging.info("Saved fusion " + fusion.id + " by " + fusion.user.username)
+        logging.info("Saved fusion " + str(fusion.id) + " by " + fusion.user.username)
 
         if len(fusion.points) > 4:
             fusion.align()

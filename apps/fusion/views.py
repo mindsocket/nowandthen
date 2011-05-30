@@ -1,20 +1,11 @@
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-#from models import Image, Fusion
-#from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.cache import cache
-#from django.http import Http404
-#import logging
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-#from django.http import HttpResponseRedirect
 import flickrapi
-#from apps.fusion.models import FusionForm
-#from django.views.decorators.cache import cache_page
-#from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
-#from django.views.generic.list import ListView
 from django.core import exceptions
 from apps.fusion.models import Fusion, Image
 from django.views.generic.list import ListView
