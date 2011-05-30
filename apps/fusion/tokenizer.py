@@ -12,7 +12,7 @@ def extract_words(mytext):
     '''
 
     tokenizer = WordPunctTokenizer()
-    tokens = tokenizer.tokenize(str(mytext).lower().translate(None, '[].&-()!@#$%^&*{};":,<>/?'))
+    tokens = tokenizer.tokenize(str(mytext).lower().translate(None, """[].&()!@#$%^&*{};"':;,<>\|`~/?"""))
     tokens = [x for x in tokens if x not in mystopwords and len(x) > 2]
     
 #    bigram_finder = BigramCollocationFinder.from_words(tokens)
