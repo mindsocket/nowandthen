@@ -20,18 +20,14 @@
 	</ul>
 {% endblock %}
 
-{% block voteblock %}
-{% include "vote_widget.html" with object=fusion type="fusion" %}
-{% endblock %}
-
 {% block body %}
-		
-		<h2>Fusion by {{ fusion.user }}</h2>
-		<div class="source"> 
-		<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
-		<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
-		</div>
 <div id="thennow">	
+	{% include "vote_widget.html" with object=fusion type="fusion" %}
+	<h2>Fusion by {{ fusion.user }}</h2>
+	<div class="source"> 
+	<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
+	<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
+	</div>
 	<div class="section">
 		{% if fusion.thenfile and fusion.nowfile %}
 			{% thumbnail fusion.thenfile '900x600' as thenimg %}
@@ -40,14 +36,14 @@
 			{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
 			{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
 		{% endif %}
-		<!--div class="thennowfade ">
+		<div class="thennowfade ">
 			<img src="{{ thenimg.url }}" class="thenfade" alt="{{ fusion.then.description }}" width="900" height="600" /> 
 			<img src="{{ nowimg.url }}" class="nowfade" alt="{{ fusion.now.description }}" width="900" height="600" /> 
-		</div-->
-		<div class="thennow">
+		</div>
+		{% comment %}<div class="thennow">
 			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="600" /> 
 			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="600" /> 
-		</div> 
+		</div> {% endcomment %}
 	</div>
 </div>
 

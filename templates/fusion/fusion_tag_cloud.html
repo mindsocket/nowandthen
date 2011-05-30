@@ -3,5 +3,8 @@
 <div id="fusion_tag_cloud">
 	<h2>Fusion Tags</h2>
 	{% tag_cloud_for_model fusion.Fusion as fusioncloud %}
-	{% for tag in fusioncloud %}<a href="{% url fusions %}?tag={{ tag.name|urlencode }}"><font size="{{tag.font_size}}">{{tag.name}}</font></a> {% endfor %}	
+	{% load cache %}
+	{% cache 600 fusioncloud %}
+	{% for tag in fusioncloud %}<a href="{% url fusions %}?tag={{ tag.name|urlencode }}"><font size="{{tag.font_size}}">{{tag.name}}</font></a> {% endfor %}
+	{% endcache %}	
 </div>

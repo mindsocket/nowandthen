@@ -3,5 +3,8 @@
 <div id="image_tag_cloud">
 	<h2>Historical Image Tags</h2>
 	{% tag_cloud_for_model fusion.Image as imagecloud %}
-	{% for tag in imagecloud %}<a href="{% url images %}?tag={{ tag.name|urlencode }}"><font size="{{tag.font_size}}">{{tag.name}}</font></a> {% endfor %}	
+	{% load cache %}
+	{% cache 600 imagecloud %}
+	{% for tag in imagecloud %}<a href="{% url images %}?tag={{ tag.name|urlencode }}"><font size="{{tag.font_size}}">{{tag.name}}</font></a> {% endfor %}
+	{% endcache	%}
 </div>
