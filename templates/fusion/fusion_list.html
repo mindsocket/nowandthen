@@ -14,7 +14,8 @@
 {% endblock %}
 
 {% block body %}
-{% include "fusion/fusion_tag_cloud.html" %}
+<h2>Fusions</h2>
+Tags: {% include "fusion/fusion_tag_cloud.html" %}
 <form>
 Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
 {% if user.is_authenticated %}

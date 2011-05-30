@@ -1,7 +1,6 @@
 {% load tagging_tags %}
 
 <div id="fusion_tag_cloud">
-	<h2>Fusion Tags</h2>
 	{% tag_cloud_for_model fusion.Fusion as fusioncloud %}
 	{% load cache %}
 	{% cache 600 fusioncloud %}
