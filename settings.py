@@ -220,6 +220,7 @@ EMAIL_DEBUG = DEBUG
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
-    from local_settings import *
+    #pylint: disable-msg=W0401
+    from local_settings import * #IGNORE:W0614
 except ImportError:
     pass
