@@ -151,7 +151,6 @@ def FusionNew(request, thenid):
 
 class FusionCreateView(CreateView):
 
-    @login_required    
     def get_form(self, *args, **kwargs):
         fusion = Fusion()
         fusion.then = Image.objects.get(id=self.kwargs.get('thenid'))
