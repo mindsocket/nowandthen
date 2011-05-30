@@ -10,3 +10,4 @@ cache
 /playpen
 /src/nowandthen/reports/
 local_settings.py
+site_media
