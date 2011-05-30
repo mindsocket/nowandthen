@@ -90,10 +90,10 @@ $(function(){
         current_point.attr('value', current_values.join(','));
         current_point.html(current_values[0] + ', ' + current_values[1] + ' -- ' + current_values[2] + ', ' + current_values[3]);
 		if (current_values[0] != '?' && current_values[2] != '?') {
-			$('#fusion_form input[name="points"]').attr('value', $('#control_points option').not('[value*=?]').map(function() {
+			$('#fusion_form input[name="points"]').attr('value', $('#control_points option').not('[value*="?"]').map(function() {
   				return $(this).attr('value');
 			}).get().join(','));
-			if ($('#control_points option:last[value*=?]').size() == 0) {
+			if ($('#control_points option:last[value*="?"]').size() == 0) {
 				add_point();
 			}
 		}
