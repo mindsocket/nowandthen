@@ -89,7 +89,7 @@ h1 {
 /* HEADER */
 
 #tabhead {
-    background: #035 url('../img/heading.png') left top repeat-x;
+    background: #530 url('../img/heading.png') left top repeat-x;
     border-bottom: 1px solid #000; /* tab border */
     position: relative;
 }
@@ -287,6 +287,7 @@ p.what_next {
 /*
 Crossfade viewer
 */
+
 	#thennow .section {
 		margin-top: 2em;
 		position: relative;
@@ -336,6 +337,11 @@ Crossfade viewer
 	float:right;
 }
 
+.source {
+	position:relative;
+	width:900px;
+}
+
 #image_cloud_container, #fusion_cloud_container, #thendesc, #nowdesc {
 	width:45%;
 	float:left;
@@ -357,6 +363,9 @@ Crossfade viewer
 .vote-down-off{background-position:0px -70px;}
 .vote-down-on{background-position:0px -100px;}
 
+
+.slideshow { height: 200px; width: 200px; margin: auto }
+.slideshow img { padding: 15px; border: 1px solid #ccc; background-color: #eee; }
 	
 /* EXTRAS TO CLEAN UP */
 
