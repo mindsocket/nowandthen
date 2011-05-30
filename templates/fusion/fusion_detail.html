@@ -21,13 +21,15 @@
 {% endblock %}
 
 {% block body %}
-<div id="thennow">	
-	{% include "vote_widget.html" with object=fusion type="fusion" %}
-	<h2>Fusion by {{ fusion.user }}</h2>
 	<div class="source"> 
-	<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
-	<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
+	{% include "vote_widget.html" with object=fusion type="fusion" %}
+		<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
+		<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
+		<div style="position:relative;top:-0.5em;float:right;">	
+			Fusion by {{ fusion.user }}
+		</div>
 	</div>
+<div id="thennow" class="clearboth">	
 	<div class="section">
 		{% if fusion.thenfile and fusion.nowfile %}
 			{% thumbnail fusion.thenfile '900x600' as thenimg %}

@@ -33,9 +33,9 @@ Description: <input name="keyword" value="{{ request.GET.keyword }}" />
 </table>
 <div class="pagination">
     <span class="step-links">
-        <a href="?page=1">first</a>
+        <a href="?{{ searchparams }}&page=1">first</a>
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?{{ searchparams }}&page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -43,9 +43,9 @@ Description: <input name="keyword" value="{{ request.GET.keyword }}" />
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?{{ searchparams }}&page={{ page_obj.next_page_number }}">next</a>
         {% endif %}
-        <a href="?page=last">last</a>
+        <a href="?{{ searchparams }}&page=last">last</a>
     </span>
 </div>
 </div>

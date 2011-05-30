@@ -18,7 +18,9 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.core import exceptions
 from apps.fusion.models import Fusion, Image
 from django.views.generic.list import ListView
-from tagging.models import Tag, TaggedItem
+from tagging.models import TaggedItem
+
+searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
 
 class OwnedUpdateView(UpdateView):
     
@@ -44,8 +46,16 @@ class FusionUpdateView(OwnedUpdateView):
 #        self.object = self.get_object()
 #        self.object.align()
 #        return super(FusionUpdateView, self).post(request, *args, **kwargs)
+
+class SearchListView(ListView):
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SearchListView, self).get_context_data(**kwargs)
+        # Add in the searchparams
+        context['searchparams'] = searchparamslambda(self.request.GET)
+        return context
     
-class FusionListView(ListView):
+class FusionListView(SearchListView):
     def get(self, request, *args, **kwargs):
         myargs = {}
         myargs['publish'] = True
@@ -58,6 +68,8 @@ class FusionListView(ListView):
         if 'justmine' in request.GET:
             myargs['user__id'] = request.user.id
 
+        #pylint: disable-msg=E1101
+        #pylint: disable-msg=W0142
         queryset = Fusion.objects.filter(**myargs) 
         
         if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
@@ -67,7 +79,7 @@ class FusionListView(ListView):
             
         return super(FusionListView, self).get(request, *args, **kwargs)
     
-class ImageListView(ListView):
+class ImageListView(SearchListView):
     def get(self, request, *args, **kwargs):
         myargs = {}
         myargs['type__canbethen'] = True
@@ -76,6 +88,7 @@ class ImageListView(ListView):
         if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
             myargs['description__icontains'] = request.GET['keyword']
 
+        #pylint: disable-msg=W0142
         queryset = Image.objects.filter(**myargs) 
         
         if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
@@ -122,26 +135,27 @@ def FusionNew(request, thenid):
         myargs['text'] = request.GET['keyword']
     
     f = setupFlickr()
+    #pylint: disable-msg=W0142
     results = f.photos_search(**myargs)
 
     photosnode = results.find('photos')                
     num_pages = int(photosnode.attrib['pages'])
     page = int(photosnode.attrib['page'])
     photos = photosnode.findall('photo')
-
-    paramslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
     
     return render_to_response('fusion/fusion_new.html', {
         'photos': photos, 'num_pages': num_pages, 'page': page, 'thenid': thenid, 'thenimg': thenimg,
-        'searchparams': paramslambda(request.GET), 'flickrgroup': settings.FLICKR_GROUP_ID,
+        'searchparams': searchparamslambda(request.GET), 'flickrgroup': settings.FLICKR_GROUP_ID,
         },
         context_instance=RequestContext(request))
 
 class FusionCreateView(CreateView):
-    
+
+    @login_required    
     def get_form(self, *args, **kwargs):
         fusion = Fusion()
         fusion.then = Image.objects.get(id=self.kwargs.get('thenid'))
+        #pylint: disable-msg=E1101
         try:
             now = Image.objects.get(sourcesystemid=self.kwargs.get('flickrid'))
         except Image.DoesNotExist:

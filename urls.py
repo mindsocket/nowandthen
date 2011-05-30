@@ -7,11 +7,9 @@ from apps.fusion.models import Fusion, FusionForm, Image
 from apps.fusion.views import FusionNew, FusionUpdateView, FusionListView,\
     ImageListView, FusionCreateView
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
-from django.views.generic.base import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from voting.views import vote_on_object
+from voting.models import Vote
 admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
@@ -23,6 +21,10 @@ handler500 = "pinax.views.server_error"
 urlpatterns = patterns("",
     url(r"^$", direct_to_template, {
         "template": "homepage.html",
+        "extra_context": {
+            "latest_fusions": lambda: Fusion.objects.all().order_by('-timestamp')[:10], #IGNORE:E1101
+            "top_fusions": lambda: Vote.objects.get_top(Fusion),
+        },
     }, name="home"),
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
@@ -34,6 +36,7 @@ urlpatterns = patterns("",
     url(r"^announcements/", include("announcements.urls")),
 )
 
+#pylint: disable-msg=E1120
 urlpatterns += patterns('',
     url(r'^fusions$', FusionListView.as_view(paginate_by=20), name='fusions'),
     url(r'^images$',  ImageListView.as_view(paginate_by=20), name='images'),

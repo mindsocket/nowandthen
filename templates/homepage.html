@@ -12,18 +12,41 @@
 
 {% block likehref %}http://www.facebook.com/pages/Now-and-Then-Historical-Photo-Mashups/204133629621406{% endblock %}
 
+{% block extra_body %}
+{% include "cycle.html" %}
+{% endblock %}
+
 {% block body %}
     
     <h1>{% trans "Welcome to Now and Then" %}</h1>
 
-	{% include "intro.html" %}
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-intro">Introduction</a></li>
+			<li><a href="#tabs-latest">Latest Fusions</a></li>
+			<li><a href="#tabs-top">Top Fusions</a></li>
+		</ul>
+		<div id="tabs-intro">{% include "intro.html" %}</div>
+		<div id="tabs-latest">
+			<table id="latestfusions" class="listtable">
+				{% for fusion in latest_fusions %}
+				    {% cycle '<tr>' '' '' '' '' %}
+					{% include "fusion/fusion_cell.html" with fusion=fusion %}
+				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+				{% endfor %}
+			</table>
+		</div>
+		<div id="tabs-top">
+			<table id="topfusions" class="listtable">
+				{% for fusion in top_fusions %}
+				    {% cycle '<tr>' '' '' '' '' %}
+					{% include "fusion/fusion_cell.html" with fusion=fusion.0 %}
+				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+				{% endfor %}
+			</table>
+		</div>
+	</div>
 
-	<div id="latest_fusions">
-		<h2>Latest Fusions</h2>
-	</div>
-	<div id="top_fusions">
-		<h2>Top Fusions</h2>
-	</div>
 	<div id="cloud_container">
 		<div id="fusion_cloud_container">
 		{% include "fusion/fusion_tag_cloud.html" %}

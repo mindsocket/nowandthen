@@ -13,10 +13,11 @@
 {% endblock %}
 
 {% block body %}
-{% include "vote_widget.html" with object=image type="image" %}
-
-{% include "fusion/image_info.html" with image=image %}
-<div class="viewimage">
-	{% thumbnail image.imageurl "900x600" %}
-</div>
+	<div class="source"> 
+		{% include "vote_widget.html" with object=image type="image" %}
+		{% include "fusion/image_info.html" with image=image %}
+		<div class="viewimage">
+			{% thumbnail image.imageurl "900x600" %}
+		</div>
+	</div>
 {% endblock %}

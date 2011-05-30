@@ -1,7 +1,7 @@
 from nltk.corpus import stopwords
 from nltk.tokenize import WordPunctTokenizer
-from nltk.collocations import BigramCollocationFinder
-from nltk.metrics import BigramAssocMeasures
+#from nltk.collocations import BigramCollocationFinder
+#from nltk.metrics import BigramAssocMeasures
 
 mystopwords = []
 mystopwords += stopwords.words('english')

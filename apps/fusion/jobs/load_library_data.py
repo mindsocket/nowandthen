@@ -3,7 +3,7 @@ from django.conf import settings
 import csv, codecs
 import os
 from apps.fusion.tokenizer import extract_words
-from apps.fusion.models import Image, ImageType, Fusion
+from apps.fusion.models import Image, ImageType
 from django.db import IntegrityError
 
 class UTF8Recoder:
@@ -41,24 +41,27 @@ class Job(BaseJob):
 
     def execute(self):
         Image.objects.filter(type__typename='SYDpre1885').delete()
-        f = open(os.path.join(settings.DATA_ROOT, 'NSW', 'sydney-pictures.csv'), 'rb')
-        reader = UnicodeReader(f, dialect='excel', encoding='latin1')
+        datafile = open(os.path.join(settings.DATA_ROOT, 'NSW', 'sydney-pictures.csv'), 'rb')
+        reader = UnicodeReader(datafile, dialect='excel', encoding='latin1')
 
+        #pylint: disable-msg=W0105
         """itemid,title,caption,creator,albumnumber,dateofwork,collectionitemlink,digitalitemlink,digitalordernumber,thumbnaillink,highreslink,zoomablelink,albumorder"""
         """412069,"Sydney - photographs of streets, public buildings, views in the Harbour, suburbs etc., chiefly pre 1885","The City Bank [corner of King & George Streets, Sydney, ca. 1870s]",NULL,412050,[ca. 1870s],http://acms.sl.nsw.gov.au/item/itemdetailpaged.aspx?itemid=412050,http://acms.sl.nsw.gov.au/item/itemdetailpaged.aspx?itemid=412069,a089002,http://acms.sl.nsw.gov.au/_DAMt/image/18/122/a089002t.jpg,http://acms.sl.nsw.gov.au/_DAMx/image/18/122/a089002h.jpg,NULL,1"""
         reader.next()
 #        lastimage = None
+        #pylint: disable-msg=E1101
         imagetype = ImageType.objects.get(typename='SYDpre1885')
         for row in reader:
-            print(row)
+#            print(row)
             try:
+                #pylint: disable-msg=W0612
                 image, created = Image.objects.get_or_create(type=imagetype, 
                                         imageurl=row[10], thumburl=row[9], infourl=row[7],
                                         description=row[2], sourcesystemid=row[8],
                                         creator=row[3][:32], dateofwork=row[5][:32])
             
                 image.tags = ",".join(extract_words(row[2]))
-                print image.tags
+#                print image.tags
                 image.save()
 #                if image.id > 1 and image.id < 10:
 #                    Fusion.objects.get_or_create(then=lastimage, now=image, user_id=1, description="test data")

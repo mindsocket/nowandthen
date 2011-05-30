@@ -1,6 +1,4 @@
 from django.db import models
-from datetime import datetime
-from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from tokenizer import extract_words
 from django.conf import settings
@@ -13,6 +11,7 @@ import os
 from convert.base import MediaFile
 import PIL
 from tagging.models import Tag
+from datetime import datetime
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -36,6 +35,7 @@ class ImageType(models.Model):
 class ImageManager(models.Manager):
     def imageFromFlickrPhoto(self, photonode):
         image = Image()
+        #pylint: disable-msg=E1101
         image.type = ImageType.objects.get(typename='flickr')
         urlbase = "http://farm%s.static.flickr.com/%s/%s_%s" % ( 
             photonode.attrib['farm'],
@@ -131,13 +131,16 @@ class Fusion(models.Model):
     flagged = models.BooleanField(default=False)
     thenfile = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'fusions'), blank=True, null=True)
     nowfile = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'fusions'), blank=True, null=True)
-    
+    timestamp = models.DateTimeField(default=datetime.now)
+        
     def __unicode__(self):
         return self.description
 
     def align(self):
+        #pylint: disable-msg=E1101
         aligner = ImageAligner(self)
-        thenfile, nowfile = aligner.align(self.aligned_filename())
+        #thenfile, nowfile = 
+        aligner.align(self.aligned_filename())
         self.thenfile = 'fusions/' + str(self.id) + '_then.jpg'
         self.nowfile = 'fusions/' + str(self.id) + '_now.jpg'
     
@@ -145,17 +148,19 @@ class Fusion(models.Model):
         return split_pointstring(self.points)
     
     def aligned_filename(self):
+        #pylint: disable-msg=E1101
         return os.path.join('fusions', str(self.id))
     
     def get_absolute_url(self):
+        #pylint: disable-msg=E1101
         return "/fusion/edit/%i/" % self.id
     
 class FusionForm(ModelForm):
     
-    class Meta:
+    class Meta: #IGNORE:W0232
         model = Fusion
         
-        fields = ('points', 'cropthen', 'publish', 'description')
+        fields = ('points', 'cropthen', 'publish')
         widgets = {
             'points': HiddenInput,
             'cropthen': HiddenInput,

@@ -1,10 +1,14 @@
 {% load voting_tags %}
 {% score_for_object object as score %}
 <div class="votecell votes">
+	{% if user.is_authenticated %}
     <input type="hidden" name="type" value="{{ type }}">
     <input type="hidden" name="object_id" value="{{ object.id }}">
 	<input type="hidden" name="csrf_token" value="{% with csrf_token as csrf_token_clean %}{{ csrf_token_clean }}{% endwith %}">
     <a class="vote-up-off vote" title="Vote this {{ type }} up (click again to undo)">up vote</a>
     <span class="vote-count-post" id="score">{{ score.score }}</span>
     <a class="vote-down-off vote" title="Vote this {{ type }} down (click again to undo)">down vote</a>
+	{% else %}
+	Please <a href="{% url acct_login %}">log in</a> or <a href="{% url acct_login %}">sign up</a> to vote on this {{ type }} 
+	{% endif %}
 </div>
