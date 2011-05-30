@@ -321,7 +321,10 @@ Crossfade viewer
 		height: 460px;
 		overflow: scroll;
 		display: inline-block;
+		position:relative;
 	}
+
+	.edit_wrapper .ui-icon {background-image: url(humanity/images/ui-icons_cd0a0a_256x240.png); }
 
 	#control_points_container {
 		width: 160px;

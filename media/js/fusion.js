@@ -60,9 +60,6 @@ $(function(){
         $('#control_points').append('<option value="?,?,?,?" selected>?, ? -- ?, ?</option>');
     }
 	add_point();
-//    $('#add_point').click(function() {
-//        add_point();
-//    });
 
     $('#delete_points').click(function() {
         $('#control_points option:selected').remove();
@@ -77,10 +74,13 @@ $(function(){
             alert("Multiple points selected, please choose 1 point and try again");
             return;
         }
+		var index = $('#control_points')[0].selectedIndex;
         var offset = $(this).offset();
         clickx = e.clientX - offset.left;
         clicky = e.clientY - offset.top;
         current_values = current_point.attr('value').split(',');
+		$(this).parent().find('.point-'+index).remove();
+		$(this).parent().append('<span class="ui-icon ui-icon-arrowthick-1-nw point-' + index + '" style="position:absolute;left:' + clickx + 'px;top:' + clicky + 'px;"></span>');
         if ($(this).hasClass('then_edit')) {
             current_values[0] = clickx;
             current_values[1] = clicky;
