@@ -288,7 +288,7 @@ p.what_next {
 Crossfade viewer
 */
 
-	#thennow .section {
+	#thennow .section, #thennowfade {
 		margin-top: 2em;
 		position: relative;
 	}
@@ -306,8 +306,8 @@ Crossfade viewer
 
 	.help { 
 		position: absolute;
-		bottom: 20px;
-		right:  70px;
+		top: 10px;
+		left: 10px;
 		font: bold 20px/1em Helvetica, Arial, sans-serif;
 		color: #FFF;
 		opacity: 0.7;

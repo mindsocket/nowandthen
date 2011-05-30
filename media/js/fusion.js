@@ -41,6 +41,7 @@ $(function(){
 	});
 
 	$(".thennowfade").each(function(){
+		$(this).append("<div class='help'>Hover over the image (left to right) to fade between then/now</div>");
 
 		$(this).mousemove(function(event){
 			// Need to know the X position of the parent as people may have their browsers set to any width
