@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tokenizer import extract_words
+from apps.fusion.tokenizer import extract_words
 from django.conf import settings
 import subprocess
 import tagging
@@ -58,9 +58,7 @@ class Image(models.Model):
     imageurl = models.URLField(max_length=255, verify_exists=False, unique=True)
     thumburl = models.URLField(max_length=255, verify_exists=False, blank=True)
     infourl = models.URLField(max_length=255, verify_exists=False, blank=True)
-    #uploadedimage = models.ImageField(upload_to='uploads')
     description = models.CharField(max_length=150)
-#    votecount = models.PositiveIntegerField(default=0, editable=False)
     sourcesystemid = models.CharField(max_length=32, editable=False)
     creator = models.CharField(max_length=32)
     dateofwork = models.CharField(max_length=32)
@@ -92,6 +90,8 @@ class ImageAligner:
         return pto_string
 
     def align(self, fileprefix, outpath=settings.MEDIA_ROOT):
+        import logging
+        logging.info("Aligning fusion " + self.fusion.id)
         pto_string = self.get_pto_string()
         fd, pto_file = tempfile.mkstemp(suffix='.pto')
         
@@ -160,7 +160,7 @@ class FusionForm(ModelForm):
     class Meta: #IGNORE:W0232
         model = Fusion
         
-        fields = ('points', 'cropthen', 'publish')
+        fields = ('points', 'cropthen')
         widgets = {
             'points': HiddenInput,
             'cropthen': HiddenInput,
@@ -168,6 +168,9 @@ class FusionForm(ModelForm):
 
     def save(self, *args, **kwargs):
         fusion = super(FusionForm, self).save(*args, **kwargs)
+        import logging
+        logging.info("Saved fusion " + fusion.id + " by " + fusion.user.username)
+
         if len(fusion.points) > 4:
             fusion.align()
         

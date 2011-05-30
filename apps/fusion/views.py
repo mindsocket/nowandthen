@@ -99,9 +99,9 @@ class ImageListView(SearchListView):
         return super(ImageListView, self).get(request, *args, **kwargs)
     
 def setupFlickr():
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
-    f.cache = cache
-    return f
+    flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
+    flickr.cache = cache
+    return flickr
 
 @login_required
 def FusionNew(request, thenid):
@@ -134,9 +134,9 @@ def FusionNew(request, thenid):
     if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
         myargs['text'] = request.GET['keyword']
     
-    f = setupFlickr()
+    flickr = setupFlickr()
     #pylint: disable-msg=W0142
-    results = f.photos_search(**myargs)
+    results = flickr.photos_search(**myargs)
 
     photosnode = results.find('photos')                
     num_pages = int(photosnode.attrib['pages'])

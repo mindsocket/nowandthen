@@ -326,6 +326,7 @@ Crossfade viewer
 	#control_points_container {
 		width: 160px;
 		float: left;
+		margin-right: 20px;
 	}
 
 	#control_points {
