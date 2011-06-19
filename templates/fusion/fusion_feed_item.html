@@ -1,0 +1,16 @@
+{% load convert_tags %}
+{% if fusion.thenfile and fusion.nowfile %}
+	{% thumbnail fusion.thenfile '450x300' as thenimg %}
+	{% thumbnail fusion.nowfile '450x300' as nowimg %}
+{% else %}
+	{% thumbnail fusion.then.imageurl '450x300' as thenimg %}
+	{% thumbnail fusion.now.imageurl '450x300' as nowimg %}
+{% endif %}
+<div>
+	<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>
+	<img src="{{ absolute_uri }}{{ thenimg.url }}" class="thenfade" alt="{{ fusion.then.description }}" width="450" height="300" />
+</div>
+<div> 
+	<div id="nowdesc"><h2>Now</h2>{% include "fusion/image_info.html" with image=fusion.now %}</div>
+	<img src="{{ absolute_uri }}{{ nowimg.url }}" class="nowfade" alt="{{ fusion.now.description }}" width="450" height="300" /> 
+</div>

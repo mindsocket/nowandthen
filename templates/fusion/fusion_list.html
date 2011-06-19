@@ -13,6 +13,12 @@
 {% include "cycle.html" %}
 {% endblock %}
 
+{% block extra_head %}
+<link rel="alternate" type="application/rss+xml" title="Fusion feed" href="{% url fusion_feed %}?{{ searchparams }}">
+
+fusions/rss
+{% endblock %}
+
 {% block body %}
 <h2>Fusions</h2>
 Tags: {% include "fusion/fusion_tag_cloud.html" %}
@@ -47,5 +53,10 @@ Keyword: <input name="keyword" value="{{ request.GET.keyword }}" />
         <a href="?{{ searchparams }}&page=last">last</a>
     </span>
 </div>
+<div id="feed-link">
+    <div id="feed-link-text"><a href="{% url fusion_feed %}?{{ searchparams }}" title="Fusion feed"><span class="feed-icon"></span>Fusion feed</a></div>
 </div>
+</div>
+
+
 {% endblock %}

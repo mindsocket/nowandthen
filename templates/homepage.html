@@ -25,6 +25,7 @@
 			<li><a href="#tabs-intro">Introduction</a></li>
 			<li><a href="#tabs-latest">Latest Fusions</a></li>
 			<li><a href="#tabs-top">Top Fusions</a></li>
+			<li><a href="#tabs-topunfused">Top Historical Images</a></li>
 		</ul>
 		<div id="tabs-intro">{% include "intro.html" %}</div>
 		<div id="tabs-latest">
@@ -35,12 +36,24 @@
 				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
 				{% endfor %}
 			</table>
+			<div id="feed-link">
+			    <div id="feed-link-text"><a href="{% url fusion_feed %}" title="Fusion feed"><span class="feed-icon"></span>Fusion feed</a></div>
+			</div>
 		</div>
 		<div id="tabs-top">
 			<table id="topfusions" class="listtable">
 				{% for fusion in top_fusions %}
 				    {% cycle '<tr>' '' '' '' '' %}
 					{% include "fusion/fusion_cell.html" with fusion=fusion.0 %}
+				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+				{% endfor %}
+			</table>
+		</div>
+		<div id="tabs-topunfused">
+			<table id="topunfused" class="listtable">
+				{% for image in top_unfused %}
+				    {% cycle '<tr>' '' '' '' '' %}
+					{% include "fusion/image_cell.html" with image=image %}
 				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
 				{% endfor %}
 			</table>

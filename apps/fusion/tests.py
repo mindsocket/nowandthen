@@ -22,7 +22,8 @@ def mockfusion():
 
 class TestFusion(TestCase):
     """Basic tests for the fusion class"""
-    
+    fixtures = ['tests.json', 'initial_data.json']
+        
     def test_point_list(self):
         """Tests that point_list returns a valid list of lists"""
         fusion = Fusion()
@@ -52,3 +53,19 @@ class TestFusion(TestCase):
         aligner = ImageAligner(fusion)
         print(aligner.get_pto_string())
 
+    def test_homepage(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_fusion_search(self):
+        response = self.client.get('/fusions')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_fusion_feed(self):
+        response = self.client.get('/fusions/rss')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_image_search(self):
+        response = self.client.get('/images')
+        self.assertEqual(response.status_code, 200)
+        

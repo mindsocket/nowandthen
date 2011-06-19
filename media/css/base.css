@@ -359,15 +359,15 @@ Crossfade viewer
 .vote-up,.vote-down{display:block;margin:0 auto;}
 .vote{text-align:center;}
 .vote span{display:block;color:#808185;font-weight:bold;}
-.vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on{background-image:url(../img/sprites.png);background-repeat:no-repeat;overflow:hidden;}
+.vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on,.feed-icon{background-image:url(../img/sprites.png);background-repeat:no-repeat;overflow:hidden;}
 .vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on{background-position:0px -35px;display:block;margin:0 auto;width:41px;height:25px;}
 .vote-up-off,.vote-down-off,.vote-accepted-off,.star-off,.comment-up-off,.flag-off{cursor:pointer;}
 .vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on{text-indent:-9999em;font-size:1px;}
 .vote-up-on{background-position:0px 0px;}
 .vote-down-off{background-position:0px -70px;}
 .vote-down-on{background-position:0px -100px;}
-
-
+.feed-icon{width:18px; height:14px; background-position:0px -125px;display:inline-block;}
+#feed-link{margin-top:1em;}
 .slideshow { height: 200px; width: 200px; margin: auto }
 .slideshow img { padding: 15px; border: 1px solid #ccc; background-color: #eee; }
 	

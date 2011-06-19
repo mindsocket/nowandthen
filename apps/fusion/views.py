@@ -10,6 +10,9 @@ from django.core import exceptions
 from apps.fusion.models import Fusion, Image
 from django.views.generic.list import ListView
 from tagging.models import TaggedItem
+from django.contrib.syndication.views import Feed
+from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
 
@@ -38,6 +41,22 @@ class FusionUpdateView(OwnedUpdateView):
 #        self.object.align()
 #        return super(FusionUpdateView, self).post(request, *args, **kwargs)
 
+def getFusionQuerySet(request):
+    myargs = {}
+    myargs['publish'] = True
+    myargs['hide'] = False
+    if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
+        myargs['description__icontains'] = request.GET['keyword']
+    if 'justmine' in request.GET:
+        myargs['user__id'] = request.user.id
+#pylint: disable-msg=E1101
+#pylint: disable-msg=W0142
+    queryset = Fusion.objects.filter(**myargs)
+    if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
+        queryset = TaggedItem.objects.get_by_model(queryset, request.GET['tag'])
+        
+    return queryset
+
 class SearchListView(ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -48,27 +67,34 @@ class SearchListView(ListView):
     
 class FusionListView(SearchListView):
     def get(self, request, *args, **kwargs):
-        myargs = {}
-        myargs['publish'] = True
-        myargs['hide'] = False
-
-        if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
-            myargs['description__icontains'] = request.GET['keyword']
-
-
-        if 'justmine' in request.GET:
-            myargs['user__id'] = request.user.id
-
-        #pylint: disable-msg=E1101
-        #pylint: disable-msg=W0142
-        queryset = Fusion.objects.filter(**myargs) 
-        
-        if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
-            queryset = TaggedItem.objects.get_by_model(queryset, request.GET['tag'])
-
-        self.queryset = queryset
+        self.queryset = getFusionQuerySet(request)
             
         return super(FusionListView, self).get(request, *args, **kwargs)
+
+class LatestFusionsFeed(Feed):
+    title = "Now and Then Latest Fusions"
+    link = "/fusions/"
+    description = "Latest fusions added to Now and Then"
+
+    def get_object(self, request):
+        # This ain't pretty on 2 counts:
+        # We need the request to build an absolute URL.  This is guaranteed to be called before item_description where it's used
+        self.absolute_uri = request.build_absolute_uri('/')[:-1]
+        # The request is where all of the fusion search params are, so it become the "object" used by the items method
+        return request 
+    
+    def items(self, obj):
+        return getFusionQuerySet(obj).order_by('-timestamp')[:10]
+
+    def item_title(self, item):
+        return "A fusion by %s" % item.user
+
+    def item_description(self, item):
+        rendered = render_to_string('fusion/fusion_feed_item.html', { 'fusion': item, 'absolute_uri': self.absolute_uri })
+        return rendered
+    
+    def item_link(self, item):
+        return reverse('fusion_detail', args=[item.id])
     
 class ImageListView(SearchListView):
     def get(self, request, *args, **kwargs):
