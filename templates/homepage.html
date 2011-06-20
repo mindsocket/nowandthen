@@ -12,6 +12,10 @@
 
 {% block likehref %}http://www.facebook.com/pages/Now-and-Then-Historical-Photo-Mashups/204133629621406{% endblock %}
 
+{% block extra_head %}
+<link rel="alternate" type="application/rss+xml" title="Fusion feed" href="{% url fusion_feed %}">
+{% endblock %}
+
 {% block extra_body %}
 {% include "cycle.html" %}
 {% endblock %}
@@ -25,7 +29,7 @@
 			<li><a href="#tabs-intro">Introduction</a></li>
 			<li><a href="#tabs-latest">Latest Fusions</a></li>
 			<li><a href="#tabs-top">Top Fusions</a></li>
-			<li><a href="#tabs-topunfused">Top Historical Images</a></li>
+			<li><a href="#tabs-topunfused">Top Unfused Historical Images</a></li>
 		</ul>
 		<div id="tabs-intro">{% include "intro.html" %}</div>
 		<div id="tabs-latest">
@@ -50,6 +54,7 @@
 			</table>
 		</div>
 		<div id="tabs-topunfused">
+			These images are the top voted historical images that aren't yet part of a fusion...
 			<table id="topunfused" class="listtable">
 				{% for image in top_unfused %}
 				    {% cycle '<tr>' '' '' '' '' %}
