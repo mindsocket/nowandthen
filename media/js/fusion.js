@@ -53,6 +53,7 @@ $(function(){
 	});	
 });
 
+var marker_icon = 'ui-icon-arrowthick-1-nw';
 	
 $(function(){
     function add_point() {
@@ -61,8 +62,30 @@ $(function(){
     }
 	add_point();
 
+	function update_points_input() {
+		$('#fusion_form input[name="points"]').attr('value', $('#control_points option').not('[value*="?"]').map(function() {
+  				return $(this).attr('value');
+			}).get().join(','));
+
+	}
+	function redraw_markers() {
+		$('.edit_wrapper span.' + marker_icon).remove();
+		var index=0;
+		$('#control_points option').each(function() {
+			current_values = $(this).attr('value').split(',');
+			if (current_values[0] != '?') {
+				$('.then_edit').append('<span class="ui-icon ' + marker_icon + ' point-' + index + '" style="position:absolute;left:' + current_values[0] + 'px;top:' + current_values[1] + 'px;"></span>');
+			}
+			if (current_values[2] != '?') {
+				$('.now_edit').append('<span class="ui-icon ' + marker_icon + ' point-' + index + '" style="position:absolute;left:' + current_values[2] + 'px;top:' + current_values[3] + 'px;"></span>');
+			}
+		})
+	}
+	
     $('#delete_points').click(function() {
         $('#control_points option:selected').remove();
+		update_points_input();
+		redraw_markers();
     });
     
     $('.control_pointable').click(function(e) {
@@ -80,7 +103,7 @@ $(function(){
         clicky = e.clientY - offset.top;
         current_values = current_point.attr('value').split(',');
 		$(this).parent().find('.point-'+index).remove();
-		$(this).parent().append('<span class="ui-icon ui-icon-arrowthick-1-nw point-' + index + '" style="position:absolute;left:' + clickx + 'px;top:' + clicky + 'px;"></span>');
+		$(this).parent().append('<span class="ui-icon ' + marker_icon + ' point-' + index + '" style="position:absolute;left:' + clickx + 'px;top:' + clicky + 'px;"></span>');
         if ($(this).hasClass('then_edit')) {
             current_values[0] = clickx;
             current_values[1] = clicky;
@@ -91,9 +114,7 @@ $(function(){
         current_point.attr('value', current_values.join(','));
         current_point.html(current_values[0] + ', ' + current_values[1] + ' -- ' + current_values[2] + ', ' + current_values[3]);
 		if (current_values[0] != '?' && current_values[2] != '?') {
-			$('#fusion_form input[name="points"]').attr('value', $('#control_points option').not('[value*="?"]').map(function() {
-  				return $(this).attr('value');
-			}).get().join(','));
+			update_points_input();
 			if ($('#control_points option:last[value*="?"]').size() == 0) {
 				add_point();
 			}
