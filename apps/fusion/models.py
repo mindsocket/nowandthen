@@ -109,7 +109,7 @@ class ImageAligner:
 def split_pointstring(points, howmany=4):
     if len(points) < howmany:
         return []
-    pointlist = [int(float(point)) for point in points.split(',')]
+    pointlist = [int(point) for point in points.split(',')]
     return [pointlist[start:start + howmany] for start in range(0, len(points.split(',')), howmany)]
 
 class Fusion(models.Model):

@@ -99,8 +99,8 @@ $(function(){
         }
 		var index = $('#control_points')[0].selectedIndex;
         var offset = $(this).offset();
-        clickx = e.clientX - offset.left;
-        clicky = e.clientY - offset.top;
+        clickx = Math.round(e.clientX - offset.left);
+        clicky = Math.round(e.clientY - offset.top);
         current_values = current_point.attr('value').split(',');
 		$(this).parent().find('.point-'+index).remove();
 		$(this).parent().append('<span class="ui-icon ' + marker_icon + ' point-' + index + '" style="position:absolute;left:' + clickx + 'px;top:' + clicky + 'px;"></span>');
