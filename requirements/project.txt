@@ -20,5 +20,5 @@ django-tagging
 django-voting
 PyYAML
 nltk
-git+https://github.com/shelfworthy/minidetector.git
+git+https://github.com/mindsocket/minidetector.git
 geopy
