@@ -346,6 +346,46 @@ Crossfade viewer
 	width:900px;
 }
 
+@media only screen and (min-width: 320px) {
+	.source {
+		width: 320px;
+	}
+    .viewimage img{
+        width: 320px;
+		height: auto;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+	.source {
+		width: 480px;
+	}
+    .viewimage img{
+        width: 480px;
+		height: auto;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+	.source {
+		width: 768px;
+	}
+    .viewimage img{
+        width: 768px;
+		height: auto;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+	.source {
+		width: 900px;
+	}
+    .viewimage img{
+        width: 900px;
+		height: auto;
+    }
+}
+
 #image_cloud_container, #fusion_cloud_container, #thendesc, #nowdesc {
 	width:45%;
 	float:left;

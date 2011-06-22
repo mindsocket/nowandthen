@@ -94,7 +94,8 @@ SECRET_KEY = "(ca%r6v&9d43_ot&haj0^v&6yis_7q)p$7=%5@$#o7ks!8gf_7"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = [
-    "django.template.loaders.filesystem.load_template_source",
+    "django.template.loaders.filesystem.Loader",
+    #"django.template.loaders.filesystem.load_template_source",
     "django.template.loaders.app_directories.load_template_source",
 ]
 
@@ -107,6 +108,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
+    "minidetector.Middleware",
 #    "pinax.middleware.security.HideSensistiveFieldsMiddleware",
 #    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
@@ -119,7 +121,8 @@ TEMPLATE_DIRS = [
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.core.context_processors.auth",
+    "django.contrib.auth.context_processors.auth",
+    #"django.core.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",

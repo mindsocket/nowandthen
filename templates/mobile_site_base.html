@@ -23,14 +23,7 @@
 {% endblock %}
 {% block right_tabs %}
         {% block social_buttons %}
-		<span id="social_buttons">
-			<span style="position:relative; top:-4px;">
-		    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="{% block likehref %}{{ request.build_absolute_uri }}{% endblock %}" layout="box_count" show_faces="false" width="50" font=""></fb:like>
-		    </span>
-		    <span>
-		    <a href="http://twitter.com/share" class="twitter-share-button" data-url="{% block tweethref %}{{ request.build_absolute_uri }}{% endblock %}" data-count="vertical" data-via="mindsocket">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-		    </span>
-		</span>
+			{% include "social_buttons.html" %}
 		{% endblock %}
 {% comment %}
     {% if user.is_authenticated %}
@@ -45,7 +38,6 @@
 {% block footer %}
 <div class="legal">
     Now and Then &copy; 2011 Roger Barnes
-    - <a href="{% url about %}">{% trans "About" %}</a>
 </div>
 {% endblock %}
 

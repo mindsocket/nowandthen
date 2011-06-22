@@ -13,9 +13,24 @@ from tagging.models import TaggedItem
 from django.contrib.syndication.views import Feed
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
+from voting.models import Vote
+from django.views.generic.simple import direct_to_template
+from django.views.generic.detail import DetailView
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
 
+def send_to_mobile(request):
+    return settings.SEND_TO_MOBILE == "always" or (settings.SEND_TO_MOBILE == True and request.is_touch_device)
+
+def HomePage(request):
+    template = "mobile_homepage.html" if send_to_mobile(request) else "homepage.html"
+    return direct_to_template(request, template, extra_context={
+            "latest_fusions": lambda: Fusion.objects.all().order_by('-timestamp')[:10], #IGNORE:E1101
+            "top_fusions": lambda: Vote.objects.get_top(Fusion),
+            "top_unfused": lambda: [image for image, score in Vote.objects.get_top(Image, limit=100) if image.then.count() == 0][:10],
+            # TODO "my votes" get_for_user_in_bulk(Image.objects.all(), user)
+        })
+    
 class OwnedUpdateView(UpdateView):
     
     owner = None
@@ -95,6 +110,13 @@ class LatestFusionsFeed(Feed):
     
     def item_link(self, item):
         return reverse('fusion_detail', args=[item.id])
+
+class ImageDetailView(DetailView):
+    def get(self, request, *args, **kwargs):
+        if send_to_mobile(request):
+            self.template_name = 'fusion/mobile_image_detail.html'
+        return super(ImageDetailView, self).get(request, *args, **kwargs)
+
     
 class ImageListView(SearchListView):
     def get(self, request, *args, **kwargs):
@@ -112,6 +134,9 @@ class ImageListView(SearchListView):
             queryset = TaggedItem.objects.get_by_model(queryset, request.GET['tag'])
 
         self.queryset = queryset
+
+        if send_to_mobile(request):
+            self.template_name = 'fusion/mobile_image_list.html'
             
         return super(ImageListView, self).get(request, *args, **kwargs)
     
@@ -160,11 +185,10 @@ def FusionNew(request, thenid):
     page = int(photosnode.attrib['page'])
     photos = photosnode.findall('photo')
     
-    return render_to_response('fusion/fusion_new.html', {
+    return direct_to_template(request, 'fusion/fusion_new.html', extra_context={
         'photos': photos, 'num_pages': num_pages, 'page': page, 'thenid': thenid, 'thenimg': thenimg,
         'searchparams': searchparamslambda(request.GET), 'flickrgroup': settings.FLICKR_GROUP_ID,
-        },
-        context_instance=RequestContext(request))
+        })
 
 class FusionCreateView(CreateView):
 

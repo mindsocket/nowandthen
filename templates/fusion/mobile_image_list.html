@@ -14,9 +14,13 @@
 <h2>Historical Images</h2>
 {% comment %}{% include "fusion/image_tag_cloud.html" %}{% endcomment %}
 <form>
-Tag: <input name="tag" value="{{ request.GET.tag }}" />
-Description: <input name="keyword" value="{{ request.GET.keyword }}" />
-<input type="submit" />
+<div data-role="fieldcontain">
+<label for="tag">Tag:</label> <input name="tag" value="{{ request.GET.tag }}" />
+</div>
+<div data-role="fieldcontain">
+<label for="keyword">Description:</label> <input name="keyword" value="{{ request.GET.keyword }}" />
+</div>
+<button type="submit">Search</button>
 </form>
 <table id="imagelist" class="listtable">
 {% for image in image_list %}

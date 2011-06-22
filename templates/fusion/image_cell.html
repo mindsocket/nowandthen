@@ -1,6 +1,6 @@
 {% load convert_tags %}
 <td>
-    <a href="{% url image_detail image.id %}{{ image.description|slugify }}">{% thumbnail image.thumburl "200x200" %}</a><br/>
+    <a href="{% url image_detail image.id %}{{ image.description|slugify }}" data-rel="dialog">{% thumbnail image.thumburl "200x200" %}</a><br/>
     {{ image.description }}
 {% if user.is_superuser %}
   <a href="/admin/fusion/image/{{ image.id }}/" target="_blank">admin</a> 

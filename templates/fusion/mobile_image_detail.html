@@ -1,0 +1,22 @@
+{% extends "mobile_site_base.html" %}
+
+{% load convert_tags %}
+{% load i18n %}
+
+{% block head_title %}{% trans "View Image" %}{% endblock %}
+
+{% block subnav %}
+	<ul>
+		<li><a href="{% url fusion_new image.id %}?init=true">Create a new fusion using this image</a></li>
+	</ul>
+{% endblock %}
+
+{% block body %}
+	<div class="source"> 
+		{% include "vote_widget.html" with object=image type="image" %}
+		{% include "fusion/image_info.html" with image=image %}
+		<div class="viewimage">
+			{% thumbnail image.imageurl "900x600" %}
+		</div>
+	</div>
+{% endblock %}
