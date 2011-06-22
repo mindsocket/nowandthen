@@ -23,7 +23,7 @@
 {"pk": 999, "model": "fusion.image", "fields": {"imageurl": "http://nowandthen.mindsocket.com.au/media/cache/fd/fd86c45beed791eda0b5fc50ccbbab71.jpg"}},
 {"pk": 998, "model": "fusion.image", "fields": {"imageurl": "http://nowandthen.mindsocket.com.au/media/cache/31/31ec06ffad82a92abd648e46fab54a44.jpg"}},
 {"pk": 1, "model": "fusion.fusion", "fields": {"then": 873, "thenfile": null, "hide": false, "description": "", "timestamp": "2011-05-30 21:44:08", "nowfile": null, "publish": true, "cropthen": "", "user": 1, "now": 1108, "flagged": false, "points": ""}},
-{"pk": 2, "model": "fusion.fusion", "fields": {"then": 105, "thenfile": "fusions/2_then.jpg", "hide": false, "description": "", "timestamp": "2011-05-30 21:44:08", "nowfile": "fusions/2_now.jpg", "publish": true, "cropthen": "", "user": 1, "now": 54, "flagged": false, "points": "249,691,248,424"}},
+{"pk": 2, "model": "fusion.fusion", "fields": {"then": 105, "thenfile": null, "hide": false, "description": "", "timestamp": "2011-05-30 21:44:08", "nowfile": null, "publish": true, "cropthen": "", "user": 1, "now": 54, "flagged": false, "points": "249,691,248,424"}},
 {"pk": 999, "model": "fusion.fusion", "fields": {"then": 998, "user": 1, "now": 999, "points": "0,0,0,0,100,100,150,150"}},
 {"pk": 1, "model": "auth.user", "fields": {"username": "testuser", "first_name": "", "last_name": "", "is_active": true, "is_superuser": true, "is_staff": true, "last_login": "2011-06-20 22:52:50", "groups": [], "user_permissions": [], "password": "nope", "email": "test@example.com", "date_joined": "2011-04-28 08:50:47"}}
 ]
