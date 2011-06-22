@@ -12,6 +12,7 @@ from convert.base import MediaFile
 import PIL
 from tagging.models import Tag
 from datetime import datetime
+import urllib
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -57,7 +58,9 @@ class Image(models.Model):
     creator = models.CharField(max_length=32)
     dateofwork = models.CharField(max_length=32)
     hide = models.BooleanField(default=False)
-
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+  
     def __unicode__(self):
         return self.description
 
@@ -171,7 +174,20 @@ class FusionForm(ModelForm):
         Tag.objects.update_tags(fusion, ','.join([tag.name for tag in fusion.then.tags] + extract_words(fusion.now.description))) 
         fusion.save()
         return fusion
-    
+
+def get_lat_long(location):
+    key = settings.GOOGLE_API_KEY
+    output = "csv"
+    location = urllib.quote_plus(location)
+    request = "http://maps.google.com/maps/geo?q=%s&output=%s&key=%s" % (location, output, key)
+    data = urllib.urlopen(request).read()
+    dlist = data.split(',')
+    if dlist[0] == '200':
+        # TODO return accuracy too
+        return "%s, %s" % (dlist[2], dlist[3])
+    else:
+        return ''
+        
 try:        
     tagging.register(ImageType)
 except tagging.AlreadyRegistered:
