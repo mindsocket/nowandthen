@@ -2,23 +2,8 @@ from django.test import TestCase
 from apps.fusion.models import Fusion, Image, ImageAligner
 import unittest2 as unittest
 
-def mocknowimage():
-    image = Image()
-    image.imageurl = "http://nowandthen.mindsocket.com.au/media/cache/fd/fd86c45beed791eda0b5fc50ccbbab71.jpg"
-    return image
-
-def mockthenimage():
-    image = Image()
-    image.imageurl = "http://nowandthen.mindsocket.com.au/media/cache/31/31ec06ffad82a92abd648e46fab54a44.jpg"
-    return image
-
 def mockfusion():
-    fusion = Fusion()
-    fusion.id = 999
-    fusion.now = mocknowimage()
-    fusion.then = mockthenimage()
-    fusion.points = "0,0,0,0,100,100,150,150"
-    return fusion
+    return Fusion.objects.get(id=999)
 
 class TestFusion(TestCase):
     """Basic tests for the fusion class"""
@@ -69,3 +54,7 @@ class TestFusion(TestCase):
         response = self.client.get('/images')
         self.assertEqual(response.status_code, 200)
         
+    def test_mobile_image_search(self):
+        response = self.client.get('/mobile/images')
+        self.assertEqual(response.status_code, 200)
+                
