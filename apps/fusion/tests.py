@@ -1,5 +1,5 @@
 from django.test import TestCase
-from apps.fusion.models import Fusion, Image, ImageAligner
+from apps.fusion.models import Fusion, ImageAligner
 import unittest2 as unittest
 
 def mockfusion():
@@ -25,7 +25,7 @@ class TestFusion(TestCase):
         """Tests that the image aligner does something useful - ie aligns images"""
         fusion = mockfusion()
         aligner = ImageAligner(fusion)
-        aligner.align("test")
+        aligner.align("test", outpath='/tmp')
 
     def test_image_aligner_in_fusion(self):
         """Tests that the image aligner does something useful - ie aligns images"""
@@ -40,21 +40,18 @@ class TestFusion(TestCase):
 
     def test_homepage(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Welcome", status_code=200)
         
     def test_fusion_search(self):
         response = self.client.get('/fusions')
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Fusion List", status_code=200)
         
     def test_fusion_feed(self):
         response = self.client.get('/fusions/rss')
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Now and Then Latest Fusions", status_code=200)
         
     def test_image_search(self):
         response = self.client.get('/images')
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Image List", status_code=200)
         
-    def test_mobile_image_search(self):
-        response = self.client.get('/mobile/images')
-        self.assertEqual(response.status_code, 200)
                 
