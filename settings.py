@@ -14,6 +14,7 @@ PINAX_THEME = "default"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 CONVERT_DEBUG = DEBUG
+SEND_TO_MOBILE = True
 
 # tells Pinax to serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
