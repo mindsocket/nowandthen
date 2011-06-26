@@ -32,21 +32,24 @@
 <div id="thennow" class="clearboth">	
 	<div class="section">
 		{% if fusion.thenfile and fusion.nowfile %}
-			{% thumbnail fusion.thenfile '900x600' as thenimg %}
-			{% thumbnail fusion.nowfile '900x600' as nowimg %}
+			{% thumbnail fusion.thenfile '900x900' as thenimg %}
+			{% thumbnail fusion.nowfile '900x900' as nowimg %}
 		{% else %}
-			{% thumbnail fusion.then.imageurl '900x600' as thenimg %}
-			{% thumbnail fusion.now.imageurl '900x600' as nowimg %}
+			{% thumbnail fusion.then.imageurl '900x900' as thenimg %}
+			{% thumbnail fusion.now.imageurl '900x900' as nowimg %}
 		{% endif %}
 		<div class="thennowfade ">
-			<img src="{{ thenimg.url }}" class="thenfade" alt="{{ fusion.then.description }}" width="900" height="600" /> 
-			<img src="{{ nowimg.url }}" class="nowfade" alt="{{ fusion.now.description }}" width="900" height="600" /> 
+			<img src="{{ thenimg.url }}" class="thenfade" alt="{{ fusion.then.description }}" width="{{ thenimg.width }}" height="{{ thenimg.height }}" /> 
+			<img src="{{ nowimg.url }}" class="nowfade" alt="{{ fusion.now.description }}" width="{{ nowimg.width }}" height="{{ nowimg.height }}" /> 
 		</div>
+		<div style="height:{{ nowimg.height }}px;"></div>
 		{% comment %}<div class="thennow">
-			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="600" /> 
-			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="600" /> 
+			<img src="{{ thenimg.url }}" rel="then" alt="{{ fusion.then.description }}" width="900" height="900" /> 
+			<img src="{{ nowimg.url }}" rel="now" alt="{{ fusion.now.description }}" width="900" height="900" /> 
 		</div> {% endcomment %}
 	</div>
 </div>
+{% url fusion_detail fusion.id as short_url %}
+{% include "comment_widget.html" with url=short_url %}
 
 {% endblock %}
