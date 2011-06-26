@@ -27,7 +27,7 @@
 	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-intro">Introduction</a></li>
-			<li><a href="#tabs-latest">Latest Fusions</a></li>
+			<li><a href="{% url fusion_latest %}">Latest Fusions</a></li>
 			<li><a href="#tabs-top">Top Fusions</a></li>
 			<li><a href="#tabs-topunfused">Top Unfused Historical Images</a></li>
 		</ul>
@@ -36,18 +36,6 @@
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like-box href="http://www.facebook.com/pages/Now-and-Then-Historical-Photo-Mashups/204133629621406" width="292" show_faces="false" stream="true" header="true"></fb:like-box>    
 			</div>
 			{% include "intro.html" %}
-		</div>
-		<div id="tabs-latest">
-			<table id="latestfusions" class="listtable">
-				{% for fusion in latest_fusions %}
-				    {% cycle '<tr>' '' '' '' '' %}
-					{% include "fusion/fusion_cell.html" with fusion=fusion %}
-				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
-				{% endfor %}
-			</table>
-			<div id="feed-link">
-			    <div id="feed-link-text"><a href="{% url fusion_feed %}" title="Fusion feed"><span class="feed-icon"></span>Fusion feed</a></div>
-			</div>
 		</div>
 		<div id="tabs-top">
 			<table id="topfusions" class="listtable">
