@@ -1,12 +1,10 @@
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 import flickrapi
 from django.views.generic.edit import UpdateView, CreateView
-from django.core import exceptions
+from django.core import exceptions, serializers
 from apps.fusion.models import Fusion, Image
 from django.views.generic.list import ListView
 from tagging.models import TaggedItem
@@ -16,6 +14,8 @@ from django.core.urlresolvers import reverse
 from voting.models import Vote
 from django.views.generic.simple import direct_to_template
 from django.views.generic.detail import DetailView
+from django.http import HttpResponse
+from django.db.models.query_utils import Q
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
 
@@ -25,11 +25,18 @@ def send_to_mobile(request):
 def HomePage(request):
     template = "mobile_homepage.html" if send_to_mobile(request) else "homepage.html"
     return direct_to_template(request, template, extra_context={
-            "latest_fusions": lambda: Fusion.objects.all().order_by('-timestamp')[:10], #IGNORE:E1101
             "top_fusions": lambda: Vote.objects.get_top(Fusion),
             "top_unfused": lambda: [image for image, score in Vote.objects.get_top(Image, limit=100) if image.then.count() == 0][:10],
             # TODO "my votes" get_for_user_in_bulk(Image.objects.all(), user)
         })
+
+#def FusionMapXML(request):
+#    data = serializers.serialize('xml', Fusion.objects.filter(Q(then__latitude__isnull=False) | Q(now__latitude__isnull=False)), fields=('description', 'latitude', 'longitude', 'id', 'now', 'then'))
+#    return HttpResponse(data)
+    
+def ImageMapXML(request):
+    data = serializers.serialize('xml', Image.objects.filter(latitude__isnull=False), fields=('description', 'latitude', 'longitude', 'id', 'thumburl'))
+    return HttpResponse(data)
     
 class OwnedUpdateView(UpdateView):
     
@@ -202,7 +209,6 @@ class FusionCreateView(CreateView):
             f = setupFlickr()
             result = f.photos_getInfo(photo_id=self.kwargs.get('flickrid'))
             now = Image.objects.imageFromFlickrPhoto(result.find('photo'))
-            now.save()
             
         fusion.now = now
         fusion.user = self.request.user

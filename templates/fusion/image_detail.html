@@ -20,4 +20,8 @@
 			{% thumbnail image.imageurl "900x600" %}
 		</div>
 	</div>
+	{% url image_detail image.id as short_url %}
+	{% with image.description|slugify as slug %}
+	{% include "comment_widget.html" with url=short_url slug=slug %}
+	{% endwith %}
 {% endblock %}

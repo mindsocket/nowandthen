@@ -13,6 +13,8 @@ import PIL
 from tagging.models import Tag
 from datetime import datetime
 import urllib
+from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -44,12 +46,23 @@ class ImageManager(models.Manager):
         image.description = photonode.find('title').text
         image.sourcesystemid = photonode.attrib['id']
         image.creator = photonode.find('owner').attrib['username']
-        image.dateofwork = photonode.find('dates').attrib['taken'] 
+        image.dateofwork = photonode.find('dates').attrib['taken']
+        try: 
+            image.latitude = float(photonode.find('location').attrib['latitude'])
+            image.longitude = float(photonode.find('location').attrib['longitude'])
+        except AttributeError:
+            pass
+        image.save()
+        try: 
+            tagnodes = photonode.find('tags').findall('tag')
+            image.tags = ','.join([tagnode.text for tagnode in tagnodes])
+        except AttributeError:
+            pass
         return image
     
 class Image(models.Model):
     objects = ImageManager() 
-    type = models.ForeignKey(ImageType)
+    type = models.ForeignKey(ImageType, related_name='type')
     imageurl = models.URLField(max_length=255, verify_exists=False, unique=True)
     thumburl = models.URLField(max_length=255, verify_exists=False, blank=True)
     infourl = models.URLField(max_length=255, verify_exists=False, blank=True)
@@ -63,7 +76,7 @@ class Image(models.Model):
   
     def __unicode__(self):
         return self.description
-
+    
 class ImageAligner:
     
     def __init__(self, fusion):
@@ -152,6 +165,12 @@ class Fusion(models.Model):
         #pylint: disable-msg=E1101
         return "/fusion/edit/%i/" % self.id
     
+    def latitude(self):
+        return self.now.latitude if self.now.latitude else self.then.latitude 
+    
+    def longitude(self):
+        return self.now.longitude if self.now.longitude else self.then.longitude
+        
 class FusionForm(ModelForm):
     
     class Meta: #IGNORE:W0232
