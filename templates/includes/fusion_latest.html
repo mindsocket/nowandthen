@@ -1,0 +1,11 @@
+{% include "cycle.html" %}
+<table id="latestfusions" class="listtable">
+	{% for fusion in latest_fusions %}
+	    {% cycle '<tr>' '' '' '' '' %}
+		{% include "fusion/fusion_cell.html" with fusion=fusion %}
+	    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+	{% endfor %}
+</table>
+<div id="feed-link">
+    <div id="feed-link-text"><a href="{% url fusion_feed %}" title="Fusion feed"><span class="feed-icon"></span>Fusion feed</a></div>
+</div>

@@ -15,10 +15,11 @@
 
 {% block left_tabs %}
 <ul class="tabs">{% spaceless %}
-	<li id="tab_home"><a href="/">Home</a></li>
-	<li id="tab_about"><a href="/about/">About/FAQ</a></li>
-	<li id="tab_fusions"><a href="/fusions">Fusion Gallery</a></li>
-	<li id="tab_images"><a href="/images">Historical Images</a></li>
+	<li id="tab_home"><a href="{% url home %}">Home</a></li>
+	<li id="tab_about"><a href="{% url about %}">About/FAQ</a></li>
+	<li id="tab_fusions"><a href="{% url fusions %}">Fusion Gallery</a></li>
+	<li id="tab_images"><a href="{% url images %}">Historical Images</a></li>
+	<li id="tab_map"><a href="{% url map %}">Map</a></li>
 {% endspaceless %}</ul>
 {% endblock %}
 {% block right_tabs %}

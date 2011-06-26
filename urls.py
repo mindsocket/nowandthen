@@ -1,16 +1,17 @@
 from django.conf import settings
 from django.conf.urls.defaults import patterns, include, url
-from django.views.generic.simple import direct_to_template
 
 from django.contrib import admin
 from apps.fusion.models import Fusion, FusionForm, Image
 from apps.fusion.views import FusionNew, FusionUpdateView, FusionListView,\
-    ImageListView, FusionCreateView, LatestFusionsFeed, HomePage, ImageDetailView
+    ImageListView, FusionCreateView, LatestFusionsFeed, HomePage, ImageDetailView,\
+    ImageMapXML
 from django.views.generic.detail import DetailView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from voting.views import vote_on_object
 from django.contrib.auth.decorators import login_required
 from pinax.apps.account.openid_consumer import PinaxConsumer
+from django.views.generic.simple import direct_to_template
 
 admin.autodiscover()
 
@@ -41,6 +42,10 @@ urlpatterns += patterns('',
     url(r'^fusion/create/(?P<thenid>\d+)/(?P<flickrid>\d+)/.*$', login_required(FusionCreateView.as_view(model=Fusion, form_class=FusionForm, success_url="/fusion/view/%(id)d/")), name='fusion_create'),
     url(r'^fusion/view/(?P<pk>\d+)/.*$', DetailView.as_view(model=Fusion), name='fusion_detail'),
     url(r'^fusion/edit/(?P<pk>\d+)/.*$', FusionUpdateView.as_view(model=Fusion, form_class=FusionForm, owner='user', success_url="/fusion/view/%(id)d/"), name='fusion_form'),
+#    url(r'^fusion/map/xml$', FusionMapXML, name='fusion_map'),
+    url(r'^image/map/xml$', ImageMapXML, name='image_map'),
+    url(r'^map$', direct_to_template, {'template': "map.html"}, name="map"),
+    url(r'^fusion/latest$', direct_to_template, { 'template': 'includes/fusion_latest.html', 'extra_context': { "latest_fusions": lambda: Fusion.objects.all().order_by('-timestamp')[:10], }}, name="fusion_latest"), #IGNORE:E1101
 )
 
 image_vote_dict = {
