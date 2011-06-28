@@ -82,7 +82,7 @@ class TestFusion(TestCase):
         
     def test_fusion_new_search(self):
         self._login()
-        self._test_page('/fusion/new/873?keyword=post&tag=/', 'nowandthen tag')
+        self._test_page('/fusion/new/873/?keyword=post&tag=', 'nowandthen tag')
         
     def test_fusion_create(self):
         self._login()
