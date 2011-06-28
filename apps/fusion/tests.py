@@ -95,6 +95,11 @@ class TestFusion(TestCase):
         self._login()
         self._test_page('/fusion/edit/1/', 'control_point_panel')
 
+    def test_fusion_edit_update(self):
+        self._login()
+        response = self.client.post('/fusion/edit/1/', {'points': '', 'cropthen': ''})
+        self.assertRedirects(response, '/fusion/view/1/')
+
     def test_image_map_xml(self):
         self._test_page('/image/map/xml')
 
