@@ -55,11 +55,17 @@ class TestFusion(TestCase):
     def test_fusion_search(self):
         self._test_page('/fusions', "Fusion List")
         
+    def test_fusion_search_tag(self):
+        self._test_page('/fusions?tag=sydney', "Fusion List")
+        
     def test_fusion_feed(self):
         self._test_page('/fusions/rss', "Now and Then Latest Fusions")
         
     def test_image_search(self):
         self._test_page('/images', "Image List")
+        
+    def test_image_search_tag(self):
+        self._test_page('/images?tag=sydney', "Image List")
         
     def test_about(self):
         self._test_page('/about/', 'beer!')
@@ -73,6 +79,10 @@ class TestFusion(TestCase):
     def test_fusion_new(self):
         self._login()
         self._test_page('/fusion/new/873/', 'nowandthen tag')
+        
+    def test_fusion_new_search(self):
+        self._login()
+        self._test_page('/fusion/new/873?keyword=post&tag=/', 'nowandthen tag')
         
     def test_fusion_create(self):
         self._login()
