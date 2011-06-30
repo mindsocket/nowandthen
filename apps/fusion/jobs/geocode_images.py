@@ -48,24 +48,25 @@ def dolookup(lookup, image):
     if not lookup in locations:
         try:
             print "Trying", lookup
-            locations[lookup] = g.geocode(lookup)
+            locations[lookup] = g.geocode(lookup, exactly_one=False)
         except Exception, err:
             locations[lookup] = False
             print "No luck", err
             return False
     if not locations[lookup]:
         return False
-    place, (lat, lng) = locations[lookup]
-    print "%s becomes %s: %.5f, %.5f" % (lookup, place, lat, lng)
-    if place == "Sydney NSW, Australia" or (not -35 < lat < -32 and not 155 < lng < 152):
-        print "bad location, not Sydney or not specific"
-        return False
-    var = raw_input("Continue? ")
-    if var == 'y':
-        image.latitude = float(lat)
-        image.longitude = float(lng)
-        image.save()
-        return True
+    for loc in locations[lookup]:
+        place, (lat, lng) = loc
+        if place == "Sydney NSW, Australia" or (not -34 < lat < -32 and not 150 < lng < 152):
+            print "bad location, not Sydney or not specific"
+            break
+        print "%s becomes %s: %.5f, %.5f" % (lookup, place, lat, lng)
+        var = raw_input("Continue? ")
+        if var == 'y':
+            image.latitude = float(lat)
+            image.longitude = float(lng)
+            image.save()
+            return True
     return False
 
 class Job(BaseJob):
