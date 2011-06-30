@@ -1,29 +1,48 @@
-var initialLocation;
-var sydney = new google.maps.LatLng(-33.852, 151.199);
-var browserSupportFlag =  new Boolean();
-var map;
-var infowindow = new google.maps.InfoWindow();
+var FusionMap = { map: null,  infoWindow: null, unique_loc: {}, markers: []
+};
 
-function addMarker(lat,lng,desc,thumb,url) {
+FusionMap.centerMap = function() {
+	var bounds = new google.maps.LatLngBounds();
+	//  Go through each...
+	$.each(FusionMap.markers, function(index, marker){
+		bounds.extend(marker.position);
+	});
+	FusionMap.map.fitBounds(bounds);
+},
+
+FusionMap.createMarker = function(lat, lng, desc, thumb, url, type) {
+//	console.log("creating" + lat + lng + desc);
+	var key = lat + ',' + lng;
+	// Move markers a little if they overlap
+	while (FusionMap.unique_loc[key]) {
+//		console.log("deduping" + lat + lng + desc);
+		lng = parseFloat(lng) + 0.0001;
+		key = lat + ',' + lng;
+	}
+	FusionMap.unique_loc[key] = true;
 	myLatLng = new google.maps.LatLng(lat, lng);
 	var marker = new google.maps.Marker({
 	  position: myLatLng, 
-	  map: map,
-	  title: desc
+	  title: desc,
+	  content: '<a href="' + url + '">' + desc + '<br/><img src="' + thumb + '" /></a>'
 	});
-	var infowindow = new google.maps.InfoWindow({
-        content: '<a href="' + url + '">' + desc + '<br/><img src="' + thumb + '" /></a>'
-    });
+	if (type == 'fusion') {
+		marker.setIcon(thumb);
+	}
+
 	google.maps.event.addListener(marker, 'click', function() {
-    	infowindow.open(map,marker);
+		FusionMap.infoWindow.setContent(marker.content);
+    	FusionMap.infoWindow.open(FusionMap.map,marker);
     });
 	return marker;  
-}
+};
 
-function addMarkers(type) {
-		$.ajax({
+FusionMap.createMarkers = function(type) {
+	var markers = new Array();
+	$.ajax({
 		url: '/' + type + '/map/xml',
 		dataType: 'xml',
+		async: false,
 		error: function(jqXHR, textStatus, errorThrown) {alert('fail:' + textStatus)},
 		success: function(data, textStatus, jqHXR) {
 			$(data).find("object").each(function() {
@@ -31,73 +50,62 @@ function addMarkers(type) {
 				desc = $(this).find('field[name="description"]').text();
 				lat = $(this).find('field[name="latitude"]').text();
 				lng = $(this).find('field[name="longitude"]').text();
-				thumb = $(this).find('field[name="thumburl"]').text();
+				if (type == 'fusion') {
+					// TODO	thumb = $(this).find('field[name="thumburl"]').text();
+				} else {
+					thumb = $(this).find('field[name="thumburl"]').text();
+				}
 				url = '/' + type + '/view/' + id + '/';
-				addMarker(lat,lng,desc,thumb,url);
+				markers.push(FusionMap.createMarker(lat, lng, desc, thumb, url));
 			});
 		}
 	});
 
-}
-function initialise() {
-	
+	return markers;
+},
+
+
+/**
+ * Called when clicking anywhere on the map and closes the info window.
+ */
+FusionMap.closeInfoWindow = function() {
+  FusionMap.infoWindow.close();
+},
+
+/**
+ * Opens the shared info window, anchors it to the specified marker, and
+ * displays the marker's position as its content.
+ */
+FusionMap.openInfoWindow = function(marker) {
+  FusionMap.infoWindow.setContent(marker.content);
+  FusionMap.infoWindow.open(FusionMap.map, marker);
+},
+
+/**
+ * Called only once on initial page load to initialize the map.
+ */
+FusionMap.init = function() {
+	console.log("init");
+	var sydney = new google.maps.LatLng(-33.852, 151.199);
 	var myOptions = {
 		zoom: 14,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: sydney
 	};
-	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    map.setCenter(sydney);
-    infowindow.setPosition(sydney);
-    infowindow.open(map);
+	FusionMap.map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-	addMarkers('image');
-//	addMarkers('fusion');
+  // Create a single instance of the InfoWindow object which will be shared
+  // by all Map objects to display information to the user.
+  FusionMap.infoWindow = new google.maps.InfoWindow();
+
+  // Make the info window close when clicking anywhere on the map.
+  google.maps.event.addListener(FusionMap.map, 'click', FusionMap.closeInfoWindow);
+
+//	FusionMap.markers = FusionMap.markers.concat(FusionMap.createMarkers('fusion'));
+	FusionMap.markers = FusionMap.markers.concat(FusionMap.createMarkers('image'));
+	var mc = new MarkerClusterer(FusionMap.map, FusionMap.markers, { maxZoom: 16 });
+	FusionMap.centerMap();
+
 }
-$(initialise);
 
-/*  // Try W3C Geolocation method (Preferred)
-  if(navigator.geolocation) {
-    browserSupportFlag = true;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-      contentString = "Location found using W3C standard";
-      map.setCenter(initialLocation);
-      infowindow.setContent(contentString);
-      infowindow.setPosition(initialLocation);
-      infowindow.open(map);
-      getData(position.coords.longitude,position.coords.latitude);
-    }, function() {
-      handleNoGeolocation(browserSupportFlag);
-    });
-  } else if (google.gears) {
-    // Try Google Gears Geolocation
-    browserSupportFlag = true;
-    var geo = google.gears.factory.create('beta.geolocation');
-    geo.getCurrentPosition(function(position) {
-      initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
-      contentString = "Location found using Google Gears";
-      map.setCenter(initialLocation);
-      infowindow.setContent(contentString);
-      infowindow.setPosition(initialLocation);
-      infowindow.open(map);
-      getData(position.coords.longitude,position.coords.latitude);
-    }, function() {
-      handleNoGeolocation(browserSupportFlag);
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    browserSupportFlag = false;
-    handleNoGeolocation(browserSupportFlag);
-  }*/
-/*
-function handleNoGeolocation(errorFlag) {
-  contentString = "Couldn't determine your location";
-
-  map.setCenter(sydney);
-  infowindow.setContent(contentString);
-  infowindow.setPosition(sydney);
-  infowindow.open(map);
-  getData(151.179,-33.842);
-  
-}
-*/
+$(FusionMap.init());
