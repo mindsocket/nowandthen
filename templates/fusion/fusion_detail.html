@@ -8,8 +8,8 @@
 
 {% block extra_head %}
    <meta property="og:title" content="Fusion by {{ fusion.user }}"/>
-   <meta property="og:type" content="fusion"/>
-   <meta property="og:url" content="{% url fusion_detail fusion.id %}{{ fusion.description|slugify }}"/>
+   <meta property="og:type" content="landmark"/>
+   <meta property="og:url" content="http://nowandthen.mindsocket.com.au{% url fusion_detail fusion.id %}{{ fusion.description|slugify }}"/>
    <meta property="og:image" content="{{ fusion.then.thumburl }}"/>
    <meta property="og:site_name" content="Now and Then"/>
    <meta property="og:description" content="Then image: {{ fusion.then.description }}, fused with Now image: {{ fusion.now.description }}"/>
