@@ -12,6 +12,19 @@
 	</ul>
 {% endblock %}
 
+{% block extra_head %}
+   <meta property="og:title" content="{{ image.description }}"/>
+   <meta property="og:type" content="image"/>
+   <meta property="og:url" content="{% url image_detail image.id %}{{ image.description|slugify }}"/>
+   <meta property="og:image" content="{{ image.thumburl }}"/>
+   <meta property="og:site_name" content="Now and Then"/>
+   <meta property="og:description" content="{{ image.description }}"/>
+   {% if image.latitude %}
+   <meta property="og:latitude" content="{{ image.latitude }}"/>
+   <meta property="og:longitude" content="{{ image.longitude }}"/>
+   {% endif %}
+{% endblock %}
+
 {% block body %}
 	<div class="source"> 
 		{% include "vote_widget.html" with object=image type="image" %}
