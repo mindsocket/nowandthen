@@ -112,7 +112,7 @@ h1 {
 #tabhead .login {
     position: absolute;
     top: 6px;
-    right: 150px;
+    right: 200px;
     color: #FED; /* login bar text colour */
 }
 #tabhead .login a, #tabhead .login a:visited {
