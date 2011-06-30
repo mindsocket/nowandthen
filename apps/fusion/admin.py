@@ -31,7 +31,7 @@ def thumbimg(image):
 
 class FusionAdmin(admin.ModelAdmin):
     date_hierarchy = 'timestamp'
-    list_display = ('__unicode__', 'thenthumb', 'nowthumb', 'user', 'timestamp')
+    list_display = ('user', 'thenthumb', 'nowthumb', 'user', 'timestamp', 'latitude', 'longitude',)
     list_filter = ('timestamp',)
 
     def thenthumb(self,fusion):
