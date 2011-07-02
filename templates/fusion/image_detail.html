@@ -30,7 +30,7 @@
 		{% include "vote_widget.html" with object=image type="image" %}
 		{% include "fusion/image_info.html" with image=image %}
 		<div class="viewimage">
-			{% thumbnail image.imageurl "900x600" %}
+			<a href="{{ image.imageurl }}">{% thumbnail image.imageurl "900x600" %}</a>
 		</div>
 	</div>
 	{% url image_detail image.id as short_url %}
