@@ -393,6 +393,7 @@ Crossfade viewer
 
 /* Voting */
 
+.logintovote{width:60px;float:right;}
 .votecell{width:60px;float:right;}
 .votes{color:#555555;padding:0 0 7px 0;text-align:center;}
 .vote-count-post{display: block;font-size: 240%;}
