@@ -148,8 +148,8 @@ class ImageListView(SearchListView):
         return super(ImageListView, self).get(request, *args, **kwargs)
     
 def setupFlickr():
-    flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, cache=True)
-    flickr.cache = cache
+    flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET) #, cache=True)
+#    flickr.cache = cache
     return flickr
 
 @login_required
@@ -165,13 +165,14 @@ def FusionNew(request, thenid):
     myargs = {}
     myargs['page'] = page
     myargs['per_page'] = 15
-    myargs['tag_mode'] = 'all'
     myargs['license'] = '1,2,4,5,7'
 
     if 'nowandthentag' in request.GET or 'init' in request.GET:
         myargs['tags'] = 'nowandthen'
+        myargs['tag_mode'] = 'all'
 
     if 'tag' in request.GET and len(request.GET['tag'].strip()) > 0:
+        myargs['tag_mode'] = 'all'
         if 'tags' in myargs:
             myargs['tags'] += ',' + request.GET['tag']
         else: 
