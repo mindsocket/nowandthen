@@ -2,7 +2,7 @@ from django_extensions.management.jobs import BaseJob
 from geopy import geocoders
 from apps.fusion.models import Image
 import re
-
+# pylint: disable-msg=C0301
 matchers = [
     ('pyrmont bridge', 'Pyrmont Bridge, Sydney, New South Wales'),
     ('glebe island', 'Glebe Island, Rozelle, New South Wales'),

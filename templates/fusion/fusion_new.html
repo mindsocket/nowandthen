@@ -38,7 +38,7 @@ Then, search for the image below and click it to continue.<br/>
 	<!-- http://www.flickr.com/photos/{user-id}/{photo-id}
 	http://farm{{ photo.attrib.farm }}.static.flickr.com/{{ photo.attrib.server }}/{{ photo.attrib.id }}_{{ photo.attrib.secret }}_[mstzb].jpg #}
 	-->
-	Can't find your image?  Make sure it's tagged and/or grouped on flickr according to your search criteria <b>AND</b> has a Creative Commons license applied. 
+	Can't find your image?  Make sure it's tagged and/or grouped on flickr according to your search criteria <b>AND</b> has a Creative Commons license applied. Even then, it seems flickr sometimes delays its image indexing.  
 	<table id="flickrlist" class="listtable">
 	{% for photo in photos %}
 	    {% cycle '<tr>' '' '' '' '' %}

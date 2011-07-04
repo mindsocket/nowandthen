@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 import flickrapi
@@ -15,7 +14,7 @@ from voting.models import Vote
 from django.views.generic.simple import direct_to_template
 from django.views.generic.detail import DetailView
 from django.http import HttpResponse
-from django.db.models.query_utils import Q
+#from django.db.models.query_utils import Q
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
 
@@ -97,6 +96,7 @@ class LatestFusionsFeed(Feed):
     title = "Now and Then Latest Fusions"
     link = "/fusions/"
     description = "Latest fusions added to Now and Then"
+    absolute_uri = ''
 
     def get_object(self, request):
         # This ain't pretty on 2 counts:
