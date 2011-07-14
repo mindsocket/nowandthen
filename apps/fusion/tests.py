@@ -76,13 +76,17 @@ class TestFusion(TestCase):
     def test_image_view(self):
         self._test_page('/image/view/873/slug', 'viewimage')
         
+    def test_fusion_new_with_then(self):
+        self._login()
+        self._test_page('/fusion/new/873?init=true', 'nowandthen tag')
+        
     def test_fusion_new(self):
         self._login()
-        self._test_page('/fusion/new/873/', 'nowandthen tag')
+        self._test_page('/fusion/new/?init=true', 'nowandthen tag')
         
     def test_fusion_new_search(self):
         self._login()
-        self._test_page('/fusion/new/873/?keyword=post&tag=', 'nowandthen tag')
+        self._test_page('/fusion/new/873?keyword=post&tag=', 'nowandthen tag')
         
     def test_fusion_create(self):
         self._login()
