@@ -3,7 +3,7 @@ from apps.fusion.models import Fusion, ImageAligner
 import unittest2 as unittest
 
 def mockfusion():
-    return Fusion.objects.get(id=999)
+    return Fusion.objects.get(id=999)#IGNORE:E1101
 
 class TestFusion(TestCase):
     """Basic tests for the fusion class"""
@@ -43,11 +43,11 @@ class TestFusion(TestCase):
         if string:
             self.assertContains(response, string, status_code=200)
         else:
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 200) #IGNORE:E1103
             
     def _login(self):
         response = self.client.post('/account/login/', {'username': 'testuser', 'password': 'test'})
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 302) #IGNORE:E1103
 
     def test_homepage(self):
         self._test_page('/', 'Welcome')

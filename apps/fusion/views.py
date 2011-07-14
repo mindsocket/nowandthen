@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 import flickrapi
@@ -15,7 +14,7 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.generic.detail import DetailView
 from django.http import HttpResponse
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 #from django.db.models.query_utils import Q
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
@@ -202,7 +201,7 @@ def FusionNew(request, thenid):
 def imagefromflickrid(flickrid):
     try:
         now = Image.objects.get(sourcesystemid=flickrid)
-    except Image.DoesNotExist:
+    except ObjectDoesNotExist:
         f = setupFlickr()
         result = f.photos_getInfo(photo_id=flickrid)
         photonode=result.find('photo')
@@ -224,7 +223,7 @@ class FusionCreateView(CreateView):
         fusion.then = Image.objects.get(id=self.kwargs.get('thenid'))
         #pylint: disable-msg=E1101
         flickrid = self.kwargs.get('flickrid')
-        now = imagefromflickrid(flickrid);
+        now = imagefromflickrid(flickrid)
         fusion.now = now
         fusion.user = self.request.user
         self.object = fusion

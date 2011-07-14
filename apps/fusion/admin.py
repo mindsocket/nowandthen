@@ -1,7 +1,7 @@
 from models import Fusion, Image, ImageType
 from django.contrib import admin
 from convert.base import MediaFile
-from django.conf import settings
+#from django.conf import settings
 
 class FusionThenInline(admin.TabularInline):
     model = Fusion

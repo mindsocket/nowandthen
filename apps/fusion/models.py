@@ -12,9 +12,9 @@ from convert.base import MediaFile
 import PIL
 from tagging.models import Tag
 from datetime import datetime
-import urllib
-from django.core.urlresolvers import reverse
-from django.template.defaultfilters import slugify
+import logging
+#from django.core.urlresolvers import reverse
+#from django.template.defaultfilters import slugify
 
 class ImageType(models.Model):
     typename = models.CharField(max_length=32, unique=True)
@@ -100,7 +100,6 @@ class ImageAligner:
         return pto_string
 
     def align(self, fileprefix, outpath=settings.MEDIA_ROOT):
-        import logging
         logging.info("Aligning fusion " + str(self.fusion.id))
         pto_string = self.get_pto_string()
         fd, pto_file = tempfile.mkstemp(suffix='.pto')
@@ -184,7 +183,6 @@ class FusionForm(ModelForm):
 
     def save(self, *args, **kwargs):
         fusion = super(FusionForm, self).save(*args, **kwargs)
-        import logging
         logging.info("Saved fusion " + str(fusion.id) + " by " + fusion.user.username)
 
         if len(fusion.points) > 4:
@@ -194,19 +192,6 @@ class FusionForm(ModelForm):
         fusion.save()
         return fusion
 
-def get_lat_long(location):
-    key = settings.GOOGLE_API_KEY
-    output = "csv"
-    location = urllib.quote_plus(location)
-    request = "http://maps.google.com/maps/geo?q=%s&output=%s&key=%s" % (location, output, key)
-    data = urllib.urlopen(request).read()
-    dlist = data.split(',')
-    if dlist[0] == '200':
-        # TODO return accuracy too
-        return "%s, %s" % (dlist[2], dlist[3])
-    else:
-        return ''
-        
 try:        
     tagging.register(ImageType)
 except tagging.AlreadyRegistered:
