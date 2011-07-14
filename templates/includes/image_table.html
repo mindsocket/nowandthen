@@ -1,0 +1,8 @@
+{{ caption }}
+<table id="topunfused" class="listtable">
+	{% for image in top_images %}
+	    {% cycle '<tr>' '' '' '' '' %}
+		{% include "fusion/image_cell.html" with image=image %}
+	    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+	{% endfor %}
+</table>

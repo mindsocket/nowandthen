@@ -7,10 +7,18 @@
 <div id="instructions">    
 <h2>How do I contribute?</h2>
 Creating a new fusion is easy...
-<ul><li>Browse the <a href="{% url images %}">archive of historical images</a> to find a suitable image.  The collection currently consists of over one thousand photographs of Sydney streets, public buildings, views in the Harbour, suburbs etc., chiefly pre 1885.</li>
+<ul><li>Either</li>
+	<ul>
+		<li>Browse the <a href="{% url images %}">archive of historical images</a> to find a suitable &quot;then&quot; image, or...</li>
+		<li>Source your own historical image and add it to the <a href="http://www.flickr.com/groups/1726925@N22/" target="_blank">Now and Then group</a> and/or tag it with <a href="http://www.flickr.com/photos/tags/nowandthen/" target="_blank">nowandthen</a>.  Make sure that you have the right to use the image and that a permissive license (such as Creative Commons) is applied.</li>
+	</ul>
 <li>Go to the location (with a reference copy of the historical image), and take a photo of the modern equivalent.  Try to get as close to the original position and composition as possible.</li>
-<li>Upload your image to Flickr and add it to the <a href="http://www.flickr.com/groups/1726925@N22/" target="_blank">Now and Then group</a> and/or tag it with <a href="http://www.flickr.com/photos/tags/nowandthen/" target="_blank">nowandthen</a>.  Make sure that a permissive license (such as Creative Commons is used.</li>
-<li>Return to the <a href="{% url images %}">historical &quot;then&quot; image</a> and create a new fusion, choosing your matching &quot;now&quot; image from Flickr.</li> 
+<li>Upload your image to Flickr and add it to the <a href="http://www.flickr.com/groups/1726925@N22/" target="_blank">Now and Then group</a> and/or tag it with <a href="http://www.flickr.com/photos/tags/nowandthen/" target="_blank">nowandthen</a>.  Make sure that a permissive license (such as Creative Commons) is applied.</li>
+<li>If you're using a historical image from the archive</li>
+	<ul>
+		<li>Return to the <a href="{% url images %}">historical &quot;then&quot; image</a> to start a new fusion, choosing your matching &quot;now&quot; image from Flickr. Otherwise...</li> 
+		<li><a href="{% url fusion_new %}?init=true">Start a new fusion from your own historical image</a>, then choose the corresponding modern equivalent.</li>
+	</ul>
 <li>Optionally, indicate the common points between the images so that the overlaid images are well aligned.</li>
 <li>Voila!  Your aligned fusion is ready for <a href="{% url fusions %}">viewing</a>.</li>
 </ul>

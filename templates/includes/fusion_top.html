@@ -1,0 +1,8 @@
+{% include "cycle.html" %}
+<table id="topfusions" class="listtable">
+	{% for fusion in top_fusions %}
+	    {% cycle '<tr>' '' '' '' '' %}
+		{% include "fusion/fusion_cell.html" with fusion=fusion.0 %}
+	    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
+	{% endfor %}
+</table>

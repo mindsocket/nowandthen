@@ -1,14 +1,15 @@
 {% load voting_tags %}
 {% score_for_object object as score %}
 {% if not user.is_authenticated %}
-<div class="logintovote">Please <a href="{% url acct_login %}">log in</a> or <a href="{% url acct_login %}">sign up</a> to vote on this {{ type }}</div> 
+<div class="logintovote">Please <a href="{% url acct_login %}">log in</a> or <a href="{% url acct_login %}">sign up</a> to vote on this {{ type }}</div>
+{% else  %}
+{% vote_by_user user on object as vote %}
 {% endif %}
 <div class="votecell votes">
-
     <input type="hidden" name="type" value="{{ type }}">
     <input type="hidden" name="object_id" value="{{ object.id }}">
 	<input type="hidden" name="csrf_token" value="{% with csrf_token as csrf_token_clean %}{{ csrf_token_clean }}{% endwith %}">
-    <a class="vote-up-off{% if user.is_authenticated %} vote{% endif %}" title="Vote this {{ type }} up (click again to undo)">up vote</a>
+    <a class="vote-up-{% if vote and vote.vote == 1%}on{% else %}off{% endif %}{% if user.is_authenticated %} vote{% endif %}" title="Vote this {{ type }} up (click again to undo)">up vote</a>
     <span class="vote-count-post" id="score">{{ score.score }}</span>
-    <a class="vote-down-off{% if user.is_authenticated %} vote{% endif %}" title="Vote this {{ type }} down (click again to undo)">down vote</a>
+    <a class="vote-down-{% if vote and vote.vote == -1%}on{% else %}off{% endif %}{% if user.is_authenticated %} vote{% endif %}" title="Vote this {{ type }} down (click again to undo)">down vote</a>
 </div>

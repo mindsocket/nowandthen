@@ -386,15 +386,20 @@ Crossfade viewer
     }
 }
 
-#image_cloud_container, #fusion_cloud_container, #thendesc, #nowdesc {
+#image_cloud_container, #fusion_cloud_container {
 	width:45%;
+	float:left;
+}
+
+#thendesc, #nowdesc {
+	width:360px;
 	float:left;
 }
 
 /* Voting */
 
 .logintovote{width:60px;float:right;}
-.votecell{width:60px;float:right;}
+.votecell,.mapcell{width:60px;float:right;}
 .votes{color:#555555;padding:0 0 7px 0;text-align:center;}
 .vote-count-post{display: block;font-size: 240%;}
 .vote-up,.vote-down{display:block;margin:0 auto;}
@@ -402,7 +407,7 @@ Crossfade viewer
 .vote span{display:block;color:#808185;font-weight:bold;}
 .vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on,.feed-icon{background-image:url(../img/sprites.png);background-repeat:no-repeat;overflow:hidden;}
 .vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on{background-position:0px -35px;display:block;margin:0 auto;width:41px;height:25px;}
-.vote-up-off,.vote-down-off,.vote-accepted-off,.star-off,.comment-up-off,.flag-off{cursor:pointer;}
+.vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on,.vote-accepted-off,.star-off,.comment-up-off,.flag-off{cursor:pointer;}
 .vote-up-off,.vote-up-on,.vote-down-off,.vote-down-on{text-indent:-9999em;font-size:1px;}
 .vote-up-on{background-position:0px 0px;}
 .vote-down-off{background-position:0px -70px;}

@@ -11,9 +11,11 @@ from django.contrib.syndication.views import Feed
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from voting.models import Vote
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.generic.detail import DetailView
 from django.http import HttpResponse
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 #from django.db.models.query_utils import Q
 
 searchparamslambda = lambda d: '&'.join([k + "=" + d[k] for k in d if k != 'page'])
@@ -23,15 +25,12 @@ def send_to_mobile(request):
 
 def HomePage(request):
     template = "mobile_homepage.html" if send_to_mobile(request) else "homepage.html"
-    return direct_to_template(request, template, extra_context={
-            "top_fusions": lambda: Vote.objects.get_top(Fusion),
-            "top_unfused": lambda: [image for image, score in Vote.objects.get_top(Image, limit=100) if image.then.count() == 0][:10],
-            # TODO "my votes" get_for_user_in_bulk(Image.objects.all(), user)
-        })
+    return direct_to_template(request, template)
 
-#def FusionMapXML(request):
-#    data = serializers.serialize('xml', Fusion.objects.filter(Q(then__latitude__isnull=False) | Q(now__latitude__isnull=False)), fields=('description', 'latitude', 'longitude', 'id', 'now', 'then'))
-#    return HttpResponse(data)
+def TopVotedByUser(request):
+    return direct_to_template(request, 'includes/image_table.html', extra_context={ 
+            "top_images": Image.objects.in_bulk([v.object_id for v in Vote.objects.filter(user__pk=request.user.id, content_type__pk=ContentType.objects.get(model="image").id)]).values(), "caption":"These are the images you have voted for...", 
+        })
     
 def ImageMapXML(request):
     data = serializers.serialize('xml', Image.objects.filter(type__canbethen=True, latitude__isnull=False), fields=('description', 'latitude', 'longitude', 'id', 'thumburl'))
@@ -154,7 +153,9 @@ def setupFlickr():
 
 @login_required
 def FusionNew(request, thenid):
-    thenimg = get_object_or_404(Image, id=thenid)
+    thenimg = None
+    if thenid:
+        thenimg = Image.objects.get(id=thenid)
     
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -165,9 +166,9 @@ def FusionNew(request, thenid):
     myargs = {}
     myargs['page'] = page
     myargs['per_page'] = 15
-    myargs['license'] = '1,2,4,5,7'
+    #myargs['license'] = '1,2,4,5,7'
 
-    if 'nowandthentag' in request.GET or 'init' in request.GET:
+    if 'nowandthentag' in request.GET:
         myargs['tags'] = 'nowandthen'
         myargs['tag_mode'] = 'all'
 
@@ -178,7 +179,7 @@ def FusionNew(request, thenid):
         else: 
             myargs['tags'] = request.GET['tag']
 
-    if 'nowandthengroup' in request.GET:
+    if 'nowandthengroup' in request.GET or 'init' in request.GET:
         myargs['group_id'] = settings.FLICKR_GROUP_ID
     
     if 'keyword' in request.GET and len(request.GET['keyword'].strip()) > 0:
@@ -198,19 +199,32 @@ def FusionNew(request, thenid):
         'searchparams': searchparamslambda(request.GET), 'flickrgroup': settings.FLICKR_GROUP_ID,
         })
 
+def imagefromflickrid(flickrid):
+    try:
+        now = Image.objects.get(sourcesystemid=flickrid)
+    except Image.DoesNotExist:
+        f = setupFlickr()
+        result = f.photos_getInfo(photo_id=flickrid)
+        photonode=result.find('photo')
+        if not photonode.attrib['license'] in ['1','2','4','5','7']:
+            raise ValidationError("Image does not have a permissive license") # self.template_name = "image_wrong_license.html"
+        now = Image.objects.imageFromFlickrPhoto(photonode)
+    return now
+
+@login_required
+def FusionFlickrNew(request, flickrid):
+    now = imagefromflickrid(flickrid)
+    
+    return redirect_to(request, '/fusion/new/%d?init=true' % now.id)
+
 class FusionCreateView(CreateView):
 
     def get_form(self, *args, **kwargs):
         fusion = Fusion()
         fusion.then = Image.objects.get(id=self.kwargs.get('thenid'))
         #pylint: disable-msg=E1101
-        try:
-            now = Image.objects.get(sourcesystemid=self.kwargs.get('flickrid'))
-        except Image.DoesNotExist:
-            f = setupFlickr()
-            result = f.photos_getInfo(photo_id=self.kwargs.get('flickrid'))
-            now = Image.objects.imageFromFlickrPhoto(result.find('photo'))
-            
+        flickrid = self.kwargs.get('flickrid')
+        now = imagefromflickrid(flickrid);
         fusion.now = now
         fusion.user = self.request.user
         self.object = fusion

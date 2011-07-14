@@ -25,10 +25,32 @@
    {% endif %}
 {% endblock %}
 
+{% block extra_body %}
+{% include "cycle.html" %}
+{% endblock %}
+
 {% block body %}
 	<div class="source"> 
 		{% include "vote_widget.html" with object=image type="image" %}
 		{% include "fusion/image_info.html" with image=image %}
+		{% if image.then.count > 0 or image.latitude %}
+		{% cycle '<tr>' '' '' '' '' as startrow silent %}
+		{% cycle '' '' '' '' '</tr>' as endrow silent %}
+		<table class="listtable">
+		{% if image.latitude %}
+		{% cycle startrow %}
+		<td><img src="http://maps.google.com/maps/api/staticmap?center={{ image.latitude }},{{ image.longitude }}&size=150x150&zoom=14&sensor=false"></td>
+		{% cycle endrow %}
+		{% endif %}
+		{% for fusion in image.then.all %}
+			{% cycle startrow %}
+			{% include "fusion/fusion_cell.html" with fusion=fusion %}
+		    {% if forloop.last %}</tr>{% else %}{% cycle endrow %}{% endif %}
+		{% empty %}
+			</tr>		
+		{% endfor %}
+		</table>
+		{% endif %}
 		<div class="viewimage">
 			<a href="{{ image.imageurl }}">{% thumbnail image.imageurl "900x600" %}</a>
 		</div>

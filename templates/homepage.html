@@ -30,33 +30,17 @@
 		<ul>
 			<li><a href="#tabs-intro">Introduction</a></li>
 			<li><a href="{% url fusion_latest %}">Latest Fusions</a></li>
-			<li><a href="#tabs-top">Top Fusions</a></li>
-			<li><a href="#tabs-topunfused">Top Unfused Historical Images</a></li>
+			<li><a href="{% url fusion_top %}">Top Fusions</a></li>
+			<li><a href="{% url image_top_unfused %}">Top Unfused Historical Images</a></li>
+			{% if user.is_authenticated %}
+			<li><a href="{% url image_voted %}">My Voted Images</a></li>
+			{% endif %}
 		</ul>
 		<div id="tabs-intro">
 			<div id="fbpage">
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like-box href="http://www.facebook.com/pages/Now-and-Then-Historical-Photo-Mashups/204133629621406" width="292" show_faces="false" stream="true" header="true"></fb:like-box>    
 			</div>
 			{% include "intro.html" %}
-		</div>
-		<div id="tabs-top">
-			<table id="topfusions" class="listtable">
-				{% for fusion in top_fusions %}
-				    {% cycle '<tr>' '' '' '' '' %}
-					{% include "fusion/fusion_cell.html" with fusion=fusion.0 %}
-				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
-				{% endfor %}
-			</table>
-		</div>
-		<div id="tabs-topunfused">
-			These images are the top voted historical images that aren't yet part of a fusion...
-			<table id="topunfused" class="listtable">
-				{% for image in top_unfused %}
-				    {% cycle '<tr>' '' '' '' '' %}
-					{% include "fusion/image_cell.html" with image=image %}
-				    {% if forloop.last %}</tr>{% else %}{% cycle '' '' '' '' '</tr>' %}{% endif %}
-				{% endfor %}
-			</table>
 		</div>
 	</div>
 
