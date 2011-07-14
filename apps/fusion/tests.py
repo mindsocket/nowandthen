@@ -112,3 +112,14 @@ class TestFusion(TestCase):
 
     def test_fusion_latest(self):
         self._test_page('/fusion/latest', 'slideshow')
+
+    def test_fusion_top(self):
+        self._test_page('/fusion/top', 'table')
+
+    def test_image_top_unfused(self):
+        self._test_page('/image/top_unfused', 'table')
+
+    def test_image_top_voted(self):
+        self._login()
+        self._test_page('/image/top_voted', 'table')
+        
