@@ -266,6 +266,7 @@ p.what_next {
 .listtable th, .listtable td {
 	padding:16px;
 	width: 20%;
+	vertical-align:top;
 }
 
 /* New fusion */
@@ -392,7 +393,7 @@ Crossfade viewer
 }
 
 #thendesc, #nowdesc {
-	width:360px;
+	width:350px;
 	float:left;
 }
 
@@ -414,7 +415,7 @@ Crossfade viewer
 .vote-down-on{background-position:0px -100px;}
 .feed-icon{width:18px; height:14px; background-position:0px -125px;display:inline-block;}
 #feed-link{margin-top:1em;}
-.slideshow { height: 200px; width: 200px; margin: auto }
+.slideshow { height: 200px; width: 200px; /*margin: auto;*/ }
 .slideshow img { padding: 15px; border: 1px solid #ccc; background-color: #eee; }
 	
 /* EXTRAS TO CLEAN UP */

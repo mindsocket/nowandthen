@@ -36,7 +36,7 @@
 {% block body %}
 	<div class="source">
 		{% if fusion.latitude %}
-		<div class="votecell"><img src="http://maps.google.com/maps/api/staticmap?center={{ fusion.latitude }},{{ fusion.longitude }}&size=150x150&zoom=14&sensor=false"></div>
+		<div class="votecell" style="padding-left:10px;"><img src="http://maps.google.com/maps/api/staticmap?center={{ fusion.latitude }},{{ fusion.longitude }}&size=150x150&zoom=14&sensor=false"></div>
 		{% endif %}
 		{% include "vote_widget.html" with object=fusion type="fusion" %}
 		<div id="thendesc"><h2>Then</h2>{% include "fusion/image_info.html" with image=fusion.then %}</div>

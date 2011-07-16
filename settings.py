@@ -217,6 +217,10 @@ LOGIN_REDIRECT_URLNAME = "home"
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
+SERIALIZATION_MODULES = {
+    "image" : "apps.fusion.imageserializer",
+}
+
 #DEBUG_TOOLBAR_CONFIG = {
 #    "INTERCEPT_REDIRECTS": False,
 #}

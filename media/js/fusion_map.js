@@ -1,4 +1,4 @@
-var FusionMap = { map: null,  infoWindow: null, unique_loc: {}, markers: []
+var FusionMap = { map: null,  infoWindow: null, unique_loc: {}, markers: [], markerClusterer: null
 };
 
 FusionMap.centerMap = function() {
@@ -10,7 +10,7 @@ FusionMap.centerMap = function() {
 	FusionMap.map.fitBounds(bounds);
 },
 
-FusionMap.createMarker = function(lat, lng, desc, thumb, url, type) {
+FusionMap.createMarker = function(lat, lng, desc, thumb, url, fusioncount) {
 //	console.log("creating" + lat + lng + desc);
 	var key = lat + ',' + lng;
 	// Move markers a little if they overlap
@@ -24,10 +24,17 @@ FusionMap.createMarker = function(lat, lng, desc, thumb, url, type) {
 	var marker = new google.maps.Marker({
 	  position: myLatLng, 
 	  title: desc,
-	  content: '<a href="' + url + '">' + desc + '<br/><img src="' + thumb + '" /></a>'
+	  content: 
+	  	'<a href="' + url + '">' + 
+		desc + 
+		'<br/><img src="' + thumb + '" />' + 
+		((fusioncount > 0) ? '<br/><b>' + fusioncount + ' fusion' + ((fusioncount > 1) ? 's' :'') + '</b>' : '') + 
+		'</a>'
 	});
-	if (type == 'fusion') {
-		marker.setIcon(thumb);
+	marker.setIcon(thumb);
+	if (fusioncount > 0) {
+		marker.hasFusion = true;
+		marker.setAnimation(google.maps.Animation.BOUNCE);
 	}
 
 	google.maps.event.addListener(marker, 'click', function() {
@@ -50,13 +57,15 @@ FusionMap.createMarkers = function(type) {
 				desc = $(this).find('field[name="description"]').text();
 				lat = $(this).find('field[name="latitude"]').text();
 				lng = $(this).find('field[name="longitude"]').text();
-				if (type == 'fusion') {
-					// TODO	thumb = $(this).find('field[name="thumburl"]').text();
-				} else {
-					thumb = $(this).find('field[name="thumburl"]').text();
+				thumb = $(this).find('field[name="thumburl"]').text();
+				hasfusionnode = $(this).find('field[name="hasfusion"]')
+				fusioncount = hasfusionnode.attr('fusioncount');
+				if (fusioncount > 0) {
+					lat = hasfusionnode.attr('latitude');
+					lng = hasfusionnode.attr('longitude');
 				}
 				url = '/' + type + '/view/' + id + '/';
-				markers.push(FusionMap.createMarker(lat, lng, desc, thumb, url));
+				markers.push(FusionMap.createMarker(lat, lng, desc, thumb, url, fusioncount));
 			});
 		}
 	});
@@ -103,9 +112,25 @@ FusionMap.init = function() {
 
 //	FusionMap.markers = FusionMap.markers.concat(FusionMap.createMarkers('fusion'));
 	FusionMap.markers = FusionMap.markers.concat(FusionMap.createMarkers('image'));
-	var mc = new MarkerClusterer(FusionMap.map, FusionMap.markers, { maxZoom: 16 });
+	FusionMap.markerClusterer = new MarkerClusterer(FusionMap.map, FusionMap.markers, { maxZoom: 16 });
 	FusionMap.centerMap();
 
 }
 
 $(FusionMap.init());
+$(
+	$('#hideunfused').click(function() {
+		if (FusionMap.markerClusterer) {
+			FusionMap.markerClusterer.clearMarkers();
+		}
+		if (!this.checked) {
+			FusionMap.markerClusterer = new MarkerClusterer(FusionMap.map, FusionMap.markers, { maxZoom: 16 });
+		} else {
+			fusionsonly = $.grep(FusionMap.markers, function(el, i){
+  				return el.hasFusion;
+			});
+			FusionMap.markerClusterer = new MarkerClusterer(FusionMap.map, fusionsonly, { maxZoom: 16 });
+		}
+//		FusionMap.centerMap();
+	})
+); 

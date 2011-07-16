@@ -32,7 +32,7 @@ def TopVotedByUser(request):
         })
     
 def ImageMapXML(request):
-    data = serializers.serialize('xml', Image.objects.filter(type__canbethen=True, latitude__isnull=False), fields=('description', 'latitude', 'longitude', 'id', 'thumburl'))
+    data = serializers.serialize('image', Image.objects.filter(type__canbethen=True, latitude__isnull=False), fields=('description', 'latitude', 'longitude', 'id', 'thumburl'))
     return HttpResponse(data)
     
 class OwnedUpdateView(UpdateView):

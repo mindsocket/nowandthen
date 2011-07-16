@@ -1,5 +1,5 @@
 {% load convert_tags %}
-<td>
+<td>{% if isfirst %}Fusions:<br/>{% endif %}
     <a href="{% url fusion_detail fusion.id %}{{ fusion.description|slugify }}">
     	<div class="slideshow">
     		{% if fusion.thenfile and fusion.nowfile %}
