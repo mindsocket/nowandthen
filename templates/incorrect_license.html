@@ -1,0 +1,14 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Incorrect License" %}{% endblock %}
+
+{% block subnav_base %}{% endblock %}
+
+{% block body_class %}{% endblock %}
+
+{% block body %}
+The selected image does not have a permissive license (eg Creative Commons) applied on flickr.  Please update the image before selecting it again.
+{% endblock %}

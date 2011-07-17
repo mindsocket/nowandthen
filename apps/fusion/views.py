@@ -198,23 +198,27 @@ def FusionNew(request, thenid):
         'searchparams': searchparamslambda(request.GET), 'flickrgroup': settings.FLICKR_GROUP_ID,
         })
 
-def imagefromflickrid(flickrid):
+def imagefromflickrid(flickrid, user):
     try:
         now = Image.objects.get(sourcesystemid=flickrid)
     except ObjectDoesNotExist:
         f = setupFlickr()
         result = f.photos_getInfo(photo_id=flickrid)
         photonode=result.find('photo')
-        if not photonode.attrib['license'] in ['1','2','4','5','7']:
+        if not photonode.attrib['license'] in ['1','2','4','5','7'] and not user.is_superuser:
             raise ValidationError("Image does not have a permissive license") # self.template_name = "image_wrong_license.html"
         now = Image.objects.imageFromFlickrPhoto(photonode)
     return now
 
 @login_required
 def FusionFlickrNew(request, flickrid):
-    now = imagefromflickrid(flickrid)
+    try:
+        now = imagefromflickrid(flickrid, request.user)
+    except ValidationError:
+        return redirect_to(request, reverse('incorrect_license'))
     
-    return redirect_to(request, '/fusion/new/%d?init=true' % now.id)
+    #return redirect_to(request, '/fusion/new/%d?init=true' % now.id)
+    return redirect_to(request, reverse('fusion_new', args=[now.id]) + '?init=true')
 
 class FusionCreateView(CreateView):
 
@@ -223,7 +227,7 @@ class FusionCreateView(CreateView):
         fusion.then = Image.objects.get(id=self.kwargs.get('thenid'))
         #pylint: disable-msg=E1101
         flickrid = self.kwargs.get('flickrid')
-        now = imagefromflickrid(flickrid)
+        now = imagefromflickrid(flickrid, self.request.user)
         fusion.now = now
         fusion.user = self.request.user
         self.object = fusion
